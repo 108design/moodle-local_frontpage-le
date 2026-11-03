@@ -6,7 +6,7 @@ Create a Moodle Site Home page with headings, rich text, images, a static Hero a
 
 Install this plugin in `local/frontpage` and complete Moodle’s upgrade process. Moodle 4.5 or later is required.
 
-Open **Site administration > Plugins > Local plugins > Frontpage**. Create up to two pages and save their content as drafts. Preview a draft, then choose **Publish** when it is ready. Under **Settings**, assign pages separately to guests and signed-in users and enable **Replace Site Home**. Both audiences can use the same page. Switching the replacement off returns to Moodle’s native Site Home. Native Site Home must be enabled; Moodle’s default home page and forced-login settings still apply.
+Open **Site administration > Plugins > Local plugins > Frontpage**. Create up to five pages and save their content as drafts. Preview them while you experiment. Under **Settings**, assign pages separately to guests and signed-in users, then publish the assigned pages and enable **Replace Site Home**. Only those two assignments can be published or viewed publicly. Changing an assignment returns the previous page to a private draft while keeping its content and revisions. Both audiences can use the same page. Switching the replacement off returns to Moodle’s native Site Home. Native Site Home must be enabled; Moodle’s default home page and forced-login settings still apply.
 
 Managers with **Manage Frontpage pages** can edit content. **Publish Frontpage pages** controls publication separately. Files and earlier revisions remain associated with their pages. Use **Versions** to preview an earlier revision or restore it as a new draft.
 

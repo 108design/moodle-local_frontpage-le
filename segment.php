@@ -55,4 +55,7 @@ if($type==='rich_text'){$draft=file_get_submitted_draft_itemid('content');$text=
 if(in_array($type,['hero','media'],true)){$draft=file_get_submitted_draft_itemid('image');file_prepare_draft_area($draft,$context->id,'local_frontpage',revision_files::hero_background_area($segmentid),$base,['maxfiles'=>1,'subdirs'=>0]);$defaults['image']=$draft;}
 if($type==='grid'){for($i=0;$i<4;$i++){$defaults['slot'.$i]=$props['segmentids'][$i]??'';$defaults['weight'.$i]=$props['widths'][$i]??3;$defaults['mobilehidden'.$i]=$props['mobilehidden'][$i]??false;}}
 $defaults+=\local_frontpage\local\segment_colour_modes::defaults($props['layout']??[]);
-$form->set_data($defaults);echo $OUTPUT->header();$form->display();echo $OUTPUT->footer();
+$form->set_data($defaults);echo $OUTPUT->header();
+echo html_writer::div(\local_frontpage\output\authoring::link($back,get_string('editcontent','local_frontpage'),'t/left')
+    .html_writer::span(s(get_string('segmenttype'.str_replace('_','',$type),'local_frontpage')),'badge bg-secondary text-white ms-3 ml-3'),'mb-4');
+$form->display();echo $OUTPUT->footer();

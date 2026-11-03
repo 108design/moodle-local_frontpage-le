@@ -21,7 +21,17 @@ final class segment_form extends \moodleform {
         $f->addElement('text','editorlabel',get_string('segmenteditorlabel','local_frontpage'));
         $f->setType('editorlabel',PARAM_TEXT);$f->addHelpButton('editorlabel','segmenteditorlabel','local_frontpage');
         $f->addElement('header','contentheader',get_string('segmentcontent','local_frontpage'));
-        foreach (self::fields($data['type']) as $key=>$spec) {$this->field($key,$spec);}
+        $groups=[];
+        foreach(self::fields($data['type']) as $key=>$spec){
+            if($spec[0]==='owned'){continue;}
+            $group=in_array($key,['heading','text','content','eyebrow','mark','markalt','primarylabel','primaryurl','secondarylabel','secondaryurl','cmid','categoryid','limit','enrolledonly'],true)?'content':
+                (in_array($key,['alt','decorative','caption','asset','backgroundsize','backgroundsizevalue','backgroundposition','backgroundpositionx','backgroundpositiony','fit','fitvalue','focal','focalx','focaly','aspect','aspectvalue','loading'],true)?'media':'display');
+            $groups[$group][$key]=$spec;
+        }
+        foreach($groups as $group=>$fields){
+            if($group!=='content'){$f->addElement('header','type_'.$group,get_string('editorgroup_'.$group,'local_frontpage'));}
+            foreach($fields as $key=>$spec){$this->field($key,$spec);}
+        }
         if (in_array($data['type'],['hero','media'],true)) {
             $f->addElement('filemanager','image',get_string('segmentimage','local_frontpage'),null,
                 ['maxfiles'=>1,'subdirs'=>0,'accepted_types'=>\local_frontpage\local\revision_files::INLINE_IMAGE_TYPES]);
@@ -30,6 +40,7 @@ final class segment_form extends \moodleform {
         if ($data['type']==='grid') {
             $choices=\local_frontpage\local\grid_structure::choices($data['document'],$data['segmentid']);
             for($i=0;$i<4;$i++) {
+                $f->addElement('header','gridcolumnheader'.$i,get_string('gridcolumn','local_frontpage',$i+1));
                 $f->addElement('select','slot'.$i,get_string('gridcolumn','local_frontpage',$i+1),$choices);
                 $f->setType('slot'.$i,PARAM_ALPHANUMEXT);
                 $f->addElement('text','weight'.$i,get_string('gridcolumnwidth','local_frontpage',$i+1),['size'=>3]);
@@ -38,7 +49,10 @@ final class segment_form extends \moodleform {
             }
         }
         $f->addElement('header','layoutheader',get_string('segmentappearance','local_frontpage'));
-        foreach (self::layout_fields() as $key=>$spec) {$this->field('layout_'.$key,$spec);}
+        foreach(self::layout_fields() as $key=>$spec){
+            if(in_array($key,['padding','bordercolor'],true)){$f->addElement('header','layoutgroup_'.$key,get_string('editorgroup_'.$key,'local_frontpage'));}
+            $this->field('layout_'.$key,$spec);
+        }
         \local_frontpage\local\segment_colour_modes::add_form_fields($f);
         foreach(self::fields($data['type']) as $key=>$spec) {
             $dependent=['titlesizevalue'=>'titlesize','colorvalue'=>'color','heightvalue'=>'height',

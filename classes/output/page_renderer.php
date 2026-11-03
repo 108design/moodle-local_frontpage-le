@@ -12,7 +12,7 @@ final class page_renderer {
     private array $currentsegments = [];
     private \context $context;
     public function __construct(private readonly \core_renderer $output, private readonly \stdClass $frontpage,
-            private readonly int $revisionid, private readonly bool $showdisabled = false) {
+            private readonly int $revisionid, private readonly bool $showdisabled = false, private readonly array $editactions = []) {
         $this->context = \local_frontpage\local\page_access::context($frontpage);
     }
     public function render(string $json): string {
@@ -194,7 +194,7 @@ final class page_renderer {
             $content = html_writer::tag('style',\local_frontpage\local\segment_colour_modes::css(
                 $segment['id'],$layout['colourmodes'])).$content;
         }
-        return $content;
+        return $this->editactions ? authoring::segment($segment,$content,$this->editactions,$this->currentsegments) : $content;
     }
     private function render_grid_segment(array $grid): string {
         $props = $grid['props'] ?? [];

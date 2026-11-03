@@ -27,10 +27,34 @@ final class page_service {
         require_capability('local/frontpage:managepages', \context_system::instance());
         return $this->locked(SITEID, function() use ($title) {
             global $DB, $USER;
-            if ($DB->count_records('local_frontpage_page',['ownercomponent'=>'local_frontpage']) >= 2) {
+            if ($DB->count_records('local_frontpage_page',['ownercomponent'=>'local_frontpage']) >= 5) {
                 throw new \moodle_exception('homepagelimit','local_frontpage');
             }
             return $this->create($title, \context_system::instance(), 'local_frontpage', null, (int)$USER->id);
+        });
+    }
+    /** Switch audience assignments without leaving a public experimental page behind. */
+    public function home_settings(int $guestid,int $memberid,bool $enabled): void {
+        require_capability('local/frontpage:managepages',\context_system::instance());
+        $this->locked(SITEID,function() use ($guestid,$memberid,$enabled){
+            global $DB;
+            $tx=$DB->start_delegated_transaction();
+            foreach(array_unique([$guestid,$memberid]) as $id){
+                if($id&&!$DB->record_exists('local_frontpage_page',['id'=>$id,'ownercomponent'=>'local_frontpage'])){
+                    throw new \invalid_parameter_exception('Invalid Site Home page.');
+                }
+            }
+            foreach(factory::page_repository()->get_pages() as $page){
+                if(!in_array((int)$page->id,[$guestid,$memberid],true)&&!empty($page->publishedrevisionid)){
+                    // Keep both the published revision and the working draft; remove only the public pointer.
+                    $DB->update_record('local_frontpage_page',(object)['id'=>$page->id,'publishedrevisionid'=>null,
+                        'status'=>'draft','visibility'=>'private','timemodified'=>time()]);
+                }
+            }
+            set_config('guestfrontpageid',$guestid,'local_frontpage');
+            set_config('loggedinfrontpageid',$memberid,'local_frontpage');
+            set_config('sitehomeenabled',(int)$enabled,'local_frontpage');
+            $tx->allow_commit();
         });
     }
     public function create_activity_page(string $title, string $slug, \context $context,
@@ -124,6 +148,10 @@ final class page_service {
                 $tx = $DB->start_delegated_transaction();
                 $page = factory::page_repository()->get_page($pageid);
                 page_access::require_publish($page);
+                if($page->ownercomponent==='local_frontpage'&&!in_array((int)$page->id,
+                        [(int)get_config('local_frontpage','guestfrontpageid'),(int)get_config('local_frontpage','loggedinfrontpageid')],true)){
+                    throw new \moodle_exception('publishassignmentrequired','local_frontpage');
+                }
                 $draft = $this->expected($page,$expectedrevision,$expectedversion);
                 $this->validate($page,$draft->documentjson);
                 $this->validate_files($page,$draft);
