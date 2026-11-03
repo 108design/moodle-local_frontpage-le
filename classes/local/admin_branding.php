@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /** Decorative product identity on explicitly selected administration surfaces only. */
 final class admin_branding {
     /** Native page paths and their existing system-level administration capabilities. */
-    private const PAGES = ['/local/frontpage/pages.php' => 'local/frontpage:managepages', '/local/frontpage/edit.php' => 'local/frontpage:managepages', '/local/frontpage/page_files.php' => 'local/frontpage:managepages', '/local/frontpage/page_settings.php' => 'local/frontpage:managepages', '/local/frontpage/preferences.php' => 'local/frontpage:managepages', '/local/frontpage/resources.php' => 'local/frontpage:managepages', '/local/frontpage/revisions.php' => 'local/frontpage:managepages', '/local/frontpage/segment.php' => 'local/frontpage:managepages', '/local/frontpage/delete.php' => 'local/frontpage:managepages', '/local/frontpage/activity_create.php' => 'local/frontpage:managepages'];
+    private const PAGES = ['/local/frontpage/page_css.php' => 'local/frontpage:editcss', '/local/frontpage/pages.php' => 'local/frontpage:managepages', '/local/frontpage/edit.php' => 'local/frontpage:managepages', '/local/frontpage/page_files.php' => 'local/frontpage:managepages', '/local/frontpage/page_settings.php' => 'local/frontpage:managepages', '/local/frontpage/preferences.php' => 'local/frontpage:managepages', '/local/frontpage/resources.php' => 'local/frontpage:managepages', '/local/frontpage/revisions.php' => 'local/frontpage:managepages', '/local/frontpage/segment.php' => 'local/frontpage:managepages', '/local/frontpage/delete.php' => 'local/frontpage:managepages', '/local/frontpage/activity_create.php' => 'local/frontpage:managepages'];
     /** Existing native settings sections; these are never customer routes. */
     private const SECTIONS = [];
     /** Existing administration links, without changing their labels or destinations. */
@@ -84,7 +84,7 @@ final class admin_branding {
             $css .= self::title_css('#adminsettings .settingsform > h2', $image);
         }
         if ((int)$PAGE->context->contextlevel === CONTEXT_MODULE
-                && in_array($path,array_map($nativepath,['/local/frontpage/edit.php','/local/frontpage/segment.php',
+                && in_array($path,array_map($nativepath,['/local/frontpage/edit.php','/local/frontpage/segment.php','/local/frontpage/page_css.php',
                     '/local/frontpage/page_settings.php','/local/frontpage/page_files.php','/local/frontpage/revisions.php']),true)
                 && $PAGE->cm->modname === 'frontpage'
                 && has_capability('mod/frontpage:managecontent',$PAGE->context)) {

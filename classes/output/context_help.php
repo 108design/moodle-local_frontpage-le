@@ -11,11 +11,12 @@ final class context_help {
     private const CONTEXTS = [
         'pages'=>['publication','assignments','backup'],
         'pluginsettings'=>['assignments','backup'],
-        'editor'=>['editing','publication','files','activities'],
+        'editor'=>['editing','publication','files','activities','pagecss'],
         'segmentsettings'=>['editing','grid','activities','files'],
         'revisionhistory'=>['history','publication'],
         'pagefiles'=>['files','publication'],
         'pagesettings'=>['pageoptions','publication'],
+        'pagecss'=>['pagecss','publication','history','files'],
         'resources'=>['resources','activities'],
         'activitysettings'=>['activities','completion','backup'],
     ];

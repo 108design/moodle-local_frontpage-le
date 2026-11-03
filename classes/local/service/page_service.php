@@ -122,6 +122,9 @@ final class page_service {
                 page_access::require_manage($page);
                 $old = $this->expected($page,$expectedrevision,$expectedversion);
                 $json = $this->validate($page,$json);
+                $oldcss=json_decode($old->documentjson,true)['css']??'';
+                $newcss=json_decode($json,true)['css']??'';
+                if($oldcss!==$newcss){page_access::require_edit_css($page);}
                 $new = $this->new_revision($page,$json,$userid,$old);
                 if ($files) {$files($new);}
                 $DB->set_field('local_frontpage_revision','ischeckpoint',1,['id'=>$old->id]);

@@ -27,3 +27,7 @@ For Site Home recovery, keep a consistent backup of the full Moodle database, `m
 This release is available free of charge under the 108design Software License.
 
 See [LICENSE.md](LICENSE.md) for the terms and Moodle Marketplace permission.
+
+## Page CSS
+
+Use the page CSS action in the editor to save a stylesheet in the current draft. Preview and publication follow the same revision as the content. The stylesheet is loaded on the page view; authoring forms remain available for recovery. Page CSS has its own permission, including for CSS changes made through a revision restore. Site managers need an explicit grant; course activity editors use the native module CSS permission. The editor bundle contains CodeMirror under MIT; its source and locked build are included.

@@ -20,6 +20,7 @@ $PAGE->set_url(new moodle_url('/local/frontpage/view.php',['id'=>$id,'preview'=>
 $PAGE->set_context($context);$PAGE->set_pagelayout('standard');$PAGE->set_title($page->title);$PAGE->set_heading($page->title);
 if($context->contextlevel===CONTEXT_MODULE){$cm=get_coursemodule_from_id('frontpage',$context->instanceid,0,false,MUST_EXIST);$PAGE->set_cm($cm,get_course($cm->course));$PAGE->set_pagelayout('incourse');}
 if($preview||$revisionid){\local_frontpage\output\context_help::prepare('editor');}
+\local_frontpage\local\page_css::prepare($page,$revision);
 echo $OUTPUT->header();
 if($preview||$revisionid){echo $OUTPUT->notification(get_string('previewnotice','local_frontpage'),'info');echo html_writer::link(
     \local_frontpage\local\url\page_url::get_edit_url($page),get_string('editcontent','local_frontpage'),['class'=>'btn btn-secondary mb-4']);}

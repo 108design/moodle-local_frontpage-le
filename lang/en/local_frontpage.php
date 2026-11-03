@@ -353,3 +353,13 @@ $string['editorgroup_media'] = 'Image and media';
 $string['editorgroup_display'] = 'Display options';
 $string['editorgroup_padding'] = 'Spacing';
 $string['editorgroup_bordercolor'] = 'Borders';
+
+$string['pagecss'] = 'Page CSS';
+$string['pagecssnotice'] = 'CSS is saved in the page draft. Preview it, then publish to apply it to the public page. The authoring forms do not load it.';
+$string['pagecss_help'] = 'Write CSS for this page only. The styles can affect the whole displayed page, including Moodle navigation. They are stored with its content revisions. The maximum is 100,000 bytes.';
+$string['pagecsstoolarge'] = 'Page CSS must not exceed 100,000 bytes.';
+$string['frontpage:editcss'] = 'Edit page CSS';
+$string['pagehelp_pagecss'] = 'Page CSS';
+$string['pagehelp_pagecss_help'] = 'Edit this page stylesheet in the draft, preview it and publish it with the page.';
+$string['pagehelp_pagecss_title'] = 'Page CSS Help';
+$string['pagehelp_pagecss_article'] = '<p>Page CSS belongs to the same draft and published revisions as the page content. Saving CSS creates a new draft; visitors keep seeing the published CSS until you publish.</p><p>The stylesheet applies to this page view, including its Moodle navigation and controls. Start with a selector for the content you want to change. It is not loaded in the authoring forms, so you can return here if a style makes the page difficult to use.</p><p>Page files can be referenced with <code>{{image-url:filename}}</code>. Restoring an earlier revision restores its CSS too. Changing CSS, including through a revision restore, requires the separate page CSS permission. A publisher can publish an unchanged CSS draft without receiving that permission.</p>';

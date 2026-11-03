@@ -37,6 +37,16 @@ final class page_access {
             ? 'mod/frontpage:managecontent' : 'local/frontpage:managepages', $context);
         return $context;
     }
+    public static function can_edit_css(\stdClass $page): bool {
+        $context=self::context($page);
+        return self::can_manage($page)&&has_capability($context->contextlevel===CONTEXT_MODULE
+            ?'mod/frontpage:editcss':'local/frontpage:editcss',$context);
+    }
+    public static function require_edit_css(\stdClass $page): void {
+        $context=self::require_manage($page);
+        require_capability($context->contextlevel===CONTEXT_MODULE
+            ?'mod/frontpage:editcss':'local/frontpage:editcss',$context);
+    }
     public static function require_publish(\stdClass $page): void {
         $context = self::require_manage($page);
         require_capability($context->contextlevel === CONTEXT_MODULE

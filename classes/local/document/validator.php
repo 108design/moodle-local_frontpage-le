@@ -9,6 +9,7 @@ use invalid_parameter_exception;
 use JsonException;
 final class validator {
     public const SCHEMA_VERSION = 2;
+    public const MAX_PAGE_CSS_LENGTH = 100000;
     public const TYPES = ['heading', 'rich_text', 'media', 'hero', 'spacer', 'grid', 'moodle_course_list',
         'course_module', 'course_navigation'];
     public function empty_document(?array $presentation = null): string {
@@ -22,10 +23,11 @@ final class validator {
         }
         if (!is_array($document) || ($document['schemaVersion'] ?? null) !== 2
                 || !is_array($document['segments'] ?? null) || !array_is_list($document['segments'])
-                || array_diff(array_keys($document), ['schemaVersion', 'aboveHeaderSegment', 'segments'])
+                || array_diff(array_keys($document), ['schemaVersion', 'aboveHeaderSegment', 'segments', 'css'])
                 || !empty($document['aboveHeaderSegment'])) {
             throw new invalid_parameter_exception('Unsupported document structure.');
         }
+        if(array_key_exists('css',$document)){$document['css']=$this->normalise_page_css($document['css']);}
         $ids = [];
         foreach ($document['segments'] as &$segment) {
             $this->validate_segment($segment, $ids);
@@ -34,6 +36,12 @@ final class validator {
         unset($segment);
         \local_frontpage\local\grid_structure::validate_document($document);
         return json_encode($document, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+    /** Same revision-owned text contract as the standard page CSS editor. */
+    public function normalise_page_css(mixed $css): string {
+        if(!is_string($css)){throw new invalid_parameter_exception('Page CSS must be text.');}
+        if(strlen($css)>self::MAX_PAGE_CSS_LENGTH){throw new invalid_parameter_exception('Page CSS exceeds the maximum allowed size.');}
+        return rtrim(str_replace(["\r\n","\r"],"\n",$css));
     }
     private function validate_segment(mixed &$segment, array &$ids): void {
         if (!is_array($segment) || array_is_list($segment)) {
