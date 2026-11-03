@@ -6,7 +6,7 @@
  */
 namespace local_frontpage\local;
 
-/** Typed custom image controls shared by page and library Media forms. */
+/** Typed custom image controls used by Media segment forms. */
 final class media_presentation {
     public const FIELDS = ['aspectvalue', 'fitvalue', 'focalx', 'focaly'];
     public const FITS = ['cover', 'contain', 'fill', 'none', 'scale-down'];

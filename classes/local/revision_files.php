@@ -47,6 +47,9 @@ final class revision_files {
     }
 
     public static function copy_revision(int $sourceid, int $targetid): void {
+        if ($sourceid === $targetid) {
+            return;
+        }
         $fs = get_file_storage();
         $sourcecontextid = self::contextid_for_revision($sourceid);
         $targetcontextid = self::contextid_for_revision($targetid);
@@ -76,8 +79,12 @@ final class revision_files {
                 $fs->create_file_from_storedfile($record, $file);
             }
         }
-        foreach (self::hero_background_areas($sourceid) as $filearea) {
-            self::copy_area($filearea, $sourceid, $sourcecontextid, $filearea, $targetid, $targetcontextid, true);
+        $sourceareas = self::hero_background_areas($sourceid);
+        foreach (self::hero_background_areas($targetid) as $filearea) {
+            $fs->delete_area_files($targetcontextid, self::COMPONENT, $filearea, $targetid);
+        }
+        foreach ($sourceareas as $filearea) {
+            self::copy_area($filearea, $sourceid, $sourcecontextid, $filearea, $targetid, $targetcontextid, false);
         }
     }
 

@@ -6,7 +6,7 @@
  */
 namespace local_frontpage\local;
 
-/** Typed Hero background size and focus shared by page and library forms. */
+/** Typed Hero background size and focus shared by page forms. */
 final class hero_media_presentation {
     public const FIELDS = ['backgroundsizevalue', 'backgroundpositionx', 'backgroundpositiony'];
     public const POSITIONS = ['center' => [50, 50], 'top' => [50, 0], 'bottom' => [50, 100],

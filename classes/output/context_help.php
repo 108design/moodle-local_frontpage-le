@@ -20,10 +20,10 @@ final class context_help {
         'activitysettings'=>['activities','completion','backup'],
     ];
     private static ?string $context = null;
-    /** Extra topics belong only to the builder actually embedded in this request. */
+    /** Additional topics belong to the registered help context. */
     private static array $buildertopics = [];
 
-    /** Supply source help for every visual builder host, linking to that host's panel. */
+    /** Supply source help for every Frontpage page host, linking to that host's panel. */
     
 
     /** Shared forms keep their original labels outside a registered help page. */
