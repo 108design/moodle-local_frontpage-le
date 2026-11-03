@@ -1,0 +1,9 @@
+<div id="{{id}}" class="local-frontpage-grid local-frontpage-grid-columns-{{columns}} local-frontpage-grid-template-{{template}} local-frontpage-grid-gap-{{gap}} local-frontpage-grid-align-{{alignment}} local-frontpage-grid-height-{{heightmode}} local-frontpage-grid-overflow-{{overflow}} local-frontpage-grid-stack-{{stackbreakpoint}}{{#stackautoheight}} local-frontpage-grid-stack-auto-height{{/stackautoheight}}{{#mediafit}} local-frontpage-grid-fit-media{{/mediafit}}{{#reverse}} local-frontpage-grid-mobile-reverse{{/reverse}}"{{#customstyle}} style="{{customstyle}}"{{/customstyle}}>
+    {{#cells}}
+        <div class="local-frontpage-grid-cell local-frontpage-grid-cell-{{position}}{{#empty}} local-frontpage-grid-cell-empty{{/empty}}{{#mobilehidden}} local-frontpage-grid-cell-mobile-hidden{{/mobilehidden}}">
+            {{{content}}}
+            {{#empty}}{{#authoring}}<span class="local-frontpage-grid-empty-label">{{#str}}gridemptycolumn, local_frontpage{{/str}}</span>{{/authoring}}{{/empty}}
+            {{#mobilehidden}}{{#authoring}}<span class="local-frontpage-grid-mobile-hidden-label" data-toggle="tooltip" title="{{#str}}gridmobilehiddenbadge, local_frontpage{{/str}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="sr-only">{{#str}}gridmobilehiddenbadge, local_frontpage{{/str}}</span></span>{{/authoring}}{{/mobilehidden}}
+        </div>
+    {{/cells}}
+</div>

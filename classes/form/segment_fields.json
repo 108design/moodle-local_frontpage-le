@@ -1,0 +1,661 @@
+{
+  "types": {
+    "heading": {
+      "text": [
+        "text",
+        "",
+        "headingtext"
+      ],
+      "level": [
+        "select",
+        2,
+        "headinglevel",
+        [
+          2,
+          3,
+          4
+        ]
+      ],
+      "titlesize": [
+        "select",
+        "theme",
+        "headingtitlesize",
+        [
+          "theme",
+          "large",
+          "custom"
+        ]
+      ],
+      "titlesizevalue": [
+        "text",
+        "",
+        "headingtitlesizevalue"
+      ],
+      "color": [
+        "select",
+        "inherit",
+        "headingcolor",
+        [
+          "inherit",
+          "custom"
+        ]
+      ],
+      "colorvalue": [
+        "text",
+        "",
+        "headingcolorvalue"
+      ]
+    },
+    "rich_text": {
+      "content": [
+        "editor",
+        "",
+        "segmentcontent"
+      ]
+    },
+    "media": {
+      "asset": [
+        "owned",
+        "{{segment-image}}",
+        "mediaimage"
+      ],
+      "alt": [
+        "text",
+        "",
+        "mediaalt"
+      ],
+      "decorative": [
+        "checkbox",
+        false,
+        "mediadecorative"
+      ],
+      "caption": [
+        "text",
+        "",
+        "mediacaption"
+      ],
+      "aspect": [
+        "select",
+        "three_two",
+        "mediaaspect",
+        [
+          "auto",
+          "portrait",
+          "three_two",
+          "four_three",
+          "sixteen_nine",
+          "square",
+          "custom"
+        ]
+      ],
+      "fit": [
+        "select",
+        "cover",
+        "mediafit",
+        [
+          "cover",
+          "contain",
+          "custom"
+        ]
+      ],
+      "fitvalue": [
+        "select",
+        "scale-down",
+        "mediafitvalue",
+        [
+          "cover",
+          "contain",
+          "fill",
+          "none",
+          "scale-down"
+        ]
+      ],
+      "focal": [
+        "select",
+        "center",
+        "mediafocal",
+        [
+          "center",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "top_left",
+          "top_right",
+          "bottom_left",
+          "bottom_right",
+          "custom"
+        ]
+      ],
+      "focalx": [
+        "text",
+        "",
+        "mediafocalx"
+      ],
+      "focaly": [
+        "text",
+        "",
+        "mediafocaly"
+      ],
+      "loading": [
+        "select",
+        "lazy",
+        "medialoading",
+        [
+          "lazy",
+          "eager"
+        ]
+      ],
+      "aspectvalue": [
+        "text",
+        "",
+        "mediaaspectvalue"
+      ]
+    },
+    "hero": {
+      "eyebrow": [
+        "text",
+        "",
+        "heroeyebrow"
+      ],
+      "heading": [
+        "text",
+        "",
+        "heroheading"
+      ],
+      "headinglevel": [
+        "select",
+        2,
+        "heroheadinglevel",
+        [
+          1,
+          2
+        ]
+      ],
+      "text": [
+        "textarea",
+        "",
+        "herotext"
+      ],
+      "primarylabel": [
+        "text",
+        "",
+        "heroprimarylabel"
+      ],
+      "primaryurl": [
+        "text",
+        "",
+        "heroprimaryurl"
+      ],
+      "secondarylabel": [
+        "text",
+        "",
+        "herosecondarylabel"
+      ],
+      "secondaryurl": [
+        "text",
+        "",
+        "herosecondaryurl"
+      ],
+      "style": [
+        "select",
+        "surface",
+        "herostyle",
+        [
+          "plain",
+          "surface",
+          "card",
+          "spotlight"
+        ]
+      ],
+      "height": [
+        "select",
+        "normal",
+        "heroheight",
+        [
+          "normal",
+          "spacious",
+          "viewport",
+          "custom"
+        ]
+      ],
+      "heightvalue": [
+        "text",
+        "",
+        "heroheightvalue"
+      ],
+      "titlesize": [
+        "select",
+        "large",
+        "herotitlesize",
+        [
+          "normal",
+          "large",
+          "display",
+          "custom"
+        ]
+      ],
+      "titlesizevalue": [
+        "text",
+        "",
+        "herotitlesizevalue"
+      ],
+      "herolayout": [
+        "select",
+        "overlay",
+        "herolayout",
+        [
+          "overlay",
+          "splitright",
+          "splitleft"
+        ]
+      ],
+      "overlay": [
+        "select",
+        "auto",
+        "herooverlay",
+        [
+          "auto",
+          "subtle",
+          "strong",
+          "gradient",
+          "none"
+        ]
+      ],
+      "contrast": [
+        "select",
+        "auto",
+        "herocontrast",
+        [
+          "auto",
+          "light",
+          "dark",
+          "custom"
+        ]
+      ],
+      "contrastvalue": [
+        "text",
+        "",
+        "herocontrastvalue"
+      ],
+      "texteffect": [
+        "select",
+        "shadow",
+        "herotexteffect",
+        [
+          "none",
+          "shadow",
+          "glow"
+        ]
+      ],
+      "backgroundsize": [
+        "select",
+        "cover",
+        "herobackgroundsize",
+        [
+          "cover",
+          "contain",
+          "auto",
+          "custom"
+        ]
+      ],
+      "backgroundposition": [
+        "select",
+        "center",
+        "herobackgroundposition",
+        [
+          "center",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "top_left",
+          "top_right",
+          "bottom_left",
+          "bottom_right",
+          "custom"
+        ]
+      ],
+      "backgroundpositionx": [
+        "text",
+        "",
+        "herobackgroundpositionx"
+      ],
+      "backgroundpositiony": [
+        "text",
+        "",
+        "herobackgroundpositiony"
+      ],
+      "backgroundsizevalue": [
+        "text",
+        "",
+        "herobackgroundsizevalue"
+      ]
+    },
+    "spacer": {
+      "height": [
+        "int",
+        96,
+        "spacerheight"
+      ],
+      "color": [
+        "text",
+        "",
+        "spacercolor"
+      ]
+    },
+    "grid": {
+      "columns": [
+        "select",
+        2,
+        "gridcolumns",
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "template": [
+        "select",
+        "equal",
+        "gridtemplate",
+        [
+          "equal",
+          "wide_first",
+          "wide_last",
+          "custom"
+        ]
+      ],
+      "gap": [
+        "select",
+        "medium",
+        "gridgap",
+        [
+          "none",
+          "small",
+          "medium",
+          "large"
+        ]
+      ],
+      "alignment": [
+        "select",
+        "stretch",
+        "gridalignment",
+        [
+          "start",
+          "center",
+          "end",
+          "stretch"
+        ]
+      ],
+      "heightmode": [
+        "select",
+        "auto",
+        "gridheightmode",
+        [
+          "auto",
+          "min",
+          "fixed"
+        ]
+      ],
+      "heightvalue": [
+        "text",
+        "150px",
+        "gridheightvalue"
+      ],
+      "overflow": [
+        "select",
+        "visible",
+        "gridoverflow",
+        [
+          "visible",
+          "clip"
+        ]
+      ],
+      "mediafit": [
+        "checkbox",
+        false,
+        "gridmediafit"
+      ],
+      "stackbreakpoint": [
+        "select",
+        "lg",
+        "gridstackbreakpoint",
+        [
+          "none",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ]
+      ],
+      "stackautoheight": [
+        "checkbox",
+        true,
+        "gridstackautoheight"
+      ],
+      "mobileorder": [
+        "select",
+        "natural",
+        "gridmobileorder",
+        [
+          "natural",
+          "reverse"
+        ]
+      ]
+    },
+    "moodle_course_list": {
+      "mode": [
+        "select",
+        "configured",
+        "moodlecourselistmode",
+        [
+          "configured",
+          "available",
+          "enrolled",
+          "category",
+          "categories",
+          "combo",
+          "search"
+        ]
+      ],
+      "categoryid": [
+        "category",
+        0,
+        "moodlecoursecategory"
+      ]
+    },
+    "course_module": {
+      "cmid": [
+        "module",
+        0,
+        "coursemodule"
+      ],
+      "usedescription": [
+        "checkbox",
+        true,
+        "coursemoduleusedescription"
+      ]
+    }
+  },
+  "layout": {
+    "width": [
+      "select",
+      "wide",
+      "segmentwidth",
+      [
+        "inherit",
+        "theme",
+        "content",
+        "wide",
+        "full",
+        "custom"
+      ]
+    ],
+    "customwidth": [
+      "text",
+      "",
+      "segmentcustomwidth"
+    ],
+    "background": [
+      "select",
+      "transparent",
+      "segmentbackground",
+      [
+        "transparent",
+        "white",
+        "light",
+        "dark",
+        "primary",
+        "secondary",
+        "custom"
+      ]
+    ],
+    "backgroundvalue": [
+      "text",
+      "",
+      "segmentbackgroundvalue"
+    ],
+    "appearance": [
+      "select",
+      "plain",
+      "segmentappearance",
+      [
+        "plain",
+        "surface",
+        "band",
+        "card"
+      ]
+    ],
+    "padding": [
+      "select",
+      "none",
+      "segmentpadding",
+      [
+        "none",
+        "small",
+        "medium",
+        "large",
+        "custom"
+      ]
+    ],
+    "paddingvalue": [
+      "text",
+      "",
+      "segmentpaddingvalue"
+    ],
+    "alignment": [
+      "select",
+      "start",
+      "segmentalignment",
+      [
+        "start",
+        "center",
+        "end"
+      ]
+    ],
+    "textcolor": [
+      "select",
+      "auto",
+      "segmenttextcolor",
+      [
+        "auto",
+        "light",
+        "dark"
+      ]
+    ],
+    "radius": [
+      "select",
+      "none",
+      "segmentradius",
+      [
+        "none",
+        "small",
+        "medium",
+        "large",
+        "custom"
+      ]
+    ],
+    "radiusvalue": [
+      "text",
+      "",
+      "segmentradiusvalue"
+    ],
+    "spacing": [
+      "select",
+      "medium",
+      "segmentspacing",
+      [
+        "none",
+        "small",
+        "medium",
+        "large",
+        "custom"
+      ]
+    ],
+    "spacingvalue": [
+      "text",
+      "",
+      "segmentspacingvalue"
+    ],
+    "spacingtop": [
+      "select",
+      "none",
+      "segmentspacingtop",
+      [
+        "none",
+        "small",
+        "medium",
+        "large",
+        "custom"
+      ]
+    ],
+    "spacingtopvalue": [
+      "text",
+      "",
+      "segmentspacingtopvalue"
+    ],
+    "bordertop": [
+      "checkbox",
+      false,
+      "segmentbordertop"
+    ],
+    "borderright": [
+      "checkbox",
+      false,
+      "segmentborderright"
+    ],
+    "borderbottom": [
+      "checkbox",
+      false,
+      "segmentborderbottom"
+    ],
+    "borderleft": [
+      "checkbox",
+      false,
+      "segmentborderleft"
+    ],
+    "borderthickness": [
+      "text",
+      "1px",
+      "segmentborderthickness"
+    ],
+    "bordercolor": [
+      "select",
+      "border",
+      "segmentbordercolor",
+      [
+        "border",
+        "primary",
+        "secondary",
+        "custom"
+      ]
+    ],
+    "bordercolorvalue": [
+      "text",
+      "",
+      "segmentbordercolorvalue"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+<section id="{{id}}" class="local-frontpage-segment local-frontpage-hero local-frontpage-hero-style-{{style}} local-frontpage-hero-height-{{height}} local-frontpage-hero-title-{{titlesize}} local-frontpage-hero-layout-{{herolayout}} local-frontpage-hero-overlay-{{overlay}} local-frontpage-hero-contrast-{{contrast}} local-frontpage-hero-text-{{texteffect}} local-frontpage-hero-image-size-{{backgroundsize}} local-frontpage-hero-image-position-{{backgroundposition}}" style="{{mediastyle}}{{#backgroundphoto}}--local-frontpage-hero-background-image: url('{{backgroundphoto}}');{{/backgroundphoto}}{{#heightvalue}} --local-frontpage-hero-height: {{heightvalue}};{{/heightvalue}}{{#titlesizevalue}} --local-frontpage-hero-title-size: {{titlesizevalue}};{{/titlesizevalue}}{{#contrastvalue}} --local-frontpage-hero-text-color: {{contrastvalue}};{{/contrastvalue}}">
+    <span class="local-frontpage-hero-scrim" aria-hidden="true"></span>
+    <div class="local-frontpage-hero-content">
+        {{#hasidentity}}<p class="local-frontpage-hero-eyebrow text-uppercase text-muted mb-2">{{#mark}}<img class="local-frontpage-hero-mark" src="{{mark}}" alt="{{markalt}}" width="48" height="48">{{/mark}}{{eyebrow}}</p>{{/hasidentity}}
+        {{#headinglevel1}}<h1 class="local-frontpage-hero-heading">{{heading}}</h1>{{/headinglevel1}}
+        {{^headinglevel1}}<h2 class="local-frontpage-hero-heading">{{heading}}</h2>{{/headinglevel1}}
+        {{#text}}<p class="local-frontpage-hero-text-content lead mb-0">{{text}}</p>{{/text}}
+        {{#hasactions}}<div class="local-frontpage-hero-actions">
+            {{#primaryurl}}<a class="local-frontpage-hero-action local-frontpage-hero-action-primary btn btn-primary" href="{{primaryurl}}">{{primarylabel}}</a>{{/primaryurl}}
+            {{#secondaryurl}}<a class="local-frontpage-hero-action local-frontpage-hero-action-secondary btn btn-outline-secondary" href="{{secondaryurl}}">{{secondarylabel}}</a>{{/secondaryurl}}
+        </div>{{/hasactions}}
+    </div>
+</section>
