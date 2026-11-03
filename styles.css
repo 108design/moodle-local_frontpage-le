@@ -1766,3 +1766,6 @@ vertical-align: middle;
 .local-frontpage-icon-button[aria-disabled="true"] {opacity:.45;cursor:not-allowed;}
 .local-frontpage-icon-button[aria-disabled="true"]:hover {background:transparent;color:inherit;}
 .local-frontpage-revision-state.bg-secondary {background:#495057!important;color:#fff!important;}
+
+/* Keep hidden action labels inside their scrolling table cell. */
+.local-frontpage-icon-button {position:relative;}
