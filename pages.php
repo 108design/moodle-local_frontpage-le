@@ -20,12 +20,18 @@ foreach(factory::page_repository()->get_pages() as $p) {
     $links=[];foreach(['edit.php'=>'editcontent','view.php'=>'previewdraft','page_settings.php'=>'pageoptions','revisions.php'=>'revisions','page_files.php'=>'pagefiles','delete.php'=>'deletepage'] as $route=>$label){
         $params=['id'=>$p->id];if($route==='view.php'){$params['preview']=1;}
         $icons=['edit.php'=>'t/edit','view.php'=>'i/preview','page_settings.php'=>'i/settings','revisions.php'=>'i/backup','page_files.php'=>'i/files','delete.php'=>'t/delete'];
+        if($route==='delete.php'&&$aud){
+            $links[]=\local_frontpage\output\authoring::disabled(get_string($label,'local_frontpage'),'t/delete',get_string('assignedpage','local_frontpage'));
+            continue;
+        }
         $links[]=\local_frontpage\output\authoring::link(new moodle_url('/local/frontpage/'.$route,$params),get_string($label,'local_frontpage'),$icons[$route],true);
     }
     $table->data[]=[html_writer::link(new moodle_url('/local/frontpage/edit.php',['id'=>$p->id]),format_string($p->title),['class'=>'local-frontpage-manager-title']),html_writer::link(new moodle_url('/local/frontpage/preferences.php'),implode(', ',$aud)?:get_string('unassigned','local_frontpage')),
         html_writer::span(get_string(empty($p->publishedrevisionid)?'draft':'published','local_frontpage'),'badge '.(empty($p->publishedrevisionid)?'bg-secondary text-white':'bg-success text-white')),userdate($p->timemodified),html_writer::div(implode(' ',$links),'local-frontpage-manager-actions local-frontpage-page-actionbar')];
 }
 echo html_writer::div(html_writer::table($table),'table-responsive mb-4');
-echo html_writer::link(new moodle_url('/local/frontpage/resources.php',['courseid'=>SITEID]),get_string('resources','local_frontpage'),['class'=>'btn btn-secondary mb-4']);
+if(has_capability('moodle/course:manageactivities',context_course::instance(SITEID))){
+    echo html_writer::div(\local_frontpage\output\authoring::link(new moodle_url('/local/frontpage/resources.php',['courseid'=>SITEID]),get_string('resources','local_frontpage'),'i/folder'),'mb-4');
+}
 if(count(factory::page_repository()->get_pages())<5){echo $OUTPUT->heading(get_string('createpage','local_frontpage'),3);$form->display();}
 echo $OUTPUT->footer();

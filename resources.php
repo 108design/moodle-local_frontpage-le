@@ -36,6 +36,6 @@ foreach($rows as $r){
     try{$cm=$modinfo->get_cm($r->cmid);}catch(moodle_exception){continue;}
     $source=$r->sourcepageid?$DB->get_record('local_frontpage_page',['id'=>$r->sourcepageid]):false;
     $refs=$DB->count_records('local_frontpage_cmref',['cmid'=>$r->cmid]);
-    $action=isset($candidates[$r->id])?html_writer::link(new moodle_url($url,['resourceid'=>$r->id]),get_string('cleanupresource','local_frontpage'),['class'=>'btn btn-secondary']):get_string($refs?'resourceprotected':'resourcegrace','local_frontpage');
-    $table->data[]=[html_writer::link($cm->url,$cm->get_formatted_name()),$source?format_string($source->title):get_string('sourceremoved','local_frontpage'),$refs,$action];
+    $action=isset($candidates[$r->id])?\local_frontpage\output\authoring::link(new moodle_url($url,['resourceid'=>$r->id]),get_string('cleanupresource','local_frontpage'),'t/delete',true):get_string($refs?'resourceprotected':'resourcegrace','local_frontpage');
+    $table->data[]=[html_writer::link($cm->url,$cm->get_formatted_name()),$source?format_string($source->title):get_string('sourceremoved','local_frontpage'),$refs,html_writer::div($action,'local-frontpage-page-actionbar')];
 }echo html_writer::div(html_writer::table($table),'table-responsive');echo $OUTPUT->footer();

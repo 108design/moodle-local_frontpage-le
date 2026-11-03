@@ -26,12 +26,19 @@ $tools='';
 if(page_access::can_edit_css($page)){
     $tools.=authoring::link(new moodle_url('/local/frontpage/page_css.php',['id'=>$id]),get_string('pagecss','local_frontpage'),'e/source_code',true);
 }
-$tools.=authoring::link(new moodle_url('/local/frontpage/page_settings.php',['id'=>$id]),get_string('pageoptions','local_frontpage'),'i/settings',true);
+if($page->ownercomponent==='local_frontpage'){
+    $tools.=authoring::link(new moodle_url('/local/frontpage/page_settings.php',['id'=>$id]),get_string('pageoptions','local_frontpage'),'i/settings',true);
+}else if(has_capability('moodle/course:manageactivities',page_access::context($page))){
+    $tools.=authoring::link(new moodle_url('/course/modedit.php',['update'=>$PAGE->cm->id,'return'=>1]),get_string('activitysettings','local_frontpage'),'i/settings',true);
+}
 foreach(['revisions.php'=>['revisions','i/backup'],'page_files.php'=>['pagefiles','i/files']] as $route=>$item){
     $tools.=authoring::link(new moodle_url('/local/frontpage/'.$route,['id'=>$id]),get_string($item[0],'local_frontpage'),$item[1],true);
 }
+$resourcecourse=\local_frontpage\local\page_scope::course_id($page,page_access::context($page));
+if(has_capability('moodle/course:manageactivities',context_course::instance($resourcecourse))){
 $tools.=authoring::link(new moodle_url('/local/frontpage/resources.php',['courseid'=>\local_frontpage\local\page_scope::course_id($page,page_access::context($page))]),get_string('resources','local_frontpage'),'i/folder',true);
 $tools.=authoring::link(new moodle_url('/local/frontpage/activity_create.php',$actions+['segmentid'=>'segment_'.bin2hex(random_bytes(8))]),get_string('createfrontpageresource','local_frontpage'),'t/add',true);
+}
 echo html_writer::div(html_writer::div($primary,'local-frontpage-editor-primary')
     .html_writer::div($tools,'local-frontpage-page-actionbar'),'local-frontpage-editor-header');
 echo html_writer::div(authoring::icon('i/info').s(get_string('draftnotice','local_frontpage')),'local-frontpage-draft-notice');

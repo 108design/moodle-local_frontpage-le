@@ -363,3 +363,17 @@ $string['pagehelp_pagecss'] = 'Seiten-CSS';
 $string['pagehelp_pagecss_help'] = 'Bearbeite das Stylesheet im Entwurf, prüfe die Vorschau und veröffentliche es mit der Seite.';
 $string['pagehelp_pagecss_title'] = 'Hilfe zum Seiten-CSS';
 $string['pagehelp_pagecss_article'] = '<p>Seiten-CSS gehört zu denselben Entwurfs- und Veröffentlichungsrevisionen wie der Seiteninhalt. Beim Speichern entsteht ein neuer Entwurf. Besucher sehen das veröffentlichte CSS bis zur nächsten Veröffentlichung.</p><p>Das Stylesheet gilt für diesen Seitenaufruf einschließlich der Moodle-Navigation und Bedienelemente. Beginne mit einem Selektor für den Inhalt, den Du gestalten möchtest. In den Bearbeitungsformularen wird es nicht geladen. So kannst Du hierher zurückkehren, falls eine Regel die Seite schwer bedienbar macht.</p><p>Seitendateien lassen sich mit <code>{{image-url:dateiname}}</code> referenzieren. Eine frühere Revision stellt auch deren CSS wieder her. CSS-Änderungen und entsprechende Wiederherstellungen benötigen das eigene CSS-Recht. Wer nur veröffentlichen darf, kann vorhandenes, unverändertes CSS mitveröffentlichen.</p>';
+
+$string['activitysettings'] = 'Aktivitätseinstellungen';
+
+$string['pagecsspermissionneeded'] = 'Zum Ändern des Seiten-CSS ist die entsprechende Berechtigung erforderlich.';
+
+$string['restorerevisionlabel'] = 'Revision {$a} wiederherstellen';
+
+$string['currentdraft'] = 'Aktueller Entwurf';
+
+$string['currentpublication'] = 'Aktuell veröffentlicht';
+
+$string['previouspublication'] = 'Frühere Veröffentlichung';
+
+$string['draftcheckpoint'] = 'Entwurfsstand';

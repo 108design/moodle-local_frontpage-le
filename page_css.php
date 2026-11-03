@@ -24,6 +24,8 @@ if($data=$form->get_data()){
 $form->set_data(['pageid'=>$id,'baserevisionid'=>$revision->id,'baseversion'=>$revision->draftversion,'pagecss'=>$document['css']??'']);
 $PAGE->requires->js_call_amd('local_frontpage/source_editor','init',[['textareaId'=>'id_pagecss']]);
 echo $OUTPUT->header();
-echo html_writer::div(html_writer::tag('strong',format_string($page->title)).' '.html_writer::link(
-    new moodle_url('/local/frontpage/view.php',['id'=>$id,'preview'=>1]),get_string('previewdraft','local_frontpage'),['class'=>'btn btn-outline-secondary']), 'mb-4');
+echo html_writer::div(html_writer::tag('strong',format_string($page->title))
+    .html_writer::div(\local_frontpage\output\authoring::link($back,get_string('editcontent','local_frontpage'),'t/left')
+    .\local_frontpage\output\authoring::link(new moodle_url('/local/frontpage/view.php',['id'=>$id,'preview'=>1]),get_string('previewdraft','local_frontpage'),'i/preview',false,['target'=>'_blank','rel'=>'noopener']),
+        'local-frontpage-editor-primary'),'local-frontpage-editor-header');
 $form->display();echo $OUTPUT->footer();

@@ -363,3 +363,17 @@ $string['pagehelp_pagecss'] = 'Page CSS';
 $string['pagehelp_pagecss_help'] = 'Edit this page stylesheet in the draft, preview it and publish it with the page.';
 $string['pagehelp_pagecss_title'] = 'Page CSS Help';
 $string['pagehelp_pagecss_article'] = '<p>Page CSS belongs to the same draft and published revisions as the page content. Saving CSS creates a new draft; visitors keep seeing the published CSS until you publish.</p><p>The stylesheet applies to this page view, including its Moodle navigation and controls. Start with a selector for the content you want to change. It is not loaded in the authoring forms, so you can return here if a style makes the page difficult to use.</p><p>Page files can be referenced with <code>{{image-url:filename}}</code>. Restoring an earlier revision restores its CSS too. Changing CSS, including through a revision restore, requires the separate page CSS permission. A publisher can publish an unchanged CSS draft without receiving that permission.</p>';
+
+$string['activitysettings'] = 'Activity settings';
+
+$string['pagecsspermissionneeded'] = 'Changing page CSS requires the page CSS permission.';
+
+$string['restorerevisionlabel'] = 'Restore revision {$a}';
+
+$string['currentdraft'] = 'Current draft';
+
+$string['currentpublication'] = 'Published now';
+
+$string['previouspublication'] = 'Earlier publication';
+
+$string['draftcheckpoint'] = 'Draft checkpoint';

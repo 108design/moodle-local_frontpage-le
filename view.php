@@ -22,7 +22,6 @@ if($context->contextlevel===CONTEXT_MODULE){$cm=get_coursemodule_from_id('frontp
 if($preview||$revisionid){\local_frontpage\output\context_help::prepare('editor');}
 \local_frontpage\local\page_css::prepare($page,$revision);
 echo $OUTPUT->header();
-if($preview||$revisionid){echo $OUTPUT->notification(get_string('previewnotice','local_frontpage'),'info');echo html_writer::link(
-    \local_frontpage\local\url\page_url::get_edit_url($page),get_string('editcontent','local_frontpage'),['class'=>'btn btn-secondary mb-4']);}
+if($preview||$revisionid){echo $OUTPUT->notification(get_string('previewnotice','local_frontpage'),'info');echo html_writer::div(\local_frontpage\output\authoring::link(\local_frontpage\local\url\page_url::get_edit_url($page),get_string('editcontent','local_frontpage'),'t/edit'),'mb-4');}
 echo (new \local_frontpage\output\page_renderer($OUTPUT,$page,(int)$revision->id,(bool)($preview||$revisionid)))->render($revision->documentjson);
 echo $OUTPUT->footer();

@@ -14,10 +14,15 @@ final class authoring {
         global $OUTPUT;
         return $OUTPUT->pix_icon($name, '', 'moodle', ['aria-hidden'=>'true']);
     }
-    public static function link(moodle_url $url, string $label, string $icon, bool $compact=false): string {
+    public static function link(moodle_url $url, string $label, string $icon, bool $compact=false, array $attributes=[]): string {
         return html_writer::link($url, self::icon($icon).html_writer::span(s($label),$compact?'sr-only':''),
             ['class'=>$compact?'local-frontpage-icon-button':'btn btn-outline-secondary',
-                'aria-label'=>$label,'title'=>$label]);
+                'aria-label'=>$label,'title'=>$label]+$attributes);
+    }
+    public static function disabled(string $label,string $icon,string $reason): string {
+        return html_writer::span(self::icon($icon).html_writer::span(s($label.': '.$reason),'sr-only'),
+            'local-frontpage-icon-button text-muted',['role'=>'button','aria-disabled'=>'true','tabindex'=>'0',
+                'aria-label'=>$label.': '.$reason,'title'=>$reason]);
     }
     public static function post(string $label, string $icon, array $params, bool $primary=false): string {
         $url=new moodle_url('/local/frontpage/action.php');
