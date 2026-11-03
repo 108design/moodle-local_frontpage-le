@@ -29,6 +29,6 @@ foreach($DB->get_records('local_frontpage_revision',['pageid'=>$id],'revisionnum
     }
     $state=$r->id==$draft->id?'currentdraft':($r->id==$page->publishedrevisionid?'currentpublication':($r->timepublished?'previouspublication':'draftcheckpoint'));
     $tone=$state==='currentpublication'?'bg-success':($state==='currentdraft'?'bg-primary':'bg-secondary');
-    $table->data[]=[$r->revisionnumber,html_writer::span(get_string($state,'local_frontpage'),'badge text-white '.$tone),userdate($r->timecreated),html_writer::div($actions,'local-frontpage-page-actionbar')];
+    $table->data[]=[$r->revisionnumber,html_writer::span(get_string($state,'local_frontpage'),'badge text-white local-frontpage-revision-state '.$tone),userdate($r->timecreated),html_writer::div($actions,'local-frontpage-page-actionbar')];
 }
 echo html_writer::div(html_writer::table($table),'table-responsive');echo $OUTPUT->footer();

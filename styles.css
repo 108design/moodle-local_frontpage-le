@@ -1758,3 +1758,11 @@ vertical-align: middle;
 .local-frontpage-code-editor {border:1px solid var(--bs-border-color,#ced4da);border-radius:.375rem;overflow:hidden;max-width:100%;}
 .local-frontpage-code-editor .cm-editor {min-height:28rem;}
 .local-frontpage-code-editor .cm-scroller {max-height:65vh;overflow:auto;}
+
+/* Empty source editors must fill the native form field as well. */
+.local-frontpage-code-editor {flex:1 1 0;min-width:0;width:100%;}
+#fitem_id_pagecss>.felement {min-width:0;}
+.local-frontpage-manager-table {width:100%;}
+.local-frontpage-icon-button[aria-disabled="true"] {opacity:.45;cursor:not-allowed;}
+.local-frontpage-icon-button[aria-disabled="true"]:hover {background:transparent;color:inherit;}
+.local-frontpage-revision-state.bg-secondary {background:#495057!important;color:#fff!important;}
