@@ -35,11 +35,15 @@ final class authoring {
         return match($type){'heading'=>'i/edit','rich_text'=>'e/file-text','media'=>'e/insert_edit_image','hero'=>'i/home',
             'spacer'=>'t/move','grid'=>'e/table','moodle_course_list'=>'i/course','course_module'=>'i/activities',default=>'i/settings'};
     }
+    /** Use the same segment identity in editor toolbars and settings forms. */
+    public static function type_badge(string $type): string {
+        $label=get_string('segmenttype'.str_replace('_','',$type),'local_frontpage');
+        return html_writer::span(self::icon(self::type_icon($type)).s($label),
+            'badge local-frontpage-segment-type local-frontpage-segment-type-'.str_replace('_','-',$type));
+    }
     public static function segment(array $segment, string $content, array $actions, array $segments): string {
-        $type=get_string('segmenttype'.str_replace('_','',$segment['type']),'local_frontpage');
         $label=trim((string)($segment['props']['editorlabel']??''));
-        $status=html_writer::span(self::icon(self::type_icon($segment['type'])).s($type),
-            'badge local-frontpage-segment-type local-frontpage-segment-type-'.str_replace('_','-',$segment['type']));
+        $status=self::type_badge($segment['type']);
         if($label!==''){$status.=html_writer::span(format_string($label),'local-frontpage-editor-label');}
         $enabled=$segment['props']['enabled']??true;
         if(!$enabled){$status.=html_writer::span(get_string('editorhidden','local_frontpage'),'badge bg-secondary text-white');}

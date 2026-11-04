@@ -57,5 +57,5 @@ if($type==='grid'){for($i=0;$i<4;$i++){$defaults['slot'.$i]=$props['segmentids']
 $defaults+=\local_frontpage\local\segment_colour_modes::defaults($props['layout']??[]);
 $form->set_data($defaults);echo $OUTPUT->header();
 echo html_writer::div(\local_frontpage\output\authoring::link($back,get_string('editcontent','local_frontpage'),'t/left')
-    .html_writer::span(s(get_string('segmenttype'.str_replace('_','',$type),'local_frontpage')),'badge bg-secondary text-white ms-3 ml-3'),'mb-4');
+    .\local_frontpage\output\authoring::type_badge($type),'local-frontpage-editor-primary mb-4');
 $form->display();echo $OUTPUT->footer();
