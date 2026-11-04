@@ -12,6 +12,13 @@ defined('MOODLE_INTERNAL') || die();
 final class authoring {
     public static function icon(string $name): string {
         global $OUTPUT;
+        if($name==='local/page-settings'){
+            static $pagesettingssvg=null;
+            return $pagesettingssvg??=file_get_contents(__DIR__.'/../../pix/page-settings.svg');
+        }
+        if(str_starts_with($name,'fa/')){
+            return html_writer::tag('i','',['class'=>'fa fa-'.substr($name,3).' icon','aria-hidden'=>'true']);
+        }
         return $OUTPUT->pix_icon($name, '', 'moodle', ['aria-hidden'=>'true']);
     }
     public static function link(moodle_url $url, string $label, string $icon, bool $compact=false, array $attributes=[]): string {

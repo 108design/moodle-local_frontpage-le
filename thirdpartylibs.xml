@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<libraries><library><location>thirdparty/codemirror-css</location><name>CodeMirror</name><version>6.0.2</version><license>MIT</license><licenseversion></licenseversion></library></libraries>
+<libraries><library><location>thirdparty/codemirror-css</location><name>CodeMirror</name><version>6.0.2</version><license>MIT</license><licenseversion></licenseversion></library><library><location>pix/page-settings.svg</location><name>Lucide file-cog (adapted)</name><version>7faf87628a1ad6175975bc595344337ce14a7db4</version><license>ISC</license><licenseversion></licenseversion></library></libraries>

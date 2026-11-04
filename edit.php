@@ -27,11 +27,11 @@ if(page_access::can_edit_css($page)){
     $tools.=authoring::link(new moodle_url('/local/frontpage/page_css.php',['id'=>$id]),get_string('pagecss','local_frontpage'),'e/source_code',true);
 }
 if($page->ownercomponent==='local_frontpage'){
-    $tools.=authoring::link(new moodle_url('/local/frontpage/page_settings.php',['id'=>$id]),get_string('pageoptions','local_frontpage'),'i/settings',true);
+    $tools.=authoring::link(new moodle_url('/local/frontpage/page_settings.php',['id'=>$id]),get_string('pageoptions','local_frontpage'),'local/page-settings',true);
 }else if(has_capability('moodle/course:manageactivities',page_access::context($page))){
     $tools.=authoring::link(new moodle_url('/course/modedit.php',['update'=>$PAGE->cm->id,'return'=>1]),get_string('activitysettings','local_frontpage'),'i/settings',true);
 }
-foreach(['revisions.php'=>['revisions','i/backup'],'page_files.php'=>['pagefiles','i/files']] as $route=>$item){
+foreach(['revisions.php'=>['revisions','fa/history'],'page_files.php'=>['pagefiles','fa/folder-open']] as $route=>$item){
     $tools.=authoring::link(new moodle_url('/local/frontpage/'.$route,['id'=>$id]),get_string($item[0],'local_frontpage'),$item[1],true);
 }
 $resourcecourse=\local_frontpage\local\page_scope::course_id($page,page_access::context($page));

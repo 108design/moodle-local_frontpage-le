@@ -21,14 +21,15 @@ foreach($DB->get_records('local_frontpage_revision',['pageid'=>$id],'revisionnum
     if($r->id!=$draft->id){
         $changedcss=(json_decode($r->documentjson,true)['css']??'')!==$draftcss;
         $actions.=$changedcss&&!\local_frontpage\local\page_access::can_edit_css($page)
-            ?authoring::disabled(get_string('restore','local_frontpage'),'i/restore',get_string('pagecsspermissionneeded','local_frontpage'))
-            :authoring::post(get_string('restorerevisionlabel','local_frontpage',$r->revisionnumber),'i/restore',$params+['action'=>'restore']);
+            ?authoring::disabled(get_string('restore','local_frontpage'),'fa/undo',get_string('pagecsspermissionneeded','local_frontpage'))
+            :authoring::post(get_string('restorerevisionlabel','local_frontpage',$r->revisionnumber),'fa/undo',$params+['action'=>'restore']);
     }
     if($r->id!=$draft->id&&$r->id!=$page->publishedrevisionid){
         $actions.=authoring::post(get_string('deleterevision','local_frontpage'),'t/delete',$params+['action'=>'prune']);
     }
     $state=$r->id==$draft->id?'currentdraft':($r->id==$page->publishedrevisionid?'currentpublication':($r->timepublished?'previouspublication':'draftcheckpoint'));
+    $stateicon=match($state){'currentdraft'=>'fa/pencil','currentpublication'=>'fa/check-circle','draftcheckpoint'=>'fa/lock',default=>'fa/archive'};
     $tone=$state==='currentpublication'?'bg-success':($state==='currentdraft'?'bg-primary':'bg-secondary');
-    $table->data[]=[$r->revisionnumber,html_writer::span(get_string($state,'local_frontpage'),'badge text-white local-frontpage-revision-state '.$tone),userdate($r->timecreated),html_writer::div($actions,'local-frontpage-page-actionbar')];
+    $table->data[]=[$r->revisionnumber,html_writer::span(authoring::icon($stateicon).get_string($state,'local_frontpage'),'badge text-white local-frontpage-revision-state '.$tone),userdate($r->timecreated),html_writer::div($actions,'local-frontpage-page-actionbar')];
 }
 echo html_writer::div(html_writer::table($table),'table-responsive');echo $OUTPUT->footer();

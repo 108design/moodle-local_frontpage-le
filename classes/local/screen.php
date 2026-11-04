@@ -19,8 +19,8 @@ final class screen {
         \local_frontpage\output\context_help::prepare($help);
     }
     public static function tabs(string $active): string {
-        return print_tabs([[new \tabobject('pages',new \moodle_url('/local/frontpage/pages.php'),get_string('pages','local_frontpage'),'',true),
-            new \tabobject('settings',new \moodle_url('/local/frontpage/preferences.php'),get_string('settings'),'',true)]],$active,null,null,true);
+        return print_tabs([[new \tabobject('pages',new \moodle_url('/local/frontpage/pages.php'),\local_frontpage\output\authoring::icon('fa/sitemap').get_string('pages','local_frontpage'),get_string('pages','local_frontpage'),true),
+            new \tabobject('settings',new \moodle_url('/local/frontpage/preferences.php'),\local_frontpage\output\authoring::icon('fa/gear').get_string('settings'),get_string('settings'),true)]],$active,null,null,true);
     }
     public static function button(\moodle_url $url, string $label, array $params=[]): string {
         global $OUTPUT;
