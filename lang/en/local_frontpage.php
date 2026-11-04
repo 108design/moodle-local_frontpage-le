@@ -377,3 +377,24 @@ $string['currentpublication'] = 'Published now';
 $string['previouspublication'] = 'Earlier publication';
 
 $string['draftcheckpoint'] = 'Draft checkpoint';
+
+$string['activitynavigationreturn'] = 'Back to {$a}';
+$string['activitynavigation'] = 'Activity navigation';
+$string['activitynavigationinherit'] = 'Inherit course setting';
+$string['activitynavigationmode'] = 'Show linear navigation';
+$string['activitynavigationmode_help'] = 'Adds Moodle-style Previous and Next actions to activities opened from this standalone Frontpage activity. On and Off override the course setting. Inherit is available only with Moodle 5.3 and a course format that supports native linear navigation. Older versions and other formats offer On and Off. The change takes effect when this draft is published. Breadcrumbs and the return to the Frontpage activity remain available.';
+$string['activitynavigationboundary'] = 'At the ends of the Frontpage sequence';
+$string['activitynavigationboundaryfrontpage'] = 'Return to the Frontpage overview';
+$string['activitynavigationboundarycourse'] = 'Continue in the course';
+$string['activitynavigationboundary_help'] = 'The sequence follows the accessible activities in the published Frontpage layout, including Grids. Return to the Frontpage overview closes the sequence at both ends. Continue in the course uses the course position of this Frontpage activity to find the preceding or following course content. At the course boundary it returns to the course. Hidden, unavailable and managed resource activities are skipped.';
+$string['activitynavigationpreviousoverview'] = 'Start of Frontpage sequence · Overview';
+$string['activitynavigationnextoverview'] = 'End of Frontpage sequence · Overview';
+$string['activitynavigationpreviouscourse'] = 'Back in the course';
+$string['activitynavigationnextcourse'] = 'Continue in the course';
+
+$string['pagehelp_activitynavigation_title'] = 'Activity navigation';
+$string['pagehelp_activitynavigation'] = 'Activity navigation';
+$string['pagehelp_activitynavigation_help'] = 'Follow the published activity order and return to its Frontpage card.';
+$string['pagehelp_activitynavigation_article'] = '<p>Open Activity navigation in the course activity editor. Save the draft, then publish it to apply the settings. Previous and Next follow accessible activities in the published page and its Grids. Disabled segments and repeated references do not add steps.</p><p>On and Off override the course setting. Moodle 5.3 formats with native linear navigation also offer Inherit. Older versions show a compatible footer; completion remains in the native activity header. Activities with their own footer keep it.</p><p>At either end, return to the Frontpage overview or continue from the original Frontpage activity position in the course. The technical resource section is skipped. The additional return link opens the original card. Ordinary course links leave this sequence. Draft and historical previews do not start a published sequence.</p>';
+
+$string['activitynavigationbacktocourse'] = 'Back to course';

@@ -23,11 +23,16 @@ final class validator {
         }
         if (!is_array($document) || ($document['schemaVersion'] ?? null) !== 2
                 || !is_array($document['segments'] ?? null) || !array_is_list($document['segments'])
-                || array_diff(array_keys($document), ['schemaVersion', 'aboveHeaderSegment', 'segments', 'css'])
+                || array_diff(array_keys($document), ['schemaVersion', 'aboveHeaderSegment', 'segments', 'css', 'activitynavigation'])
                 || !empty($document['aboveHeaderSegment'])) {
             throw new invalid_parameter_exception('Unsupported document structure.');
         }
         if(array_key_exists('css',$document)){$document['css']=$this->normalise_page_css($document['css']);}
+        if (array_key_exists(\local_frontpage\local\activity_navigation_settings::KEY, $document)) {
+            $document[\local_frontpage\local\activity_navigation_settings::KEY] =
+                \local_frontpage\local\activity_navigation_settings::normalise(
+                    $document[\local_frontpage\local\activity_navigation_settings::KEY]);
+        }
         $ids = [];
         foreach ($document['segments'] as &$segment) {
             $this->validate_segment($segment, $ids);

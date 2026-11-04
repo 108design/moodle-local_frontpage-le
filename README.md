@@ -14,6 +14,10 @@ Managers with **Manage Frontpage pages** can edit content. **Publish Frontpage p
 
 The optional **Frontpage Course Activity** plugin uses this document engine for pages in a course. Install it separately in `mod/frontpage`. Teachers edit in the activity’s own context; native course access, availability and completion remain in effect.
 
+Open **Activity navigation** in the course activity editor to choose whether linked activities show Previous and Next, and whether the sequence ends at the Frontpage overview or continues in the course. Save the draft and publish it to apply the settings. The sequence follows accessible references in the published page and its Grids; repeated references count once. A separate return link opens the original card.
+
+Moodle 5.3 uses its native navigation components and offers the course setting where the format supports it. Moodle 4.5 to 5.2 use a compatible footer and retain completion in the activity header. Native activity forms keep their own workflow. Course-level links leave the Frontpage sequence. Draft and historical previews use ordinary activity links.
+
 ## Resources and recovery
 
 Choose an existing activity from the same course, or open Moodle’s activity chooser with **Create Activity or Resource**. Removing a segment removes its reference; the activity and its user data remain.

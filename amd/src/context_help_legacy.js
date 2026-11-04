@@ -88,9 +88,10 @@ export const init = config => {
         if (button && !panel.hidden) { hide(); return; }
         const popover = link?.closest('.popover');
         // Moodle 5.3 describes the popover body, rather than its outer wrapper.
-        const describedId = popover?.querySelector('.popover-body')?.id || popover?.id;
-        const icon = describedId
-            ? document.querySelector(`.help-icon[aria-describedby="${CSS.escape(describedId)}"]`) : null;
+        const describedIds = [popover?.id, popover?.querySelector('.popover-body')?.id].filter(Boolean);
+        const icon = [...document.querySelectorAll('.help-icon[aria-describedby]')]
+            .find(candidate => candidate.getAttribute('aria-describedby').split(/\s+/)
+                .some(id => describedIds.includes(id)));
         const trigger = button || icon || document.querySelector('[data-frontpage-help-open]');
         if (topic) {
             jQuery('.local-frontpage-context-help-icon').popover('hide');

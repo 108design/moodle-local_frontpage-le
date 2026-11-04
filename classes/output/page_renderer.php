@@ -298,6 +298,10 @@ final class page_renderer {
                 unset($USER->editing);
             }
         }
+        if (!$this->showdisabled && $this->frontpage?->ownercomponent === 'mod_frontpage') {
+            $cardhtml = \local_frontpage\local\activity_navigation::launch_links(
+                $cardhtml, $cm, (int) $this->context->instanceid);
+        }
         return $this->output->render_from_template('local_frontpage/segment_course_module', [
             'id' => $segment['id'],
             'cmid' => $cm->id,

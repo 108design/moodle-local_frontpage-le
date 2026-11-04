@@ -6,6 +6,10 @@
  */
 defined('MOODLE_INTERNAL') || die();
 $callbacks=[
+    ['hook'=>\core\hook\output\before_http_headers::class,
+        'callback'=>[\local_frontpage\local\activity_navigation::class,'prepare']],
+    ['hook'=>\core\hook\output\before_footer_html_generation::class,
+        'callback'=>[\local_frontpage\local\activity_navigation::class,'footer'],'priority'=>200],
     ['hook'=>\core\hook\output\before_http_headers::class,'callback'=>[\local_frontpage\local\hook_callbacks::class,'before_http_headers']],
     ['hook'=>\core\hook\output\before_standard_footer_html_generation::class,'callback'=>[\local_frontpage\local\hook_callbacks::class,'footer']],
 ];

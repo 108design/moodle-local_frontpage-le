@@ -12,6 +12,7 @@ final class context_help {
         'pages'=>['publication','assignments','backup'],
         'pluginsettings'=>['assignments','backup'],
         'editor'=>['editing','publication','files','activities','pagecss'],
+        'activitynavigation'=>['activitynavigation','publication','activities'],
         'segmentsettings'=>['editing','grid','activities','files'],
         'revisionhistory'=>['history','publication'],
         'pagefiles'=>['files','publication'],

@@ -23,6 +23,10 @@ if($assigned&&has_capability($page->ownercomponent==='mod_frontpage'?'mod/frontp
 if(!$assigned){$primary.=authoring::link(new moodle_url('/local/frontpage/preferences.php'),get_string('publishassignmentrequired','local_frontpage'),'i/settings');}
 $primary.=authoring::link(new moodle_url('/local/frontpage/view.php',['id'=>$id,'preview'=>1]),get_string('previewdraft','local_frontpage'),'i/preview');
 $tools='';
+if ($page->ownercomponent === 'mod_frontpage') {
+    $tools .= authoring::link(new moodle_url('/local/frontpage/activity_navigation.php', ['id' => $id]),
+        get_string('activitynavigation', 'local_frontpage'), 'i/settings', true);
+}
 if(page_access::can_edit_css($page)){
     $tools.=authoring::link(new moodle_url('/local/frontpage/page_css.php',['id'=>$id]),get_string('pagecss','local_frontpage'),'e/source_code',true);
 }

@@ -1,0 +1,30 @@
+/* Copyright 2026 Andreas Giesen. Use under the Software License in LICENSE.md. */
+body.local-frontpage-activity-navigation-active .activity-navigation {
+    display: none;
+}
+.local-frontpage-activity-navigation-row {
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+}
+.local-frontpage-activity-navigation-row > .course-linear-navigation-footer-content,
+.local-frontpage-activity-navigation-legacy {
+    flex: 1 1 20rem;
+    width: auto !important;
+    min-width: min(100%, 20rem);
+    max-width: 100%;
+    column-gap: 1rem;
+}
+.local-frontpage-activity-navigation-row > a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+.local-frontpage-activity-navigation-row > .local-frontpage-activity-navigation-return {
+    margin-inline-start: auto !important;
+    margin-inline-end: 0 !important;
+}
+.stickyfooter:has(.local-frontpage-activity-navigation-row) .sticky-footer-content-wrapper {
+    height: auto;
+    min-height: 4.5rem;
+    padding-block: .5rem;
+}

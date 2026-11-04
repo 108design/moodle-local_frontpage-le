@@ -1,0 +1,22 @@
+{{!
+    @template local_frontpage/activity_navigation_legacy
+    Native-looking activity sequence for Moodle versions without linear navigation.
+    Copyright 2026 Andreas Giesen. Use under the Software License in LICENSE.md.
+    Example context (json): {"previousurl":"/mod/page/view.php?id=1&fpnav=3","nexturl":"/mod/page/view.php?id=2&fpnav=3"}
+}}
+<div class="d-flex w-100 align-items-center local-frontpage-activity-navigation-legacy">
+    {{#previousurl}}
+        <a href="{{.}}" class="text-decoration-none d-inline-flex align-items-center">
+            <span class="dir-rtl-hide mr-1" aria-hidden="true">{{#pix}} e/backward, core {{/pix}}</span>
+            <span class="dir-ltr-hide ml-1" aria-hidden="true">{{#pix}} e/forward, core {{/pix}}</span>
+            {{#str}} previous, core {{/str}}
+        </a>
+    {{/previousurl}}
+    {{#nexturl}}
+        <a href="{{.}}" class="text-decoration-none d-inline-flex align-items-center ml-auto">
+            {{#str}} next, core {{/str}}
+            <span class="dir-rtl-hide ml-1" aria-hidden="true">{{#pix}} e/forward, core {{/pix}}</span>
+            <span class="dir-ltr-hide mr-1" aria-hidden="true">{{#pix}} e/backward, core {{/pix}}</span>
+        </a>
+    {{/nexturl}}
+</div>

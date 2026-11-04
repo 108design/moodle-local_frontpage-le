@@ -377,3 +377,24 @@ $string['currentpublication'] = 'Aktuell veröffentlicht';
 $string['previouspublication'] = 'Frühere Veröffentlichung';
 
 $string['draftcheckpoint'] = 'Entwurfsstand';
+
+$string['activitynavigationreturn'] = 'Zurück zu {$a}';
+$string['activitynavigation'] = 'Aktivitätsnavigation';
+$string['activitynavigationinherit'] = 'Kurseinstellung übernehmen';
+$string['activitynavigationmode'] = 'Lineare Navigation anzeigen';
+$string['activitynavigationmode_help'] = 'Ergänzt Moodle-typische Aktionen für Zurück und Weiter in Aktivitäten, die aus dieser eigenständigen Frontpage-Aktivität geöffnet werden. Ja und Nein überschreiben die Kurseinstellung. Übernehmen steht nur unter Moodle 5.3 mit einem Kursformat zur Verfügung, das die native lineare Navigation unterstützt. Ältere Versionen und andere Formate bieten Ja und Nein an. Die Änderung wirkt nach Veröffentlichung dieses Entwurfs. Breadcrumbs und der Rückweg zur Frontpage-Aktivität bleiben verfügbar.';
+$string['activitynavigationboundary'] = 'An den Grenzen der Frontpage-Sequenz';
+$string['activitynavigationboundaryfrontpage'] = 'Zur Frontpage-Übersicht zurückkehren';
+$string['activitynavigationboundarycourse'] = 'Im Kurs fortsetzen';
+$string['activitynavigationboundary_help'] = 'Die Reihenfolge folgt den zugänglichen Aktivitäten im veröffentlichten Frontpage-Layout, einschließlich Grids. Zur Frontpage-Übersicht zurückkehren schließt die Sequenz an beiden Enden. Im Kurs fortsetzen ermittelt den vorherigen oder nächsten Kursinhalt anhand der Position dieser Frontpage-Aktivität im Kurs. An der Kursgrenze führt der Weg zum Kurs. Verborgene, nicht zugängliche und verwaltete Ressourcenaktivitäten werden übersprungen.';
+$string['activitynavigationpreviousoverview'] = 'Anfang der Frontpage-Sequenz · Übersicht';
+$string['activitynavigationnextoverview'] = 'Ende der Frontpage-Sequenz · Übersicht';
+$string['activitynavigationpreviouscourse'] = 'Im Kurs zurück';
+$string['activitynavigationnextcourse'] = 'Im Kurs weiter';
+
+$string['pagehelp_activitynavigation_title'] = 'Aktivitätsnavigation';
+$string['pagehelp_activitynavigation'] = 'Aktivitätsnavigation';
+$string['pagehelp_activitynavigation_help'] = 'Der veröffentlichten Aktivitätsreihenfolge folgen und zur Frontpage-Karte zurückkehren.';
+$string['pagehelp_activitynavigation_article'] = '<p>Öffne Aktivitätsnavigation im Editor der Kursaktivität. Speichere den Entwurf und veröffentliche ihn anschließend, damit die Einstellungen wirken. Zurück und Weiter folgen den zugänglichen Aktivitäten auf der veröffentlichten Seite und in ihren Grids. Deaktivierte Segmente und wiederholte Referenzen erzeugen keine zusätzlichen Schritte.</p><p>Ja und Nein überschreiben die Kurseinstellung. Moodle-5.3-Formate mit nativer linearer Navigation bieten zusätzlich Übernehmen an. Ältere Versionen zeigen eine entsprechende Fußleiste; der Abschluss bleibt im nativen Aktivitätskopf. Aktivitäten mit eigener Fußleiste behalten diese.</p><p>An beiden Enden kannst Du zur Frontpage-Übersicht zurückkehren oder von der ursprünglichen Position der Frontpage-Aktivität im Kurs aus fortfahren. Der technische Ressourcenabschnitt wird übersprungen. Der zusätzliche Rücklink öffnet die ursprüngliche Karte. Normale Kurslinks verlassen diese Sequenz. Entwurfs- und historische Vorschauen starten keine veröffentlichte Sequenz.</p>';
+
+$string['activitynavigationbacktocourse'] = 'Zurück zum Kurs';
