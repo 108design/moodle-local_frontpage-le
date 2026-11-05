@@ -1,32 +1,66 @@
 <?php
 /**
+ * Conservatively validates a single CSS colour value for an inline custom property.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
 
 use invalid_parameter_exception;
 
-/** Conservatively validates a single CSS colour value for an inline custom property. */
+/**
+ * Conservatively validates a single CSS colour value for an inline custom property.
+ */
 final class color_value {
+    /**
+     * Default accent.
+     */
     public const DEFAULT_ACCENT = 'oklch(29.944% 0.07773 294.90)';
+    /**
+     * Default neutral.
+     */
     public const DEFAULT_NEUTRAL = 'oklch(93.575% 0.00804 286.24)';
+    /**
+     * Text dark.
+     */
     public const TEXT_DARK = 'oklch(26.209% 0.00949 248.19)';
+    /**
+     * Text light.
+     */
     public const TEXT_LIGHT = 'oklch(100% 0 0)';
 
+    /**
+     * Validate and normalise a supported CSS colour value.
+     *
+     * @param string $value Input value to process.
+     * @return string
+     */
     public static function normalise(string $value): string {
         $value = strtolower(trim($value));
-        if ($value === '' || strlen($value) > 120
-                || preg_match('/[;{}\\"\'@]/', $value)
+        if (
+            $value === '' || strlen($value) > 120 || preg_match('/[;{}\\"\'@]/', $value)
                 || preg_match('/(?:url|var)\s*\(/', $value)
-                || !preg_match('/^(?:#[0-9a-f]{3,8}|[a-z]+|(?:rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch|color|color-mix)\([0-9a-z.%+\-\/(),\s]+\))$/', $value)) {
+
+            || !preg_match(
+                ('/^(?:#[0-9a-f]{3,8}|[a-z]+|(?:rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch|color|color-mix)'
+                    . '\([0-9a-z.%+\-\/(),\s]+\))$/'),
+                $value
+            )
+        ) {
             throw new invalid_parameter_exception('The custom colour is not a supported CSS colour value.');
         }
         return preg_replace('/\s+/', ' ', $value);
     }
 
-    /** Normalise the two editable formats exposed by the shared colour picker. */
+    /**
+     * Normalise the two editable formats exposed by the shared colour picker.
+     *
+     * @param string $value Input value to process.
+     * @return string
+     */
     public static function normalise_picker_value(string $value): string {
         $value = self::normalise($value);
         if (preg_match('/^#[0-9a-f]{3}$/', $value)) {
@@ -41,7 +75,12 @@ final class color_value {
         return $value;
     }
 
-    /** Choose a readable monochrome foreground for a picker colour. */
+    /**
+     * Choose a readable monochrome foreground for a picker colour.
+     *
+     * @param string $value Input value to process.
+     * @return string
+     */
     public static function contrasting_text_colour(string $value): string {
         $value = self::normalise_picker_value($value);
         if (str_starts_with($value, '#')) {
@@ -59,7 +98,12 @@ final class color_value {
         return $lightness >= 0.68 ? self::TEXT_DARK : self::TEXT_LIGHT;
     }
 
-    /** Derive a strongly contrasting foreground while retaining a small tint of the source colour. */
+    /**
+     * Derive a strongly contrasting foreground while retaining a small tint of the source colour.
+     *
+     * @param string $value Input value to process.
+     * @return string
+     */
     public static function contrasting_tinted_text_colour(string $value): string {
         $value = self::normalise_picker_value($value);
         $contrast = self::contrasting_text_colour($value);

@@ -1,29 +1,93 @@
 <?php
 /**
+ * Prepare the native page shell and editor navigation.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
+
+/**
+ * Prepare the native page shell and editor navigation.
+ */
 final class screen {
-    public static function start(\moodle_url $url, string $title, string $help, ?\stdClass $page=null): void {
+    /**
+     * Prepare the native page URL, context and editor shell.
+     *
+     * @param \moodle_url $url Local or validated destination URL.
+     * @param string $title Display title.
+     * @param string $help Help.
+     * @param \stdClass|null $page Page record or native page context.
+     * @return void
+     */
+    public static function start(\moodle_url $url, string $title, string $help, ?\stdClass $page = null): void {
         global $PAGE;
-        $PAGE->set_url($url);$PAGE->set_title($title);$PAGE->set_heading($title);
-        if ($page && $page->ownercomponent==='mod_frontpage') {
-            $context=page_access::context($page);
-            $cm=get_coursemodule_from_id('frontpage',$context->instanceid,0,false,MUST_EXIST);
-            $PAGE->set_cm($cm,get_course($cm->course));$PAGE->set_pagelayout('incourse');
-        } else {$PAGE->set_context(\context_system::instance());$PAGE->set_pagelayout('admin');
-            if($url->get_path()!=='/local/frontpage/pages.php'){$PAGE->navbar->add(get_string('pluginname','local_frontpage'),new \moodle_url('/local/frontpage/pages.php'));}
+        $PAGE->set_url($url);
+        $PAGE->set_title($title);
+        $PAGE->set_heading($title);
+        if ($page && $page->ownercomponent === 'mod_frontpage') {
+            $context = page_access::context($page);
+            $cm = get_coursemodule_from_id('frontpage', $context->instanceid, 0, false, MUST_EXIST);
+            $PAGE->set_cm($cm, get_course($cm->course));
+            $PAGE->set_pagelayout('incourse');
+        } else {
+            $PAGE->set_context(\context_system::instance());
+            $PAGE->set_pagelayout('admin');
+            if ($url->get_path() !== '/local/frontpage/pages.php') {
+                $PAGE->navbar->add(
+                    get_string('pluginname', 'local_frontpage'),
+                    new \moodle_url('/local/frontpage/pages.php')
+                );
+            }
         }
         \local_frontpage\output\context_help::prepare($help);
     }
+    /**
+     * Render the native editor navigation tabs.
+     *
+     * @param string $active Active route or navigation key.
+     * @return string
+     */
     public static function tabs(string $active): string {
-        return print_tabs([[new \tabobject('pages',new \moodle_url('/local/frontpage/pages.php'),\local_frontpage\output\authoring::icon('fa/sitemap').get_string('pages','local_frontpage'),get_string('pages','local_frontpage'),true),
-            new \tabobject('settings',new \moodle_url('/local/frontpage/preferences.php'),\local_frontpage\output\authoring::icon('fa/gear').get_string('settings'),get_string('settings'),true)]],$active,null,null,true);
+        return print_tabs(
+            [
+            [
+            new \tabobject(
+                'pages',
+                new \moodle_url('/local/frontpage/pages.php'),
+                \local_frontpage\output\authoring::icon('fa/sitemap')
+                . get_string('pages', 'local_frontpage'),
+                get_string('pages', 'local_frontpage'),
+                true
+            ),
+
+            new \tabobject(
+                'settings',
+                new \moodle_url('/local/frontpage/preferences.php'),
+                \local_frontpage\output\authoring::icon('fa/gear') . get_string('settings'),
+                get_string('settings'),
+                true
+            ),
+            ],
+            ],
+            $active,
+            null,
+            null,
+            true
+        );
     }
-    public static function button(\moodle_url $url, string $label, array $params=[]): string {
+    /**
+     * Render a native action button with its label and attributes.
+     *
+     * @param \moodle_url $url Local or validated destination URL.
+     * @param string $label Accessible control label.
+     * @param array $params Validated parameters for the operation.
+     * @return string
+     */
+    public static function button(\moodle_url $url, string $label, array $params = []): string {
         global $OUTPUT;
-        return $OUTPUT->single_button(new \moodle_url($url,$params),$label,'post');
+        return $OUTPUT->single_button(new \moodle_url($url, $params), $label, 'post');
     }
 }

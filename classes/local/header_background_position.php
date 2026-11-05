@@ -1,25 +1,45 @@
 <?php
 /**
+ * Validates preset and percentage-based header background positions.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
 
 use invalid_parameter_exception;
 
-/** Validates preset and percentage-based header background positions. */
+/**
+ * Validates preset and percentage-based header background positions.
+ */
 final class header_background_position {
+    /**
+     * Inherit.
+     */
     public const INHERIT = 'inherit';
+    /**
+     * Custom.
+     */
     public const CUSTOM = 'custom';
 
     /**
      * Normalise one position and its optional percentage coordinates.
      *
      * @return array{mode:string,x:string,y:string}
+     *
+     * @param string $mode Supported presentation or operation mode.
+     * @param string $x X.
+     * @param string $y Y.
+     * @param bool $allowinherit Allowinherit.
      */
-    public static function normalise(string $mode, string $x = '', string $y = '',
-            bool $allowinherit = false): array {
+    public static function normalise(
+        string $mode,
+        string $x = '',
+        string $y = '',
+        bool $allowinherit = false
+    ): array {
         $allowed = ['center', 'top', 'bottom', self::CUSTOM];
         if ($allowinherit) {
             array_unshift($allowed, self::INHERIT);
@@ -37,7 +57,12 @@ final class header_background_position {
         ];
     }
 
-    /** Normalise a unitless percentage coordinate between 0 and 100. */
+    /**
+     * Normalise a unitless percentage coordinate between 0 and 100.
+     *
+     * @param string $value Input value to process.
+     * @return string
+     */
     private static function normalise_coordinate(string $value): string {
         $value = trim($value);
         if (!preg_match('/^(?:\d{1,3})(?:\.\d{1,6})?$/', $value)) {

@@ -1,9 +1,12 @@
 <?php
 /**
+ * Open the native activity form from a page resource request.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
@@ -39,22 +42,51 @@ if ($pagecm) {
 }
 require_capability('moodle/course:manageactivities', context_course::instance($course->id));
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $modname === '') {
-    \local_frontpage\local\screen::start(new moodle_url('/local/frontpage/activity_create.php', $_GET),get_string('createfrontpageresource','local_frontpage'),'resources',$page);
+    \local_frontpage\local\screen::start(
+        new moodle_url('/local/frontpage/activity_create.php', $_GET),
+        get_string('createfrontpageresource', 'local_frontpage'),
+        'resources',
+        $page
+    );
     \local_frontpage\output\context_help::prepare('resources');
     echo $OUTPUT->header();
-    echo $OUTPUT->confirm(get_string('confirmresourcecreate', 'local_frontpage'),
-        new single_button(new moodle_url('/local/frontpage/activity_create.php', ['pageid'=>$pageid, 'segmentid'=>$segmentid,
-            'baserevisionid'=>$baserevisionid,'baseversion'=>$baseversion]), get_string('continue'), 'post'),
-        page_url::get_edit_url($page));
-    echo $OUTPUT->footer(); exit;
+    echo $OUTPUT->confirm(
+        get_string('confirmresourcecreate', 'local_frontpage'),
+        new single_button(
+            new moodle_url(
+                '/local/frontpage/activity_create.php',
+                [
+                'pageid' => $pageid,
+                'segmentid' => $segmentid,
+
+                'baserevisionid' => $baserevisionid, 'baseversion' => $baseversion,
+                ]
+            ),
+            get_string('continue'),
+            'post'
+        ),
+        page_url::get_edit_url($page)
+    );
+    echo $OUTPUT->footer();
+    exit;
 }
 require_sesskey();
-$section = $_SERVER['REQUEST_METHOD']==='POST'
-    ?course_resource_manager::ensure_section((int)$course->id):course_resource_manager::get_section((int)$course->id);
-if(!$section){throw new invalid_parameter_exception('Open the activity chooser from the editor.');}
+$section = $_SERVER['REQUEST_METHOD'] === 'POST'
+    ? course_resource_manager::ensure_section((int)$course->id) : course_resource_manager::get_section((int)$course->id);
+if (!$section) {
+    throw new invalid_parameter_exception('Open the activity chooser from the editor.');
+}
 
-$params = compact('pageid', 'segmentid', 'insertbefore', 'placement', 'baserevisionid', 'baseversion',
-    'returntosegment', 'segmentexisted');
+$params = compact(
+    'pageid',
+    'segmentid',
+    'insertbefore',
+    'placement',
+    'baserevisionid',
+    'baseversion',
+    'returntosegment',
+    'segmentexisted'
+);
 $url = new moodle_url('/local/frontpage/activity_create.php', $params);
 if ($pagecm) {
     $PAGE->set_cm($pagecm, $course);
@@ -83,7 +115,7 @@ if ($modname !== '') {
         throw new invalid_parameter_exception('The selected activity type is unavailable.');
     }
     require_capability('mod/' . $modname . ':addinstance', context_course::instance($course->id));
-    $token=activity_return::begin([
+    $token = activity_return::begin([
         'mode' => 'create',
         'pageid' => $pageid,
         'segmentid' => $segmentid,
@@ -104,7 +136,7 @@ if ($modname !== '') {
         'sectionid' => $section->id,
         'section' => $section->section,
         'return' => 0,
-        'frontpagereturntoken'=>$token,
+        'frontpagereturntoken' => $token,
     ]));
 }
 
@@ -128,6 +160,9 @@ echo $OUTPUT->render_from_template(core_compatibility::activity_chooser_template
     'hasactionlinks' => false,
 ]);
 echo html_writer::end_div();
-echo html_writer::div(html_writer::link(page_url::get_edit_url($page), get_string('cancel'),
-    ['class' => 'btn btn-secondary']), 'mt-3');
+echo html_writer::div(html_writer::link(
+    page_url::get_edit_url($page),
+    get_string('cancel'),
+    ['class' => 'btn btn-secondary']
+), 'mt-3');
 echo $OUTPUT->footer();

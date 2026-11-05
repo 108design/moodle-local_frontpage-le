@@ -1,54 +1,112 @@
 <?php
 /**
+ * Typed Hero background size and focus shared by page forms.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
 
-/** Typed Hero background size and focus shared by page forms. */
+/**
+ * Typed Hero background size and focus shared by page forms.
+ */
 final class hero_media_presentation {
+    /**
+     * Fields.
+     */
     public const FIELDS = ['backgroundsizevalue', 'backgroundpositionx', 'backgroundpositiony'];
+    /**
+     * Positions.
+     */
     public const POSITIONS = ['center' => [50, 50], 'top' => [50, 0], 'bottom' => [50, 100],
         'left' => [0, 50], 'right' => [100, 50], 'top_left' => [0, 0], 'top_right' => [100, 0],
         'bottom_left' => [0, 100], 'bottom_right' => [100, 100]];
 
+    /**
+     * Normalise the supported media sizing option.
+     *
+     * @param string $value Input value to process.
+     * @return string
+     */
     public static function size(string $value): string {
         $parts = preg_split('/\s+/', strtolower(trim($value)));
-        if (count($parts) < 1 || count($parts) > 2) { self::invalid_size(); }
+        if (count($parts) < 1 || count($parts) > 2) {
+            self::invalid_size();
+        }
         foreach ($parts as $part) {
-            if ($part !== 'auto' && (!preg_match('/^([0-9]{1,6}(?:\.[0-9]{1,6})?|\.[0-9]{1,6})(px|rem|em|%|vw|vh|vmin|vmax)$/D', $part, $m)
-                    || (float) $m[1] <= 0)) { self::invalid_size(); }
+            if (
+                $part !== 'auto'
+                && (
+                !preg_match(
+                    '/^([0-9]{1,6}(?:\.[0-9]{1,6})?|\.[0-9]{1,6})(px|rem|em|%|vw|vh|vmin|vmax)$/D',
+                    $part,
+                    $m
+                )
+                    || (float) $m[1] <= 0
+                )
+            ) {
+                self::invalid_size();
+            }
         }
         return implode(' ', $parts);
     }
 
+    /**
+     * Raise the validation error for an unsupported media size.
+     *
+     * @return never
+     */
     private static function invalid_size(): never {
         throw new \invalid_parameter_exception(get_string('herobackgroundsizeinvalid', 'local_frontpage'));
     }
 
+    /**
+     * Validate and normalise the supplied value.
+     *
+     * @param array $props Validated segment properties.
+     * @return array
+     */
     public static function normalise(array $props): array {
         foreach (self::FIELDS as $field) {
-            if (isset($props[$field]) && !is_string($props[$field])) { self::invalid_size(); }
+            if (isset($props[$field]) && !is_string($props[$field])) {
+                self::invalid_size();
+            }
         }
         if (($props['backgroundsize'] ?? '') === 'custom') {
             $props['backgroundsizevalue'] = self::size($props['backgroundsizevalue'] ?? '');
-        } else { unset($props['backgroundsizevalue']); }
+        } else {
+            unset($props['backgroundsizevalue']);
+        }
         if (($props['backgroundposition'] ?? '') === 'custom') {
-            $p = header_background_position::normalise('custom', $props['backgroundpositionx'] ?? '', $props['backgroundpositiony'] ?? '');
-            $props['backgroundpositionx'] = $p['x']; $props['backgroundpositiony'] = $p['y'];
-        } else { unset($props['backgroundpositionx'], $props['backgroundpositiony']); }
+            $p = header_background_position::normalise(
+                'custom',
+                $props['backgroundpositionx'] ?? '',
+                $props['backgroundpositiony'] ?? ''
+            );
+            $props['backgroundpositionx'] = $p['x'];
+            $props['backgroundpositiony'] = $p['y'];
+        } else {
+            unset($props['backgroundpositionx'], $props['backgroundpositiony']);
+        }
         return $props;
     }
 
-    
 
-    
 
-    
 
-    
 
+
+
+
+
+    /**
+     * Return inline styles derived from the validated presentation settings.
+     *
+     * @param array $props Validated segment properties.
+     * @return string
+     */
     public static function style(array $props): string {
         $props = self::normalise($props);
         $mode = $props['backgroundsize'] ?? 'cover';

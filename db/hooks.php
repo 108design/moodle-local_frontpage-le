@@ -1,21 +1,32 @@
 <?php
 /**
+ * Native hook registrations for Frontpage.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 defined('MOODLE_INTERNAL') || die();
-$callbacks=[
-    ['hook'=>\core\hook\output\before_http_headers::class,
-        'callback'=>[\local_frontpage\local\activity_navigation::class,'prepare']],
-    ['hook'=>\core\hook\output\before_footer_html_generation::class,
-        'callback'=>[\local_frontpage\local\activity_navigation::class,'footer'],'priority'=>200],
-    ['hook'=>\core\hook\output\before_http_headers::class,'callback'=>[\local_frontpage\local\hook_callbacks::class,'before_http_headers']],
-    ['hook'=>\core\hook\output\before_standard_footer_html_generation::class,'callback'=>[\local_frontpage\local\hook_callbacks::class,'footer']],
+$callbacks = [
+    ['hook' => \core\hook\output\before_http_headers::class,
+        'callback' => [\local_frontpage\local\activity_navigation::class, 'prepare']],
+    ['hook' => \core\hook\output\before_footer_html_generation::class,
+        'callback' => [\local_frontpage\local\activity_navigation::class, 'footer'], 'priority' => 200],
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+         'callback' => [ \local_frontpage\local\hook_callbacks::class, 'before_http_headers' ],
+    ],
+
+    [
+        'hook' => \core\hook\output\before_standard_footer_html_generation::class,
+         'callback' => [ \local_frontpage\local\hook_callbacks::class, 'footer' ],
+    ],
+
 ];
 
 // Product identity on native administration and upgrade surfaces.
-$callbacks[] = ['hook'=>\core\hook\output\before_standard_head_html_generation::class,
-    'callback'=>[\local_frontpage\local\admin_branding::class,'head']];
-$callbacks[] = ['hook'=>\core\hook\output\before_http_headers::class,
-    'callback'=>[\local_frontpage\local\admin_branding::class,'prepare']];
+$callbacks[] = ['hook' => \core\hook\output\before_standard_head_html_generation::class,
+    'callback' => [\local_frontpage\local\admin_branding::class, 'head']];
+$callbacks[] = ['hook' => \core\hook\output\before_http_headers::class,
+    'callback' => [\local_frontpage\local\admin_branding::class, 'prepare']];

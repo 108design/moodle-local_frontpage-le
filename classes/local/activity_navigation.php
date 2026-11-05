@@ -1,4 +1,12 @@
 <?php
+/**
+ * Viewer-specific navigation within a published standalone Frontpage activity.
+ *
+ * @package local_frontpage
+ * @copyright 2026 Andreas Giesen <andreas@108design.com>
+ * @license 108design source-available software license; see LICENSE.md
+ */
+
 // This file is part of a 108design source-available software product.
 // Copyright (C) 2026 Andreas Giesen <andreas@108design.com>.
 // Use and modification are permitted only under the Software License in LICENSE.md.
@@ -7,12 +15,22 @@ namespace local_frontpage\local;
 use local_frontpage\local\persistence\page_repository;
 use moodle_url;
 
-/** Viewer-specific navigation within a published standalone Frontpage activity. */
+/**
+ * Viewer-specific navigation within a published standalone Frontpage activity.
+ */
 final class activity_navigation {
-    /** An origin identifier is a navigation hint, never an access grant. No session-wide current origin is stored. */
+    /**
+     * An origin identifier is a navigation hint, never an access grant. No session-wide current origin is stored.
+     */
     public const PARAM = 'fpnav';
 
-    /** Resolve the currently published, accessible sequence on every request. */
+    /**
+     * Resolve the currently published, accessible sequence on every request.
+     *
+     * @param int $originid Originating Frontpage course-module ID.
+     * @param \cm_info $current Current native course module.
+     * @return array|null
+     */
     public static function resolve(int $originid, \cm_info $current): ?array {
         global $DB;
 
@@ -22,23 +40,29 @@ final class activity_navigation {
         try {
             $modinfo = $current->get_modinfo();
             $origin = $modinfo->get_cm($originid);
-            if ($origin->modname !== 'frontpage' || !$origin->uservisible
-                    || !has_capability('mod/frontpage:view', $origin->context)) {
+            if (
+                $origin->modname !== 'frontpage' || !$origin->uservisible
+                    || !has_capability('mod/frontpage:view', $origin->context)
+            ) {
                 return null;
             }
             $instance = $DB->get_record('frontpage', ['id' => $origin->instance], '*', MUST_EXIST);
             $repository = new page_repository($DB);
             $page = $repository->get_page((int) $instance->pageid);
-            if (($page->ownercomponent ?? '') !== 'mod_frontpage'
+            if (
+                ($page->ownercomponent ?? '') !== 'mod_frontpage'
                     || (int) $page->ownerinstanceid !== (int) $origin->instance
                     || (int) page_access::context($page)->instanceid !== $originid
-                    || !page_access::can_view_published($page)) {
+                    || !page_access::can_view_published($page)
+            ) {
                 return null;
             }
             $revision = $repository->get_revision((int) $page->id, (int) $page->publishedrevisionid);
             $document = json_decode($revision->documentjson, true, 512, JSON_THROW_ON_ERROR);
-            $segments = self::ordered_segments($document,
-                static fn(array $segment): bool => $segment['props']['enabled'] ?? true);
+            $segments = self::ordered_segments(
+                $document,
+                static fn(array $segment): bool => $segment['props']['enabled'] ?? true
+            );
             $entries = [];
             foreach ($segments as $segment) {
                 $cmid = (int) ($segment['props']['cmid'] ?? 0);
@@ -86,14 +110,30 @@ final class activity_navigation {
         }
     }
 
-    /** Resolve a sequence boundary from the original FP course position, never its resource section. */
-    public static function boundary(\cm_info $origin, string $direction, array $settings, moodle_url $returnurl): array {
+    /**
+     * Resolve a sequence boundary from the original FP course position, never its resource section.
+     *
+     * @param \cm_info $origin Originating Frontpage course module.
+     * @param string $direction Requested movement direction.
+     * @param array $settings Validated settings.
+     * @param moodle_url $returnurl Local URL to return to.
+     * @return array
+     */
+    public static function boundary(
+        \cm_info $origin,
+        string $direction,
+        array $settings,
+        moodle_url $returnurl
+    ): array {
         if (!in_array($direction, ['previous', 'next'], true)) {
             throw new \coding_exception('Invalid Frontpage navigation direction.');
         }
         if ($settings['boundary'] === 'frontpage') {
             $overview = new moodle_url('/mod/frontpage/view.php', ['id' => $origin->id]);
-            return ['url' => $overview, 'label' => get_string('activitynavigation' . $direction . 'overview', 'local_frontpage')];
+            return [
+            'url' => $overview,
+            'label' => get_string('activitynavigation' . $direction . 'overview', 'local_frontpage'),
+            ];
         }
         $courseurl = new moodle_url('/course/view.php', ['id' => $origin->course]);
         $modinfo = $origin->get_modinfo();
@@ -107,8 +147,10 @@ final class activity_navigation {
                 if ($index !== false) {
                     for ($i = $index + $step; isset($cms[$i]); $i += $step) {
                         $cm = $cms[$i];
-                        if ($cm->uservisible && $cm->is_visible_on_course_page() && $cm->get_navigation_url()
-                                && \course_modinfo::is_mod_type_visible_on_course($cm->modname)) {
+                        if (
+                            $cm->uservisible && $cm->is_visible_on_course_page() && $cm->get_navigation_url()
+                                && \course_modinfo::is_mod_type_visible_on_course($cm->modname)
+                        ) {
                             return ['url' => new moodle_url($cm->get_navigation_url()),
                                 'label' => get_string('activitynavigation' . $direction . 'course', 'local_frontpage')];
                         }
@@ -121,11 +163,17 @@ final class activity_navigation {
                 }
                 if ($adjacent) {
                     // Preserve native section landing semantics, skipping the ordinary technical resources section.
-                    return ['url' => course_get_url($modinfo->get_course(),
-                        $direction === 'next' ? $adjacent : $section, ['navigation' => true]),
+                    return ['url' => course_get_url(
+                        $modinfo->get_course(),
+                        $direction === 'next' ? $adjacent : $section,
+                        ['navigation' => true]
+                    ),
                         'label' => get_string('activitynavigation' . $direction . 'course', 'local_frontpage')];
                 }
-                return ['url' => $courseurl, 'label' => get_string('activitynavigationbacktocourse', 'local_frontpage')];
+                return [
+                'url' => $courseurl,
+                'label' => get_string('activitynavigationbacktocourse', 'local_frontpage'),
+                ];
             }
             // A missing parent is not a valid Core route origin.
             return ['url' => $courseurl, 'label' => get_string('activitynavigationbacktocourse', 'local_frontpage')];
@@ -145,9 +193,11 @@ final class activity_navigation {
         if ($index !== false) {
             for ($i = $index + $step; isset($ordered[$i]); $i += $step) {
                 $candidate = $modinfo->get_cm($ordered[$i]);
-                if (!$candidate->uservisible || !$candidate->is_visible_on_course_page() || !$candidate->url
+                if (
+                    !$candidate->uservisible || !$candidate->is_visible_on_course_page() || !$candidate->url
                         || (method_exists(\course_modinfo::class, 'is_mod_type_visible_on_course')
-                            && !\course_modinfo::is_mod_type_visible_on_course($candidate->modname))) {
+                            && !\course_modinfo::is_mod_type_visible_on_course($candidate->modname))
+                ) {
                     continue;
                 }
                 $url = new moodle_url($candidate->url);
@@ -158,7 +208,13 @@ final class activity_navigation {
         return ['url' => $courseurl, 'label' => get_string('activitynavigationbacktocourse', 'local_frontpage')];
     }
 
-    /** Follow the same top-level/reference Grid placement order as page_renderer. */
+    /**
+     * Follow the same top-level/reference Grid placement order as page_renderer.
+     *
+     * @param array $document Validated document data.
+     * @param callable $allows Allows.
+     * @return array
+     */
     public static function ordered_segments(array $document, callable $allows): array {
         $segments = $document['segments'] ?? [];
         $byid = array_column($segments, null, 'id');
@@ -182,39 +238,64 @@ final class activity_navigation {
         return $result;
     }
 
-    /** Keep the native activity URL and parameters, adding only the validated origin hint. */
+    /**
+     * Keep the native activity URL and parameters, adding only the validated origin hint.
+     *
+     * @param \cm_info $cm Native course-module record.
+     * @param int $originid Originating Frontpage course-module ID.
+     * @return moodle_url
+     */
     public static function url(\cm_info $cm, int $originid): moodle_url {
         $url = new moodle_url($cm->url);
         $url->param(self::PARAM, $originid);
         return $url;
     }
 
-    /** Add the origin to native activity-card launch links without mutating shared cm_info objects. */
+    /**
+     * Add the origin to native activity-card launch links without mutating shared cm_info objects.
+     *
+     * @param string $html Rendered HTML.
+     * @param \cm_info $cm Native course-module record.
+     * @param int $originid Originating Frontpage course-module ID.
+     * @return string
+     */
     public static function launch_links(string $html, \cm_info $cm, int $originid): string {
-        return preg_replace_callback('~(<a\b[^>]*\bhref=)(["\'])(.*?)\2~is',
-            static function(array $match) use ($cm, $originid): string {
+        return preg_replace_callback(
+            '~(<a\b[^>]*\bhref=)(["\'])(.*?)\2~is',
+            static function (array $match) use ($cm, $originid): string {
                 $raw = html_entity_decode($match[3], ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 try {
                     $url = new moodle_url($raw);
                 } catch (\moodle_exception) {
                     return $match[0];
                 }
-                if (!$url->compare($cm->url, URL_MATCH_BASE)
-                        || (int) $url->get_param('id') !== (int) $cm->url->get_param('id')) {
+                if (
+                    !$url->compare($cm->url, URL_MATCH_BASE)
+                        || (int) $url->get_param('id') !== (int) $cm->url->get_param('id')
+                ) {
                     return $match[0];
                 }
                 $url->param(self::PARAM, $originid);
                 return $match[1] . $match[2] . s($url->out(false)) . $match[2];
-            }, $html);
+            },
+            $html
+        );
     }
 
-    /** Obtain a context from this request, or a same-module referrer after a native form redirect. */
+    /**
+     * Obtain a context from this request, or a same-module referrer after a native form redirect.
+     *
+     * @param \moodle_page $page Page record or native page context.
+     * @return int
+     */
     public static function request_origin(\moodle_page $page): int {
         global $CFG;
 
         $origin = optional_param(self::PARAM, 0, PARAM_INT);
-        if (array_key_exists(self::PARAM, $_GET) || array_key_exists(self::PARAM, $_POST)
-                || !$page->cm || empty($_SERVER['HTTP_REFERER'])) {
+        if (
+            array_key_exists(self::PARAM, $_GET) || array_key_exists(self::PARAM, $_POST)
+                || !$page->cm || empty($_SERVER['HTTP_REFERER'])
+        ) {
             return $origin;
         }
         try {
@@ -224,14 +305,21 @@ final class activity_navigation {
         }
         $root = new moodle_url($CFG->wwwroot);
         $modulepath = $root->get_path() . '/mod/' . $page->cm->modname . '/';
-        if ($referrer->get_scheme() !== $root->get_scheme() || $referrer->get_host() !== $root->get_host()
-                || $referrer->get_port() !== $root->get_port() || !str_starts_with($referrer->get_path(), $modulepath)) {
+        if (
+            $referrer->get_scheme() !== $root->get_scheme() || $referrer->get_host() !== $root->get_host()
+                || $referrer->get_port() !== $root->get_port() || !str_starts_with($referrer->get_path(), $modulepath)
+        ) {
             return 0;
         }
         return (int) $referrer->get_param(self::PARAM);
     }
 
-    /** Prepare native breadcrumbs and propagation before header rendering. */
+    /**
+     * Prepare native breadcrumbs and propagation before header rendering.
+     *
+     * @param \core\hook\output\before_http_headers $hook Native Moodle output hook.
+     * @return void
+     */
     public static function prepare(\core\hook\output\before_http_headers $hook): void {
         if (during_initial_install()) {
             return;
@@ -244,9 +332,11 @@ final class activity_navigation {
         if (!$context) {
             // The 5.3 controller cannot navigate a delegated resource section with no parent.
             // Direct resource visits still render their normal header completion control.
-            if (method_exists($page, 'set_show_navigation_footer')
+            if (
+                method_exists($page, 'set_show_navigation_footer')
                     && $page->cm->get_section_info()->is_delegated()
-                    && $page->cm->get_section_info()->component === 'local_frontpage') {
+                    && $page->cm->get_section_info()->component === 'local_frontpage'
+            ) {
                 $page->set_show_navigation_footer(false);
             }
             return;
@@ -259,24 +349,44 @@ final class activity_navigation {
         $children = $page->navbar->children;
         $page->navbar->children = [];
         $page->navbar->ignore_active();
-        $page->navbar->add(format_string($page->course->shortname),
-            new moodle_url('/course/view.php', ['id' => $page->course->id]));
-        $page->navbar->add($origin->get_formatted_name(), new moodle_url('/mod/frontpage/view.php', ['id' => $origin->id]));
+        $page->navbar->add(
+            format_string($page->course->shortname),
+            new moodle_url('/course/view.php', ['id' => $page->course->id])
+        );
+        $page->navbar->add(
+            $origin->get_formatted_name(),
+            new moodle_url('/mod/frontpage/view.php', [ 'id' => $origin->id ])
+        );
         $page->navbar->add($page->cm->get_formatted_name(), self::url($page->cm, (int) $origin->id));
         foreach ($children as $child) {
-            $page->navbar->add($child->text, $child->action, $child->type, $child->shorttext, $child->key, $child->icon);
+            $page->navbar->add(
+                $child->text,
+                $child->action,
+                $child->type,
+                $child->shorttext,
+                $child->key,
+                $child->icon
+            );
         }
         $page->add_body_class('local-frontpage-activity-navigation-active');
         $page->requires->css(new moodle_url('/local/frontpage/activity_navigation.css'));
         $page->requires->js_call_amd('local_frontpage/activity_navigation', 'init', [[
             'origin' => (int) $origin->id, 'module' => $page->cm->modname,
             'returnurl' => $context['returnurl']->out(false),
-            'returnlabel' => get_string('activitynavigationreturn', 'local_frontpage',
-                html_to_text($origin->get_formatted_name(), 0, false)),
+            'returnlabel' => get_string(
+                'activitynavigationreturn',
+                'local_frontpage',
+                html_to_text($origin->get_formatted_name(), 0, false)
+            ),
         ]]);
     }
 
-    /** Render before the Core linear-navigation hook; rendering claims the single native sticky footer. */
+    /**
+     * Render before the Core linear-navigation hook; rendering claims the single native sticky footer.
+     *
+     * @param \core\hook\output\before_footer_html_generation $hook Native Moodle output hook.
+     * @return void
+     */
     public static function footer(\core\hook\output\before_footer_html_generation $hook): void {
         if (during_initial_install()) {
             return;
@@ -294,12 +404,17 @@ final class activity_navigation {
         if (method_exists($page, 'should_show_navigation_footer') && !$page->should_show_navigation_footer()) {
             return;
         }
-        if (!class_exists(\core_courseformat\local\linearnavigationsettings::class)
-                && !in_array(basename($page->url->get_path()), ['view.php', 'discuss.php'], true)) {
+        if (
+            !class_exists(\core_courseformat\local\linearnavigationsettings::class)
+                && !in_array(basename($page->url->get_path()), ['view.php', 'discuss.php'], true)
+        ) {
             return;
         }
         $content = (new \local_frontpage\output\activity_navigation($page->cm, $context))->render($hook->renderer);
-        $footer = new \core\output\sticky_footer($content, 'course-linear-navigation local-frontpage-activity-navigation');
+        $footer = new \core\output\sticky_footer(
+            $content,
+            'course-linear-navigation local-frontpage-activity-navigation'
+        );
         $hook->add_html($hook->renderer->render($footer));
     }
 }

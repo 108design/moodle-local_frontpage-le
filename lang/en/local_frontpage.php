@@ -6,6 +6,7 @@
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 $string['action_down'] = 'Move Down';
 $string['action_duplicate'] = 'Duplicate';
 $string['action_remove'] = 'Remove';
@@ -23,21 +24,33 @@ $string['backgroundsizecover'] = 'Crop to fill (cover)';
 $string['choosefrontpageresource'] = 'Choose from Frontpage resources';
 $string['cleanupresource'] = 'Review Deletion';
 $string['colourvalue'] = 'Custom Colour';
-$string['colourvalue_help'] = 'Enter a supported colour value, for example #334455. Select Custom in the corresponding colour field.';
+$string['colourvalue_help'] = ('Enter a supported colour value, for example #334455. Select Custom in the '
+    . 'corresponding colour field.');
 $string['componentpreviewdark'] = 'Dark';
 $string['componentpreviewlight'] = 'Light';
-$string['confirmattachresource'] = 'Return to the Frontpage draft and add the resource created in Moodle? If you cancelled the activity form, the draft stays as it is.';
-$string['confirmdeletepage'] = 'Delete this unassigned page, all its revisions and its files? Referenced Moodle activities and their user data remain in the course resource registry.';
-$string['confirmprune'] = 'Delete this retained revision and its files permanently? Its resource references will no longer protect activities. The current draft and publication remain protected.';
+$string['confirmattachresource'] = ('Return to the Frontpage draft and add the resource created in Moodle? If you '
+    . 'cancelled the activity form, the draft stays as it is.');
+$string['confirmdeletepage'] = ('Delete this unassigned page, all its revisions and its files? Referenced '
+    . 'Moodle activities and their user data remain in the course resource registry.');
+$string['confirmprune'] = ('Delete this retained revision and its files permanently? Its resource '
+    . 'references will no longer protect activities. The current draft and '
+    . 'publication remain protected.');
 $string['confirmpublish'] = 'Publish this draft for the assigned audience?';
 $string['confirmremove'] = 'Remove this segment from the draft? Referenced Moodle activities and their user data are retained.';
-$string['confirmresourcecleanup'] = 'Permanently delete this Moodle activity, including any attempts, submissions, grades and other activity data? Frontpage has found no retained references for at least 30 days. Check uses outside Frontpage before continuing.';
-$string['confirmresourcecreate'] = 'Open Moodle’s activity chooser to create a course resource? A dedicated resource section will be prepared in this course.';
+$string['confirmresourcecleanup'] = ('Permanently delete this Moodle activity, including any attempts, submissions, '
+    . 'grades and other activity data? Frontpage has found no retained references '
+    . 'for at least 30 days. Check uses outside Frontpage before continuing.');
+$string['confirmresourcecreate'] = ('Open Moodle’s activity chooser to create a course resource? A dedicated '
+    . 'resource section will be prepared in this course.');
 $string['contexthelptopics'] = 'Help Topics';
 $string['coursemodule'] = 'Activity or resource';
 $string['coursemodulechoicelabel'] = '{$a->type}: {$a->name}';
 $string['coursemoduleplaceholderfallback'] = 'Course activity';
-$string['coursemoduleplaceholdernotice'] = 'Activity placeholder: {$a}. This placeholder can only be assigned after the template has been inserted into a course. Then open the segment settings there to select an existing course activity or create a new one.';
+$string['coursemoduleplaceholdernotice'] = (
+        'Activity placeholder: {$a}. This placeholder can only be assigned after the '
+    . 'template has been inserted into a course. Then open the segment settings '
+    . 'there to select an existing course activity or create a new one.'
+    );
 $string['coursemoduleunavailable'] = 'The referenced activity or resource is unavailable in this course context.';
 $string['coursemoduleusedescription'] = 'Show the course-page description when available';
 $string['coursemodulewrongcontext'] = 'This segment can only be used by a course-owned Frontpage activity.';
@@ -46,15 +59,25 @@ $string['createpage'] = 'Create Page';
 $string['deletepage'] = 'Delete Page';
 $string['deleterevision'] = 'Delete Revision';
 $string['draft'] = 'Draft';
-$string['draftconflict'] = 'The draft has changed. Reopen the editor before saving. Your changes have not replaced the newer draft.';
+$string['draftconflict'] = ('The draft has changed. Reopen the editor before saving. Your changes have not '
+    . 'replaced the newer draft.');
 $string['draftnotice'] = 'Changes are saved in the draft. Publish when the page is ready for its audience.';
 $string['editcontent'] = 'Edit Content';
 $string['frontpage:managepages'] = 'Manage Frontpage pages and drafts';
 $string['frontpage:publishpages'] = 'Publish Frontpage page versions';
-$string['frontpageresourcecreatehelp'] = 'Select a normal Moodle activity type. Its standard settings form opens next, and saving or cancelling returns to this Frontpage card.';
-$string['frontpageresourcenotdeletable'] = 'This resource is referenced again, is still within its grace period, or is not owned by Frontpage. It was not deleted.';
+$string['frontpageresourcecreatehelp'] = (
+        'Select a normal Moodle activity type. Its standard settings form opens next, '
+    . 'and saving or cancelling returns to this Frontpage card.'
+    );
+$string['frontpageresourcenotdeletable'] = (
+        'This resource is referenced again, is still within its grace period, or is '
+    . 'not owned by Frontpage. It was not deleted.'
+    );
 $string['frontpageresourcessection'] = 'Frontpage resources';
-$string['frontpageresourcessectionsummary'] = '<p>This protected section contains activities and resources created for course Frontpage cards. Manage their placement from the Frontpage editor.</p>';
+$string['frontpageresourcessectionsummary'] = (
+        '<p>This protected section contains activities and resources created for '
+    . 'course Frontpage cards. Manage their placement from the Frontpage editor.</p>'
+    );
 $string['gridalignment'] = 'Vertical alignment';
 $string['gridcolumn'] = 'Column {$a}';
 $string['gridcolumns'] = 'Columns';
@@ -73,7 +96,9 @@ $string['gridstackautoheight'] = 'Use content height when columns stack';
 $string['gridstackbreakpoint'] = 'Stack columns below';
 $string['gridtemplate'] = 'Column proportions';
 $string['guestfrontpageid'] = 'Site Home for Guests';
-$string['guestfrontpageid_help'] = 'Choose native Site Home or one of up to five Frontpage pages. Only the guest and signed-in assignments can be published and viewed publicly. Changing an assignment makes the previous page private; its draft and revisions are kept.';
+$string['guestfrontpageid_help'] = ('Choose native Site Home or one of up to five Frontpage pages. Only the guest '
+    . 'and signed-in assignments can be published and viewed publicly. Changing an '
+    . 'assignment makes the previous page private; its draft and revisions are kept.');
 $string['headingcolor'] = 'Text colour';
 $string['headingcolorvalue'] = 'Heading colour';
 $string['headinglevel'] = 'Heading level';
@@ -86,8 +111,14 @@ $string['herobackgroundpositiony'] = 'Vertical focus (%)';
 $string['herobackgroundsize'] = 'Background size';
 $string['herobackgroundsizeinvalid'] = 'Enter one or two positive sizes with units or auto, e.g. 120% auto.';
 $string['herobackgroundsizevalue'] = 'Custom background size';
-$string['herobackgroundsizevalue_help'] = 'One or two positive sizes with units, e.g. 120% auto, 640px or 100% 100%. The first value sets the width, the second sets the height. The height defaults to auto.';
-$string['herocontentinvalid'] = 'Check the product mark and actions: use an HTTPS image URL or image alias, and provide both a label and a valid URL for each action. Actions allow https://, http://, /local-path or #anchor.';
+$string['herobackgroundsizevalue_help'] = (
+        'One or two positive sizes with units, e.g. 120% auto, 640px or 100% 100%. The '
+    . 'first value sets the width, the second sets the height. The height defaults '
+    . 'to auto.'
+    );
+$string['herocontentinvalid'] = ('Check the product mark and actions: use an HTTPS image URL or image alias, '
+    . 'and provide both a label and a valid URL for each action. Actions allow '
+    . 'https://, http://, /local-path or #anchor.');
 $string['herocontrast'] = 'Text contrast';
 $string['herocontrastvalue'] = 'Text colour';
 $string['heroeyebrow'] = 'Eyebrow';
@@ -115,7 +146,8 @@ $string['lengthvalue_help'] = 'Enter a supported CSS length such as 24px, 2rem o
 $string['linkexistingactivityadvanced'] = 'Link existing course activity (advanced)';
 $string['locktimeout'] = 'The page is busy. Please try again.';
 $string['loggedinfrontpageid'] = 'Site Home for Signed-in Users';
-$string['loggedinfrontpageid_help'] = 'The same page can serve guests and signed-in users. Disable Replace Site Home to return both groups to native Site Home.';
+$string['loggedinfrontpageid_help'] = ('The same page can serve guests and signed-in users. Disable Replace Site Home '
+    . 'to return both groups to native Site Home.');
 $string['mediaalt'] = 'Alternative text';
 $string['mediaaspect'] = 'Aspect ratio';
 $string['mediaaspectinvalid'] = 'Enter a positive aspect ratio, e.g. 21 / 9 or 1.5.';
@@ -123,7 +155,8 @@ $string['mediaaspectvalue'] = 'Custom aspect ratio';
 $string['mediaaspectvalue_help'] = 'Enter a positive ratio such as 21 / 9 or a decimal such as 1.5.';
 $string['mediacaption'] = 'Caption';
 $string['mediadecorative'] = 'Decorative image';
-$string['mediadecorative_help'] = 'Mark an image as decorative when it adds no information. Decorative images have empty alternative text. Describe meaningful images in Alternative Text.';
+$string['mediadecorative_help'] = ('Mark an image as decorative when it adds no information. Decorative images '
+    . 'have empty alternative text. Describe meaningful images in Alternative Text.');
 $string['mediafit'] = 'Image fit';
 $string['mediafitinvalid'] = 'Select a valid image fit.';
 $string['mediafitvalue'] = 'Custom image fit';
@@ -218,45 +251,100 @@ $string['option_xl'] = '1200 px';
 $string['pagecontentwidth'] = 'Content Width';
 $string['pagecontentwidthvalue'] = 'Custom Content Width';
 $string['pagefiles'] = 'Page Files';
-$string['pagefiles_help'] = 'Upload files used by this page. Earlier revisions keep their copies when you remove a file from the draft.';
+$string['pagefiles_help'] = ('Upload files used by this page. Earlier revisions keep their copies when you '
+    . 'remove a file from the draft.');
 $string['pagehelp_activities'] = 'Moodle Activities';
-$string['pagehelp_activities_article'] = '<p>Select existing activities from the same course, or use Create Course Resource to open Moodle’s activity chooser and standard form. Site Home uses its own course. After saving in Moodle, confirm the return to add a reference to the draft. If the draft changed in the meantime, select the resource from the existing-activity list. Removing a reference preserves the activity and user data.</p>';
-$string['pagehelp_activities_help'] = 'Select existing activities from the same course, or use Create Course Resource to open Moodle’s activity chooser and standard form.';
+$string['pagehelp_activities_article'] = ('<p>Select existing activities from the same course, or use Create Course '
+    . 'Resource to open Moodle’s activity chooser and standard form. Site Home '
+    . 'uses its own course. After saving in Moodle, confirm the return to add a '
+    . 'reference to the draft. If the draft changed in the meantime, select the '
+    . 'resource from the existing-activity list. Removing a reference preserves the '
+    . 'activity and user data.</p>');
+$string['pagehelp_activities_help'] = ('Select existing activities from the same course, or use Create Course '
+    . 'Resource to open Moodle’s activity chooser and standard form.');
 $string['pagehelp_activitysettings_title'] = 'Frontpage Help';
 $string['pagehelp_assignments'] = 'Site Home Assignments';
-$string['pagehelp_assignments_article'] = '<p>Native Moodle Site Home must be enabled. Moodle’s selected default home page and forced-login setting still apply. In Settings, choose a page for guests and a page for signed-in users. Both choices can use the same page. Replace Site Home enables the replacement; switching it off restores native Site Home. Unpublished pages fall back to native Site Home. Assign another page or native Site Home before deleting an assigned page.</p>';
+$string['pagehelp_assignments_article'] = (
+        '<p>Native Moodle Site Home must be enabled. Moodle’s selected default home '
+    . 'page and forced-login setting still apply. In Settings, choose a page for '
+    . 'guests and a page for signed-in users. Both choices can use the same page. '
+    . 'Replace Site Home enables the replacement; switching it off restores native '
+    . 'Site Home. Unpublished pages fall back to native Site Home. Assign another '
+    . 'page or native Site Home before deleting an assigned page.</p>'
+    );
 $string['pagehelp_assignments_help'] = 'In Settings, choose a page for guests and a page for signed-in users.';
 $string['pagehelp_backup'] = 'Backup and Recovery';
-$string['pagehelp_backup_article'] = '<p>Course activities use Moodle activity and course backup, restore, course copy and duplication. References to activities included in the same restore are remapped. References unavailable in the target become placeholders for an editor to resolve. To protect Site Home, back up the complete Moodle database, moodledata and config.php as one consistent site backup, together with the matching plugin code. Restore the database and moodledata together to recover page IDs, audience settings, revisions and files. Activity backup alone does not include Site Home. Keep backups outside the live web directory and test recovery.</p>';
+$string['pagehelp_backup_article'] = ('<p>Course activities use Moodle activity and course backup, restore, course '
+    . 'copy and duplication. References to activities included in the same restore '
+    . 'are remapped. References unavailable in the target become placeholders for an '
+    . 'editor to resolve. To protect Site Home, back up the complete Moodle '
+    . 'database, moodledata and config.php as one consistent site backup, together '
+    . 'with the matching plugin code. Restore the database and moodledata together '
+    . 'to recover page IDs, audience settings, revisions and files. Activity backup '
+    . 'alone does not include Site Home. Keep backups outside the live web directory '
+    . 'and test recovery.</p>');
 $string['pagehelp_backup_help'] = 'Course activities use Moodle activity and course backup, restore, course copy and duplication.';
 $string['pagehelp_completion'] = 'Activity Completion';
-$string['pagehelp_completion_article'] = '<p>The optional All Referenced Activities rule uses enabled references in the current publication. Activities without completion tracking are skipped. At least one tracked activity is required. Missing or deleted references keep the rule incomplete. Hidden or temporarily unavailable tracked activities still use their native completion state. Completion with pass or fail counts as completed. Historical previews do not award completion.</p>';
+$string['pagehelp_completion_article'] = (
+        '<p>The optional All Referenced Activities rule uses enabled references in the '
+    . 'current publication. Activities without completion tracking are skipped. At '
+    . 'least one tracked activity is required. Missing or deleted references keep '
+    . 'the rule incomplete. Hidden or temporarily unavailable tracked activities '
+    . 'still use their native completion state. Completion with pass or fail counts '
+    . 'as completed. Historical previews do not award completion.</p>'
+    );
 $string['pagehelp_completion_help'] = 'The optional All Referenced Activities rule uses enabled references in the current publication.';
 $string['pagehelp_editing'] = 'Editing Segments';
-$string['pagehelp_editing_article'] = '<p>Choose a segment type in the editor. Edit content in Moodle forms, then use Save Draft. Move, duplicate, hide or remove a segment through its row actions. Grid columns refer to other segments on the same page; deleting a Grid returns its children to the page flow. Stale forms cannot replace a newer draft.</p>';
+$string['pagehelp_editing_article'] = ('<p>Choose a segment type in the editor. Edit content in Moodle forms, then '
+    . 'use Save Draft. Move, duplicate, hide or remove a segment through its row '
+    . 'actions. Grid columns refer to other segments on the same page; deleting a '
+    . 'Grid returns its children to the page flow. Stale forms cannot replace a '
+    . 'newer draft.</p>');
 $string['pagehelp_editing_help'] = 'Choose a segment type in the editor.';
 $string['pagehelp_editor_title'] = 'Frontpage Help';
 $string['pagehelp_files'] = 'Files and Images';
-$string['pagehelp_files_article'] = '<p>Images and editor attachments belong to a revision and its page context. Page Files stores additional files for the page. Earlier revisions retain their files. A draft preview requires editing rights; course files also require native course and activity access. Use a static JPG, PNG, GIF or WebP image for Media and Hero.</p>';
+$string['pagehelp_files_article'] = ('<p>Images and editor attachments belong to a revision and its page context. '
+    . 'Page Files stores additional files for the page. Earlier revisions retain '
+    . 'their files. A draft preview requires editing rights; course files also '
+    . 'require native course and activity access. Use a static JPG, PNG, GIF or WebP '
+    . 'image for Media and Hero.</p>');
 $string['pagehelp_files_help'] = 'Images and editor attachments belong to a revision and its page context.';
 $string['pagehelp_grid'] = 'Grid Layout';
-$string['pagehelp_grid_article'] = '<p>Use one to four columns with segment references from this page. A segment can belong to one Grid. Grids cannot nest. Set column proportions, gap and a stacking breakpoint; hidden columns apply at that breakpoint. Custom proportions must total 12. Reducing the column count releases removed references to normal page flow.</p>';
+$string['pagehelp_grid_article'] = ('<p>Use one to four columns with segment references from this page. A segment '
+    . 'can belong to one Grid. Grids cannot nest. Set column proportions, gap and a '
+    . 'stacking breakpoint; hidden columns apply at that breakpoint. Custom '
+    . 'proportions must total 12. Reducing the column count releases removed '
+    . 'references to normal page flow.</p>');
 $string['pagehelp_grid_help'] = 'Use one to four columns with segment references from this page.';
 $string['pagehelp_history'] = 'Revision History';
-$string['pagehelp_history_article'] = '<p>Revision History shows the current draft and retained earlier drafts and publications. Preview is read-only. Restore as Draft copies the selected revision and its files into a new draft; the publication remains unchanged until you publish. Revisions remain retained until explicitly removed.</p>';
+$string['pagehelp_history_article'] = ('<p>Revision History shows the current draft and retained earlier drafts and '
+    . 'publications. Preview is read-only. Restore as Draft copies the selected '
+    . 'revision and its files into a new draft; the publication remains unchanged '
+    . 'until you publish. Revisions remain retained until explicitly removed.</p>');
 $string['pagehelp_history_help'] = 'Revision History shows the current draft and retained earlier drafts and publications.';
 $string['pagehelp_more'] = 'More in the help panel';
 $string['pagehelp_pagefiles_title'] = 'Frontpage Help';
 $string['pagehelp_pageoptions'] = 'Page Options';
-$string['pagehelp_pageoptions_article'] = '<p>Page Options changes the page title and width within the native Moodle frame. These metadata settings apply immediately. Content changes remain in the draft until you publish.</p>';
+$string['pagehelp_pageoptions_article'] = ('<p>Page Options changes the page title and width within the native Moodle '
+    . 'frame. These metadata settings apply immediately. Content changes remain in '
+    . 'the draft until you publish.</p>');
 $string['pagehelp_pageoptions_help'] = 'Title and content width apply immediately.';
 $string['pagehelp_pagesettings_title'] = 'Page Options Help';
 $string['pagehelp_pluginsettings_title'] = 'Frontpage Help';
 $string['pagehelp_publication'] = 'Draft and Publication';
-$string['pagehelp_publication_article'] = '<p>Save Draft keeps changes for authorised editors. Publish makes that revision visible to the page’s audience. Later edits do not change the publication. Publishing requires the publication permission for the page’s context.</p>';
+$string['pagehelp_publication_article'] = ('<p>Save Draft keeps changes for authorised editors. Publish makes that '
+    . 'revision visible to the page’s audience. Later edits do not change the '
+    . 'publication. Publishing requires the publication permission for the page’s '
+    . 'context.</p>');
 $string['pagehelp_publication_help'] = 'Save Draft keeps changes for authorised editors.';
 $string['pagehelp_resources'] = 'Resource Cleanup';
-$string['pagehelp_resources_article'] = '<p>Open Frontpage Resources in the course navigation, or from the page editor. The course route remains available after the source page is deleted. The registry distinguishes Frontpage-created resources from existing activities. All retained revisions protect references, including hidden segments. Unreferenced resources become deletion candidates after 30 days. Deletion requires a separate confirmation and removes the native activity and its user data. Check links and uses outside Frontpage yourself.</p>';
+$string['pagehelp_resources_article'] = ('<p>Open Frontpage Resources in the course navigation, or from the page '
+    . 'editor. The course route remains available after the source page is deleted. '
+    . 'The registry distinguishes Frontpage-created resources from existing '
+    . 'activities. All retained revisions protect references, including hidden '
+    . 'segments. Unreferenced resources become deletion candidates after 30 days. '
+    . 'Deletion requires a separate confirmation and removes the native activity and '
+    . 'its user data. Check links and uses outside Frontpage yourself.</p>');
 $string['pagehelp_resources_help'] = 'Open Frontpage Resources in the course navigation, or from the page editor.';
 $string['pagehelp_resources_title'] = 'Frontpage Help';
 $string['pagehelp_revisionhistory_title'] = 'Frontpage Help';
@@ -276,9 +364,12 @@ $string['privacy:revisions'] = 'Revisioned shared content and publication attrib
 $string['publish'] = 'Publish';
 $string['published'] = 'Published';
 $string['resourcegrace'] = 'Waiting for the 30-day grace period';
-$string['resourceintro'] = 'This registry contains resources created through Frontpage in this course. Retained drafts and publications protect their references. Review other uses and possible user data before deleting a resource.';
+$string['resourceintro'] = ('This registry contains resources created through Frontpage in this course. '
+    . 'Retained drafts and publications protect their references. Review other uses '
+    . 'and possible user data before deleting a resource.');
 $string['resourceprotected'] = 'Protected by retained revisions';
-$string['resourceretained'] = 'The resource remains in Frontpage Resources. Reopen the draft and select the existing resource to add it.';
+$string['resourceretained'] = ('The resource remains in Frontpage Resources. Reopen the draft and select the '
+    . 'existing resource to add it.');
 $string['resources'] = 'Frontpage Resources';
 $string['restore'] = 'Restore as Draft';
 $string['retainedreferences'] = 'Retained References';
@@ -299,7 +390,9 @@ $string['segmentbordertop'] = 'Show top border';
 $string['segmentcolourbackground'] = 'Background';
 $string['segmentcolourborder'] = 'Border';
 $string['segmentcoloureditmode'] = 'Edit colour variant';
-$string['segmentcolourhelp'] = 'Empty fields keep the existing design. Overrides apply only in their mode to the segment surface, inherited text and existing borders. Explicit formatting in content can take precedence. Content and layout remain shared.';
+$string['segmentcolourhelp'] = ('Empty fields keep the existing design. Overrides apply only in their mode to '
+    . 'the segment surface, inherited text and existing borders. Explicit formatting '
+    . 'in content can take precedence. Content and layout remain shared.');
 $string['segmentcolourinherit'] = 'Inherit from design';
 $string['segmentcolourown'] = 'Custom light/dark values';
 $string['segmentcoloursource'] = 'Colour styling';
@@ -355,14 +448,26 @@ $string['editorgroup_padding'] = 'Spacing';
 $string['editorgroup_bordercolor'] = 'Borders';
 
 $string['pagecss'] = 'Page CSS';
-$string['pagecssnotice'] = 'CSS is saved in the page draft. Preview it, then publish to apply it to the public page. The authoring forms do not load it.';
-$string['pagecss_help'] = 'Write CSS for this page only. The styles can affect the whole displayed page, including Moodle navigation. They are stored with its content revisions. The maximum is 100,000 bytes.';
+$string['pagecssnotice'] = ('CSS is saved in the page draft. Preview it, then publish to apply it to the '
+    . 'public page. The authoring forms do not load it.');
+$string['pagecss_help'] = ('Write CSS for this page only. The styles can affect the whole displayed page, '
+    . 'including Moodle navigation. They are stored with its content revisions. The '
+    . 'maximum is 100,000 bytes.');
 $string['pagecsstoolarge'] = 'Page CSS must not exceed 100,000 bytes.';
 $string['frontpage:editcss'] = 'Edit page CSS';
 $string['pagehelp_pagecss'] = 'Page CSS';
 $string['pagehelp_pagecss_help'] = 'Edit this page stylesheet in the draft, preview it and publish it with the page.';
 $string['pagehelp_pagecss_title'] = 'Page CSS Help';
-$string['pagehelp_pagecss_article'] = '<p>Page CSS belongs to the same draft and published revisions as the page content. Saving CSS creates a new draft; visitors keep seeing the published CSS until you publish.</p><p>The stylesheet applies to this page view, including its Moodle navigation and controls. Start with a selector for the content you want to change. It is not loaded in the authoring forms, so you can return here if a style makes the page difficult to use.</p><p>Page files can be referenced with <code>{{image-url:filename}}</code>. Restoring an earlier revision restores its CSS too. Changing CSS, including through a revision restore, requires the separate page CSS permission. A publisher can publish an unchanged CSS draft without receiving that permission.</p>';
+$string['pagehelp_pagecss_article'] = ('<p>Page CSS belongs to the same draft and published revisions as the page '
+    . 'content. Saving CSS creates a new draft; visitors keep seeing the published '
+    . 'CSS until you publish.</p><p>The stylesheet applies to this page view, '
+    . 'including its Moodle navigation and controls. Start with a selector for the '
+    . 'content you want to change. It is not loaded in the authoring forms, so you '
+    . 'can return here if a style makes the page difficult to use.</p><p>Page files '
+    . 'can be referenced with <code>{{image-url:filename}}</code>. Restoring an '
+    . 'earlier revision restores its CSS too. Changing CSS, including through a '
+    . 'revision restore, requires the separate page CSS permission. A publisher can '
+    . 'publish an unchanged CSS draft without receiving that permission.</p>');
 
 $string['activitysettings'] = 'Activity settings';
 
@@ -382,11 +487,23 @@ $string['activitynavigationreturn'] = 'Back to {$a}';
 $string['activitynavigation'] = 'Activity navigation';
 $string['activitynavigationinherit'] = 'Inherit course setting';
 $string['activitynavigationmode'] = 'Show linear navigation';
-$string['activitynavigationmode_help'] = 'Adds Moodle-style Previous and Next actions to activities opened from this standalone Frontpage activity. On and Off override the course setting. Inherit is available only with Moodle 5.3 and a course format that supports native linear navigation. Older versions and other formats offer On and Off. The change takes effect when this draft is published. Breadcrumbs and the return to the Frontpage activity remain available.';
+$string['activitynavigationmode_help'] = ('Adds Moodle-style Previous and Next actions to activities opened from this '
+    . 'standalone Frontpage activity. On and Off override the course setting. '
+    . 'Inherit is available only with Moodle 5.3 and a course format that supports '
+    . 'native linear navigation. Older versions and other formats offer On and Off. '
+    . 'The change takes effect when this draft is published. Breadcrumbs and the '
+    . 'return to the Frontpage activity remain available.');
 $string['activitynavigationboundary'] = 'At the ends of the Frontpage sequence';
 $string['activitynavigationboundaryfrontpage'] = 'Return to the Frontpage overview';
 $string['activitynavigationboundarycourse'] = 'Continue in the course';
-$string['activitynavigationboundary_help'] = 'The sequence follows the accessible activities in the published Frontpage layout, including Grids. Return to the Frontpage overview closes the sequence at both ends. Continue in the course uses the course position of this Frontpage activity to find the preceding or following course content. At the course boundary it returns to the course. Hidden, unavailable and managed resource activities are skipped.';
+$string['activitynavigationboundary_help'] = (
+        'The sequence follows the accessible activities in the published Frontpage '
+    . 'layout, including Grids. Return to the Frontpage overview closes the sequence '
+    . 'at both ends. Continue in the course uses the course position of this '
+    . 'Frontpage activity to find the preceding or following course content. At the '
+    . 'course boundary it returns to the course. Hidden, unavailable and managed '
+    . 'resource activities are skipped.'
+    );
 $string['activitynavigationpreviousoverview'] = 'Start of Frontpage sequence · Overview';
 $string['activitynavigationnextoverview'] = 'End of Frontpage sequence · Overview';
 $string['activitynavigationpreviouscourse'] = 'Back in the course';
@@ -395,6 +512,19 @@ $string['activitynavigationnextcourse'] = 'Continue in the course';
 $string['pagehelp_activitynavigation_title'] = 'Activity navigation';
 $string['pagehelp_activitynavigation'] = 'Activity navigation';
 $string['pagehelp_activitynavigation_help'] = 'Follow the published activity order and return to its Frontpage card.';
-$string['pagehelp_activitynavigation_article'] = '<p>Open Activity navigation in the course activity editor. Save the draft, then publish it to apply the settings. Previous and Next follow accessible activities in the published page and its Grids. Disabled segments and repeated references do not add steps.</p><p>On and Off override the course setting. Moodle 5.3 formats with native linear navigation also offer Inherit. Older versions show a compatible footer; completion remains in the native activity header. Activities with their own footer keep it.</p><p>At either end, return to the Frontpage overview or continue from the original Frontpage activity position in the course. The technical resource section is skipped. The additional return link opens the original card. Ordinary course links leave this sequence. Draft and historical previews do not start a published sequence.</p>';
+$string['pagehelp_activitynavigation_article'] = (
+        '<p>Open Activity navigation in the course activity editor. Save the draft, '
+    . 'then publish it to apply the settings. Previous and Next follow accessible '
+    . 'activities in the published page and its Grids. Disabled segments and '
+    . 'repeated references do not add steps.</p><p>On and Off override the course '
+    . 'setting. Moodle 5.3 formats with native linear navigation also offer Inherit. '
+    . 'Older versions show a compatible footer; completion remains in the native '
+    . 'activity header. Activities with their own footer keep it.</p><p>At either '
+    . 'end, return to the Frontpage overview or continue from the original Frontpage '
+    . 'activity position in the course. The technical resource section is skipped. '
+    . 'The additional return link opens the original card. Ordinary course links '
+    . 'leave this sequence. Draft and historical previews do not start a published '
+    . 'sequence.</p>'
+    );
 
 $string['activitynavigationbacktocourse'] = 'Back to course';

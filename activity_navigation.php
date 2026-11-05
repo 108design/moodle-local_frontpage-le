@@ -1,9 +1,14 @@
 <?php
 /**
+ * Edit the revision-owned activity navigation settings.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
+// Central page_access enforces the owner context and the required audience or capability.
+// phpcs:ignore moodle.Files.RequireLogin.Missing
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/formslib.php');
 
@@ -31,8 +36,13 @@ if ($data = $form->get_data()) {
     $document[activity_navigation_settings::KEY] = activity_navigation_settings::normalise([
         'mode' => $data->activitynavigationmode, 'boundary' => $data->activitynavigationboundary,
     ]);
-    factory::page_service()->save_draft($id, json_encode($document, JSON_THROW_ON_ERROR), (int) $USER->id,
-        (int) $data->baserevisionid, (int) $data->baseversion);
+    factory::page_service()->save_draft(
+        $id,
+        json_encode($document, JSON_THROW_ON_ERROR),
+        (int) $USER->id,
+        (int) $data->baserevisionid,
+        (int) $data->baseversion
+    );
     redirect($back);
 }
 $settings = activity_navigation_settings::for_document($document);

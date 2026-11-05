@@ -1,59 +1,147 @@
 <?php
 /**
+ * Render validated page documents in their public or authoring context.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\output;
+
 use html_writer;
 use moodle_url;
 use local_frontpage\local\service\factory;
+
+/**
+ * Render validated page documents in their public or authoring context.
+ */
 final class page_renderer {
+    /**
+     * @var array Currentsegments.
+     */
     private array $currentsegments = [];
+    /**
+     * @var \context Context.
+     */
     private \context $context;
-    public function __construct(private readonly \core_renderer $output, private readonly \stdClass $frontpage,
-            private readonly int $revisionid, private readonly bool $showdisabled = false, private readonly array $editactions = []) {
+    /**
+     * Store the dependencies and context used by this helper.
+     *
+     * @param \core_renderer $output Native renderer used for output.
+     * @param \stdClass $frontpage Frontpage.
+     * @param int $revisionid Revision ID.
+     * @param bool $showdisabled Showdisabled.
+     * @param array $editactions Editactions.
+     */
+    public function __construct(
+        /** @var \core_renderer output. */ private readonly \core_renderer $output,
+        /** @var \stdClass frontpage. */ private readonly \stdClass $frontpage,
+        /** @var int revisionid. */ private readonly int $revisionid,
+        /** @var bool showdisabled. */ private readonly bool $showdisabled = false,
+        /** @var array editactions. */ private readonly array $editactions = []
+    ) {
         $this->context = \local_frontpage\local\page_access::context($frontpage);
     }
+    /**
+     * Render the page document in its public or editable context.
+     *
+     * @param string $json Encoded JSON document.
+     * @return string
+     */
     public function render(string $json): string {
-        $GLOBALS['PAGE']->requires->js_call_amd('local_frontpage/hero_contrast','init');
-        $document = json_decode((new \local_frontpage\local\document\validator())->validate_and_normalise($json),true);
-        $this->currentsegments = array_column($document['segments'],null,'id');
+        $GLOBALS['PAGE']->requires->js_call_amd('local_frontpage/hero_contrast', 'init');
+        $document = json_decode((new \local_frontpage\local\document\validator())->validate_and_normalise($json), true);
+        $this->currentsegments = array_column($document['segments'], null, 'id');
         $consumed = \local_frontpage\local\grid_structure::consumed_ids($document['segments']);
         $html = '';
         foreach ($document['segments'] as $segment) {
-            if (!isset($consumed[$segment['id']]) && $segment['type']!=='course_navigation'
-                    && ($this->is_segment_enabled($segment) || $this->showdisabled)) {
+            if (
+                !isset($consumed[$segment['id']]) && $segment['type'] !== 'course_navigation'
+                    && ($this->is_segment_enabled($segment) || $this->showdisabled)
+            ) {
                 $html .= $this->render_segment($segment);
             }
         }
-        $width=match($this->frontpage->contentwidth??'theme'){
-            'content'=>'960px','wide'=>'1320px','full'=>'100%',
-            'custom'=>\local_frontpage\local\width_value::normalise((string)$this->frontpage->contentwidthvalue),default=>'',
+        $width = match ($this->frontpage->contentwidth ?? 'theme') {
+            'content'=>'960px', 'wide'=>'1320px', 'full'=>'100%',
+            'custom'=>\local_frontpage\local\width_value::normalise(
+                (string)$this->frontpage->contentwidthvalue
+            ),
+            default=>'',
         };
-        return html_writer::div($html,'local-frontpage-document',$width!==''?['style'=>'max-width:'.$width.';margin-inline:auto']:[]);
+        return html_writer::div(
+            $html,
+            'local-frontpage-document',
+            $width !== '' ? [ 'style' => 'max-width:' . $width . ';margin-inline:auto' ] : [ ]
+        );
     }
-    private function is_segment_enabled(array $segment): bool {return $segment['props']['enabled'] ?? true;}
-    private function is_authoring_view(): bool {return $this->showdisabled;}
+    /**
+     * Check whether a segment is enabled in this rendering context.
+     *
+     * @param array $segment Page segment to process.
+     * @return bool
+     */
+    private function is_segment_enabled(array $segment): bool {
+        return $segment['props']['enabled'] ?? true;
+    }
+    /**
+     * Report whether the renderer is producing editable draft content.
+     *
+     * @return bool
+     */
+    private function is_authoring_view(): bool {
+        return $this->showdisabled;
+    }
+    /**
+     * Resolve revision-owned image markers into authorised file URLs.
+     *
+     * @param string $source Configured source or original data.
+     * @param array $segment Page segment to process.
+     * @return string
+     */
     private function replace_segment_asset_shortcodes(string $source, array $segment): string {
-        return preg_replace_callback('/\{\{image-url:([a-zA-Z0-9][a-zA-Z0-9._ -]{0,199})\}\}/',function($m) {
-            $file = get_file_storage()->get_file($this->context->id,'local_frontpage','pageassets',
-                $this->revisionid,'/',$m[1]);
-            return $file ? moodle_url::make_pluginfile_url($this->context->id,'local_frontpage','pageassets',
-                $this->revisionid,'/',$m[1])->out(false) : '';
-        },$source);
+        return preg_replace_callback('/\{\{image-url:([a-zA-Z0-9][a-zA-Z0-9._ -]{0,199})\}\}/', function ($m) {
+            $file = get_file_storage()->get_file(
+                $this->context->id,
+                'local_frontpage',
+                'pageassets',
+                $this->revisionid,
+                '/',
+                $m[1]
+            );
+            return $file ? moodle_url::make_pluginfile_url(
+                $this->context->id,
+                'local_frontpage',
+                'pageassets',
+                $this->revisionid,
+                '/',
+                $m[1]
+            )->out(false) : '';
+        }, $source);
     }
+    /**
+     * Render one validated segment for the current page context.
+     *
+     * @param array $segment Page segment to process.
+     * @return string
+     */
     private function render_segment(array $segment): string {
         $props = $segment['props'];
         $herobackgroundurl = '';
-        $file = \local_frontpage\local\revision_files::get_hero_background($this->revisionid,$segment['id']);
+        $file = \local_frontpage\local\revision_files::get_hero_background($this->revisionid, $segment['id']);
         if ($file && \local_frontpage\local\media_files::is_media($file)) {
-            $herobackgroundurl = moodle_url::make_pluginfile_url($this->context->id,'local_frontpage',
-                \local_frontpage\local\revision_files::hero_background_area($segment['id']),$this->revisionid,
-                $file->get_filepath(),$file->get_filename())->out(false);
+            $herobackgroundurl = moodle_url::make_pluginfile_url(
+                $this->context->id,
+                'local_frontpage',
+                \local_frontpage\local\revision_files::hero_background_area($segment['id']),
+                $this->revisionid,
+                $file->get_filepath(),
+                $file->get_filename()
+            )->out(false);
         }
         $mediaurl = ($props['asset'] ?? '') === \local_frontpage\local\media_files::ASSET
-            ? $herobackgroundurl : $this->replace_segment_asset_shortcodes((string)($props['asset']??''),$segment);
+            ? $herobackgroundurl : $this->replace_segment_asset_shortcodes((string)($props['asset'] ?? ''), $segment);
         $content = match ($segment['type']) {
             'grid' => $this->render_grid_segment($segment),
             'spacer' => $this->output->render_from_template('local_frontpage/segment_spacer', [
@@ -116,11 +204,12 @@ final class page_renderer {
                 'colorvalue' => $props['colorvalue'] ?? '',
             ]),
 
-            'rich_text' => $this->output->render_from_template('local_frontpage/segment_rich_text',[
-                'id'=>$segment['id'],'content'=>format_text(file_rewrite_pluginfile_urls(
-                    $this->replace_segment_asset_shortcodes($props['content'],$segment),'pluginfile.php',
-                    $this->context->id,'local_frontpage','editor',$this->revisionid),FORMAT_HTML,
-                    ['context'=>$this->context,'noclean'=>false])]),
+            'rich_text' => $this->output->render_from_template('local_frontpage/segment_rich_text', [
+                'id' => $segment['id'], 'content' => format_text(file_rewrite_pluginfile_urls(
+                    $this->replace_segment_asset_shortcodes($props['content'], $segment), 'pluginfile.php',
+                    $this->context->id, 'local_frontpage', 'editor', $this->revisionid
+                ), FORMAT_HTML,
+                    ['context' => $this->context, 'noclean' => false])]),
             'moodle_course_list' => $this->course_list($props),
             'course_module' => $this->render_course_module($segment),
             default => '',
@@ -141,14 +230,16 @@ final class page_renderer {
         if ($customwidth !== null && $customwidth !== '') {
             $layoutstyles[] = 'max-width: ' . $customwidth;
         }
-        foreach ([
+        foreach (
+            [
             'backgroundvalue' => '--local-frontpage-segment-background',
             'paddingvalue' => '--local-frontpage-segment-padding',
             'radiusvalue' => '--local-frontpage-segment-radius',
             'spacingvalue' => '--local-frontpage-segment-spacing',
             'spacingtopvalue' => '--local-frontpage-segment-spacing-top',
             'borderthickness' => '--local-frontpage-segment-border-width',
-        ] as $property => $variable) {
+            ] as $property => $variable
+        ) {
             if (!empty($layout[$property])) {
                 $layoutstyles[] = $variable . ': ' . $layout[$property];
             }
@@ -190,12 +281,25 @@ final class page_renderer {
         ]);
 
         if (!empty($layout['colourmodes'])) {
-            $GLOBALS['PAGE']->requires->js_call_amd('local_frontpage/segment_colour_modes','init');
-            $content = html_writer::tag('style',\local_frontpage\local\segment_colour_modes::css(
-                $segment['id'],$layout['colourmodes'])).$content;
+            $GLOBALS['PAGE']->requires->js_call_amd('local_frontpage/segment_colour_modes', 'init');
+            $content = html_writer::tag('style', \local_frontpage\local\segment_colour_modes::css(
+                $segment['id'],
+                $layout['colourmodes']
+            )) . $content;
         }
-        return $this->editactions ? authoring::segment($segment,$content,$this->editactions,$this->currentsegments) : $content;
+        return $this->editactions ? authoring::segment(
+            $segment,
+            $content,
+            $this->editactions,
+            $this->currentsegments
+        ) : $content;
     }
+    /**
+     * Render the grid and its referenced child segments.
+     *
+     * @param array $grid Grid.
+     * @return string
+     */
     private function render_grid_segment(array $grid): string {
         $props = $grid['props'] ?? [];
         $cells = [];
@@ -247,14 +351,25 @@ final class page_renderer {
             'authoring' => $this->is_authoring_view(),
         ]);
     }
+    /**
+     * Render a reference to a visible native course activity.
+     *
+     * @param array $segment Page segment to process.
+     * @return string
+     */
     private function render_course_module(array $segment): string {
         global $CFG, $USER;
 
         if (!empty($segment['props']['placeholder'])) {
             return $this->showdisabled
-                ? $this->output->notification(get_string('coursemoduleplaceholdernotice', 'local_frontpage',
-                    $segment['props']['placeholderlabel'] ?? get_string('coursemoduleplaceholderfallback',
-                        'local_frontpage')), 'warning')
+                ? $this->output->notification(get_string(
+                    'coursemoduleplaceholdernotice',
+                    'local_frontpage',
+                    $segment['props']['placeholderlabel'] ?? get_string(
+                        'coursemoduleplaceholderfallback',
+                        'local_frontpage'
+                    )
+                ), 'warning')
                 : '';
         }
 
@@ -300,7 +415,10 @@ final class page_renderer {
         }
         if (!$this->showdisabled && $this->frontpage?->ownercomponent === 'mod_frontpage') {
             $cardhtml = \local_frontpage\local\activity_navigation::launch_links(
-                $cardhtml, $cm, (int) $this->context->instanceid);
+                $cardhtml,
+                $cm,
+                (int) $this->context->instanceid
+            );
         }
         return $this->output->render_from_template('local_frontpage/segment_course_module', [
             'id' => $segment['id'],
@@ -309,21 +427,34 @@ final class page_renderer {
         ]);
     }
 
+    /**
+     * Render the course list supported by the page segment.
+     *
+     * @param array $props Validated segment properties.
+     * @return string
+     */
     private function course_list(array $props): string {
+        // This document renderer is a helper, not a native renderer_base subclass.
+        // phpcs:ignore moodle.PHP.ForbiddenGlobalUse.BadGlobal
         global $CFG, $PAGE;
-        require_once($CFG->dirroot.'/course/lib.php');
-        $r = $PAGE->get_renderer('core','course');
+        require_once($CFG->dirroot . '/course/lib.php');
+        // phpcs:ignore moodle.PHP.ForbiddenGlobalUse.BadGlobal
+        $r = $PAGE->get_renderer('core', 'course');
             return match ($props['mode']) {
                 'configured'=>$r->frontpage(), 'available'=>$r->frontpage_available_courses(),
                 'enrolled'=>$r->frontpage_my_courses(), 'categories'=>$r->frontpage_categories_list(),
                 'combo'=>$r->frontpage_combo_list(), 'search'=>$r->course_search_form(),
-                'category'=>(function() use ($r,$props,$CFG) {
-                    $cat = \core_course_category::get((int)$props['categoryid'],IGNORE_MISSING);
-                    if (!$cat || !$cat->is_uservisible()) {return '';}
-                    $limit=max(1,(int)($CFG->frontpagecourselimit??$CFG->coursesperpage));
-                    return $r->courses_list($cat->get_courses(['recursive'=>true,'limit'=>$limit]),false,
-                        'frontpage-course-list-category',new moodle_url('/course/index.php',['categoryid'=>$cat->id]),
-                        $cat->get_courses_count(['recursive'=>true]),0,$limit);
+                'category'=>(function () use ($r, $props, $CFG) {
+                    $cat = \core_course_category::get((int)$props['categoryid'], IGNORE_MISSING);
+                    if (!$cat || !$cat->is_uservisible()) {
+                        return '';
+                    }
+                    $limit = max(1, (int)($CFG->frontpagecourselimit ?? $CFG->coursesperpage));
+                    return $r->courses_list($cat->get_courses(['recursive' => true, 'limit' => $limit]), false,
+                        'frontpage-course-list-category',
+                    new moodle_url('/course/index.php', [ 'categoryid' => $cat->id ]),
+
+                        $cat->get_courses_count(['recursive' => true]), 0, $limit);
                 })(), default=>'',
             };
     }

@@ -1,17 +1,28 @@
 <?php
 /**
+ * Resolves Moodle-owned activities and resources referenced by a course page.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
 
 use context;
 use invalid_parameter_exception;
 
-/** Resolves Moodle-owned activities and resources referenced by a course page. */
+/**
+ * Resolves Moodle-owned activities and resources referenced by a course page.
+ */
 final class course_module_reference {
-    /** Build authoring choices from the page's own course. */
+    /**
+     * Build authoring choices from the page's own course.
+     *
+     * @param context $pagecontext Native context owning the page.
+     * @param \stdClass|null $page Page record or native page context.
+     * @return array
+     */
     public static function choices(context $pagecontext, ?\stdClass $page = null): array {
         $courseid = self::course_id($pagecontext, $page);
         $modinfo = get_fast_modinfo($courseid);
@@ -41,7 +52,14 @@ final class course_module_reference {
         return $choices;
     }
 
-    /** Resolve and verify that a reference belongs to the same course. */
+    /**
+     * Resolve and verify that a reference belongs to the same course.
+     *
+     * @param context $pagecontext Native context owning the page.
+     * @param int $cmid Course-module ID.
+     * @param \stdClass|null $page Page record or native page context.
+     * @return \cm_info
+     */
     public static function get(context $pagecontext, int $cmid, ?\stdClass $page = null): \cm_info {
         if ($cmid <= 0) {
             throw new invalid_parameter_exception('A course module reference is required.');
@@ -54,7 +72,13 @@ final class course_module_reference {
         return $cm;
     }
 
-    /** Resolve the only course whose modules may be referenced by this page. */
+    /**
+     * Resolve the only course whose modules may be referenced by this page.
+     *
+     * @param context $context Native Moodle context.
+     * @param \stdClass|null $page Page record or native page context.
+     * @return int
+     */
     private static function course_id(context $context, ?\stdClass $page): int {
         if ($page) {
             $courseid = page_scope::course_id($page, $context);

@@ -1,29 +1,49 @@
 <?php
 /**
+ * Shared structural rules for the reusable, reference-based Grid segment.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
 
 use invalid_parameter_exception;
 
-/** Shared structural rules for the reusable, reference-based Grid segment. */
+/**
+ * Shared structural rules for the reusable, reference-based Grid segment.
+ */
 final class grid_structure {
+    /**
+     * Type.
+     */
     public const TYPE = 'grid';
+    /**
+     * Max columns.
+     */
     public const MAX_COLUMNS = 4;
-    /** Structural carriers which are not ordinary composable page segments. */
+    /**
+     * Structural carriers which are not ordinary composable page segments.
+     */
     private const UNSUITABLE_CHILD_TYPES = ['grid', 'course_navigation'];
 
-    /** Validate and canonicalise the Grid-owned properties. */
+    /**
+     * Validate and canonicalise the Grid-owned properties.
+     *
+     * @param array $props Validated segment properties.
+     * @return array
+     */
     public static function normalise_props(array $props): array {
         $columns = $props['columns'] ?? 2;
         if (!is_int($columns) || $columns < 1 || $columns > self::MAX_COLUMNS) {
             throw new invalid_parameter_exception('The Grid column count is invalid.');
         }
         $template = (string) ($props['template'] ?? 'equal');
-        if (!in_array($template, ['equal', 'wide_first', 'wide_last', 'custom'], true)
-                || $columns === 1 && $template !== 'equal') {
+        if (
+            !in_array($template, ['equal', 'wide_first', 'wide_last', 'custom'], true)
+                || $columns === 1 && $template !== 'equal'
+        ) {
             throw new invalid_parameter_exception('The Grid column proportion is invalid.');
         }
         $widths = $props['widths'] ?? [];
@@ -81,8 +101,10 @@ final class grid_structure {
         }
         $stackautoheight = $heightmode === 'fixed' && $stackbreakpoint !== 'none' && $stackautoheight;
         $mobilehidden = $props['mobilehidden'] ?? [];
-        if (!is_array($mobilehidden) || !array_is_list($mobilehidden)
-                || count($mobilehidden) > self::MAX_COLUMNS) {
+        if (
+            !is_array($mobilehidden) || !array_is_list($mobilehidden)
+                || count($mobilehidden) > self::MAX_COLUMNS
+        ) {
             throw new invalid_parameter_exception('The Grid mobile visibility settings are invalid.');
         }
         foreach ($mobilehidden as $hidden) {
@@ -108,8 +130,10 @@ final class grid_structure {
                 $normalisedids[] = '';
                 continue;
             }
-            if (!preg_match('/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,99}$/', $segmentid)
-                    || isset($seenids[$segmentid])) {
+            if (
+                !preg_match('/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,99}$/', $segmentid)
+                    || isset($seenids[$segmentid])
+            ) {
                 throw new invalid_parameter_exception('A Grid segment reference is invalid or duplicated.');
             }
             $seenids[$segmentid] = true;
@@ -132,7 +156,12 @@ final class grid_structure {
         return $props;
     }
 
-    /** Validate cross-segment references after every segment has been parsed. */
+    /**
+     * Validate cross-segment references after every segment has been parsed.
+     *
+     * @param array $document Validated document data.
+     * @return void
+     */
     public static function validate_document(array $document): void {
         if (in_array($document['aboveHeaderSegment']['type'] ?? '', [self::TYPE], true)) {
             throw new invalid_parameter_exception('A Grid cannot occupy the above-header slot.');
@@ -154,9 +183,11 @@ final class grid_structure {
                     continue;
                 }
                 $child = $byid[$segmentid] ?? null;
-                if (!$child || in_array($child['type'] ?? '', self::UNSUITABLE_CHILD_TYPES, true)
+                if (
+                    !$child || in_array($child['type'] ?? '', self::UNSUITABLE_CHILD_TYPES, true)
                         || !empty($child['props']['drawerblock'])
-                        || $segmentid === ($grid['id'] ?? '') || isset($consumed[$segmentid])) {
+                        || $segmentid === ($grid['id'] ?? '') || isset($consumed[$segmentid])
+                ) {
                     throw new invalid_parameter_exception('A Grid contains an unavailable segment reference.');
                 }
                 $consumed[$segmentid] = true;
@@ -164,7 +195,12 @@ final class grid_structure {
         }
     }
 
-    /** Return ids rendered inside a Grid rather than in the ordinary vertical flow. */
+    /**
+     * Return ids rendered inside a Grid rather than in the ordinary vertical flow.
+     *
+     * @param array $segments Ordered page segments.
+     * @return array
+     */
     public static function consumed_ids(array $segments): array {
         $ids = [];
         foreach ($segments as $segment) {
@@ -181,7 +217,13 @@ final class grid_structure {
         return $ids;
     }
 
-    /** Remove references to a segment before that segment is deleted. */
+    /**
+     * Remove references to a segment before that segment is deleted.
+     *
+     * @param array $document Validated document data.
+     * @param string $segmentid Stable segment identifier.
+     * @return void
+     */
     public static function release_segment(array &$document, string $segmentid): void {
         if (empty($document['segments']) || !is_array($document['segments'])) {
             return;
@@ -198,7 +240,13 @@ final class grid_structure {
         unset($segment);
     }
 
-    /** Candidate segments for Grid slot selects. Selecting an owned segment transfers it when the Grid is saved. */
+    /**
+     * Candidate segments for Grid slot selects. Selecting an owned segment transfers it when the Grid is saved.
+     *
+     * @param array $document Validated document data.
+     * @param string $currentgridid Identifier of the grid being edited.
+     * @return array
+     */
     public static function choices(array $document, string $currentgridid = ''): array {
         $choices = ['' => get_string('gridemptycolumn', 'local_frontpage')];
         foreach (self::candidates($document, $currentgridid) as $candidate) {
@@ -207,14 +255,22 @@ final class grid_structure {
         return $choices;
     }
 
-    /** Candidate segments and their editor-facing labels for the Grid picker. */
+    /**
+     * Candidate segments and their editor-facing labels for the Grid picker.
+     *
+     * @param array $document Validated document data.
+     * @param string $currentgridid Identifier of the grid being edited.
+     * @return array
+     */
     public static function candidates(array $document, string $currentgridid = ''): array {
         $candidates = [];
         foreach ($document['segments'] ?? [] as $segment) {
             $id = (string) ($segment['id'] ?? '');
             $type = (string) ($segment['type'] ?? '');
-            if ($id === '' || $id === $currentgridid || in_array($type, self::UNSUITABLE_CHILD_TYPES, true)
-                    || !empty($segment['props']['drawerblock'])) {
+            if (
+                $id === '' || $id === $currentgridid || in_array($type, self::UNSUITABLE_CHILD_TYPES, true)
+                    || !empty($segment['props']['drawerblock'])
+            ) {
                 continue;
             }
             $key = 'segmenttype' . str_replace('_', '', $type);
@@ -223,15 +279,25 @@ final class grid_structure {
             $editorlabel = trim((string) ($segment['props']['editorlabel'] ?? ''));
             $label = $editorlabel === ''
                 ? $typelabel
-                : get_string('gridsegmentchoiceeditorlabel', 'local_frontpage',
-                    (object) ['type' => $typelabel, 'label' => $editorlabel]);
+                : get_string(
+                    'gridsegmentchoiceeditorlabel',
+                    'local_frontpage',
+                    (object) ['type' => $typelabel, 'label' => $editorlabel]
+                );
             $candidates[] = ['id' => $id, 'type' => $type, 'typelabel' => $typelabel,
                 'editorlabel' => $editorlabel, 'label' => $label, 'segment' => $segment];
         }
         return $candidates;
     }
 
-    /** Release selected children from every other Grid so the target Grid can claim them atomically. */
+    /**
+     * Release selected children from every other Grid so the target Grid can claim them atomically.
+     *
+     * @param array $document Validated document data.
+     * @param string $targetgridid Targetgridid.
+     * @param array $segmentids Segmentids.
+     * @return void
+     */
     public static function claim_segments(array &$document, string $targetgridid, array $segmentids): void {
         $claimed = array_fill_keys(array_filter($segmentids, static fn(string $id): bool => $id !== ''), true);
         if (!$claimed) {
@@ -241,8 +307,9 @@ final class grid_structure {
             return;
         }
         foreach ($document['segments'] as &$segment) {
-            if (($segment['type'] ?? '') !== self::TYPE || ($segment['id'] ?? '') === $targetgridid
-                   ) {
+            if (
+                ($segment['type'] ?? '') !== self::TYPE || ($segment['id'] ?? '') === $targetgridid
+            ) {
                 continue;
             }
             $segment['props']['segmentids'] = array_map(

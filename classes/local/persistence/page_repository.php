@@ -1,9 +1,12 @@
 <?php
 /**
+ * Database access for Frontpage pages and revisions.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local\persistence;
 
 use moodle_database;
@@ -18,7 +21,7 @@ final class page_repository {
      *
      * @param moodle_database $db Moodle database.
      */
-    public function __construct(private readonly moodle_database $db) {
+    public function __construct(/** @var moodle_database Database connection. */ private readonly moodle_database $db) {
     }
 
     /**
@@ -46,6 +49,8 @@ final class page_repository {
      * Update the current draft workspace or publication metadata.
      *
      * @param stdClass $revision Partial record containing id.
+     *
+     * @return void
      */
     public function update_revision(stdClass $revision): void {
         if ($this->db->get_field('local_frontpage_revision', 'ischeckpoint', ['id' => $revision->id])) {
@@ -65,7 +70,12 @@ final class page_repository {
         return $this->db->get_record('local_frontpage_page', ['id' => $pageid], '*', MUST_EXIST);
     }
 
-    /** Find a page by id without raising a database exception. */
+    /**
+     * Find a page by id without raising a database exception.
+     *
+     * @param int $pageid Page ID.
+     * @return stdClass|false
+     */
     public function find_page(int $pageid): stdClass|false {
         return $this->db->get_record('local_frontpage_page', ['id' => $pageid]);
     }
@@ -80,12 +90,23 @@ final class page_repository {
         return $this->db->get_record('local_frontpage_page', ['slug' => $slug], '*', MUST_EXIST);
     }
 
-    /** Find a page by slug without failing. */
+    /**
+     * Find a page by slug without failing.
+     *
+     * @param string $slug Stable URL slug.
+     * @return stdClass|false
+     */
     public function find_page_by_slug(string $slug): stdClass|false {
         return $this->db->get_record('local_frontpage_page', ['slug' => $slug]);
     }
 
-    /** Find the single page bound to a Moodle target. */
+    /**
+     * Find the single page bound to a Moodle target.
+     *
+     * @param string $bindingtype Bindingtype.
+     * @param int $targetid Target record ID.
+     * @return stdClass|false
+     */
     public function find_binding(string $bindingtype, int $targetid): stdClass|false {
         return $this->db->get_record('local_frontpage_page', [
             'bindingtype' => $bindingtype,
@@ -99,8 +120,11 @@ final class page_repository {
      * @return array Page records keyed by id.
      */
     public function get_pages(): array {
-        return $this->db->get_records('local_frontpage_page', ['ownercomponent' => 'local_frontpage'],
-            'timemodified DESC, id DESC');
+        return $this->db->get_records(
+            'local_frontpage_page',
+            ['ownercomponent' => 'local_frontpage'],
+            'timemodified DESC, id DESC'
+        );
     }
 
     /**
@@ -109,13 +133,17 @@ final class page_repository {
      * @param bool $authenticated Whether the viewer is authenticated.
      * @return array
      */
-    
 
-    /** Published system pages addressable by a canonical managed menu, regardless of legacy nav placement. */
-    
 
-    /** Published system pages addressed by portable slugs in Menu Builder documents. */
-    
+    /**
+     * Published system pages addressable by a canonical managed menu, regardless of legacy nav placement.
+     */
+
+
+    /**
+     * Published system pages addressed by portable slugs in Menu Builder documents.
+     */
+
 
     /**
      * Get a revision belonging to a page or fail.
@@ -137,6 +165,8 @@ final class page_repository {
      * @param int $pageid Page id.
      * @param int $limit Maximum number of revisions, or zero for all.
      * @return array Revision records keyed by id.
+     *
+     * @param string $history Whether to include historical records.
      */
     public function get_revisions(int $pageid, int $limit = 0, string $history = 'published'): array {
         $page = $this->get_page($pageid);
@@ -157,6 +187,8 @@ final class page_repository {
      *
      * @param int $pageid Page id.
      * @return int
+     *
+     * @param string $history Whether to include historical records.
      */
     public function count_revisions(int $pageid, string $history = 'published'): int {
         $page = $this->get_page($pageid);
@@ -189,6 +221,8 @@ final class page_repository {
      * Update page fields.
      *
      * @param stdClass $page Partial record containing id.
+     *
+     * @return void
      */
     public function update_page(stdClass $page): void {
         $this->db->update_record('local_frontpage_page', $page);
@@ -197,7 +231,7 @@ final class page_repository {
     /**
      * Determine whether a slug is already used.
      *
-     * @param string $slug Slug.
+     * @param string $slug Stable URL slug.
      * @param int|null $ignorepageid Optional page to ignore.
      * @return bool
      */
@@ -212,12 +246,4 @@ final class page_repository {
             ['slug' => $slug, 'pageid' => $ignorepageid]
         );
     }
-
-    /** Return explicit segment enabled states keyed by segment id. */
-    
-
-    /** Upsert an immediately effective segment enabled state. */
-    
-
-    
 }

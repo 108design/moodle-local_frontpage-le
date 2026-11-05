@@ -1,30 +1,59 @@
 <?php
 /**
+ * Owns the protected course section, its modules, and the revision reference index.
+ *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
  * @license 108design source-available software license; see LICENSE.md
  */
+
 namespace local_frontpage\local;
 
 use context_course;
 use core_courseformat\formatactions;
 use stdClass;
 
-/** Owns the protected course section, its modules, and the revision reference index. */
+/**
+ * Owns the protected course section, its modules, and the revision reference index.
+ */
 final class course_resource_manager {
+    /**
+     * Component.
+     */
     public const COMPONENT = 'local_frontpage';
+    /**
+     * Origin created.
+     */
     public const ORIGIN_CREATED = 'frontpage_created';
+    /**
+     * Origin adopted.
+     */
     public const ORIGIN_ADOPTED = 'adopted';
+    /**
+     * Orphan grace days.
+     */
     public const ORPHAN_GRACE_DAYS = 30;
 
-    /** Use an ordinary native section so whole-course backups include its activities. */
+    /**
+     * Use an ordinary native section so whole-course backups include its activities.
+     *
+     * @param int $courseid Native course ID.
+     * @return \section_info
+     */
     public static function ensure_section(int $courseid): \section_info {
         global $DB, $CFG;
         require_capability('moodle/course:manageactivities', context_course::instance($courseid));
-        $lock = \core\lock\lock_config::get_lock_factory(self::COMPONENT)->get_lock('course_resources_' . $courseid, 10);
-        if (!$lock) {throw new \moodle_exception('locktimeout', 'local_frontpage');}
+        $lock = \core\lock\lock_config::get_lock_factory(self::COMPONENT)->get_lock(
+            'course_resources_' . $courseid,
+            10
+        );
+        if (!$lock) {
+            throw new \moodle_exception('locktimeout', 'local_frontpage');
+        }
         try {
-            if ($section = self::get_section($courseid)) {return $section;}
+            if ($section = self::get_section($courseid)) {
+                return $section;
+            }
             require_once($CFG->dirroot . '/course/lib.php');
             $section = course_create_section($courseid);
             course_update_section($courseid, $section, [
@@ -35,27 +64,57 @@ final class course_resource_manager {
             self::remember_section($courseid, (int)$section->id);
             rebuild_course_cache($courseid, true);
             return get_fast_modinfo($courseid)->get_section_info_by_id((int)$section->id, MUST_EXIST);
-        } finally {$lock->release();}
+        } finally {
+            $lock->release();
+        }
     }
 
+    /**
+     * Store the section association.
+     *
+     * @param int $courseid Native course ID.
+     * @param int $sectionid Native course section ID.
+     * @return void
+     */
     public static function remember_section(int $courseid, int $sectionid): void {
         global $DB;
-        if (!$DB->record_exists('course_sections', ['id'=>$sectionid, 'course'=>$courseid, 'component'=>null])) {
+        if (!$DB->record_exists('course_sections', ['id' => $sectionid, 'course' => $courseid, 'component' => null])) {
             throw new \moodle_exception('invalidsection');
         }
         // Course-scoped ownership metadata; the native backup plugin remaps the section id.
         set_config('resourcesection_' . $courseid, $sectionid, self::COMPONENT);
     }
 
+    /**
+     * Return the section.
+     *
+     * @param int $courseid Native course ID.
+     * @return \section_info|null
+     */
     public static function get_section(int $courseid): ?\section_info {
         global $DB;
         $sectionid = (int)get_config(self::COMPONENT, 'resourcesection_' . $courseid);
-        if (!$sectionid || !$DB->record_exists('course_sections', ['id'=>$sectionid, 'course'=>$courseid, 'component'=>null])) {
+        if (
+            !$sectionid
+            || !$DB->record_exists(
+                'course_sections',
+                [ 'id' => $sectionid, 'course' => $courseid, 'component' => null ]
+            )
+        ) {
             return null;
         }
         return get_fast_modinfo($courseid)->get_section_info_by_id($sectionid);
     }
 
+    /**
+     * Register the native resource and its page association.
+     *
+     * @param int $cmid Course-module ID.
+     * @param string $origin Originating Frontpage course module.
+     * @param int|null $userid User ID.
+     * @param int|null $sourcepageid Sourcepageid.
+     * @return void
+     */
     public static function register(int $cmid, string $origin, ?int $userid = null, ?int $sourcepageid = null): void {
         global $DB, $USER;
 
@@ -92,6 +151,12 @@ final class course_resource_manager {
         ]);
     }
 
+    /**
+     * Check whether managed.
+     *
+     * @param int $cmid Course-module ID.
+     * @return bool
+     */
     public static function is_managed(int $cmid): bool {
         global $DB;
         return $DB->record_exists('local_frontpage_resource', [
@@ -101,13 +166,24 @@ final class course_resource_manager {
         ]);
     }
 
+    /**
+     * Mark the deleted.
+     *
+     * @param int $cmid Course-module ID.
+     * @return void
+     */
     public static function mark_deleted(int $cmid): void {
         global $DB;
         $DB->set_field('local_frontpage_resource', 'status', 'deleted', ['cmid' => $cmid]);
         $DB->set_field('local_frontpage_resource', 'timemodified', time(), ['cmid' => $cmid]);
     }
 
-    /** Mark unreferenced owned resources as orphaned and clear that state when they are referenced again. */
+    /**
+     * Mark unreferenced owned resources as orphaned and clear that state when they are referenced again.
+     *
+     * @param int|null $courseid Native course ID.
+     * @return void
+     */
     public static function refresh_orphan_state(?int $courseid = null): void {
         global $DB;
 
@@ -132,7 +208,12 @@ final class course_resource_manager {
         }
     }
 
-    /** Return resources which completed the orphan grace period and still have no retained references. */
+    /**
+     * Return resources which completed the orphan grace period and still have no retained references.
+     *
+     * @param int $courseid Native course ID.
+     * @return array
+     */
     public static function get_cleanup_candidates(int $courseid): array {
         global $DB;
 
@@ -159,10 +240,23 @@ final class course_resource_manager {
         ]);
     }
 
+    /**
+     * Count the cleanup candidates.
+     *
+     * @param int $courseid Native course ID.
+     * @return int
+     */
     public static function count_cleanup_candidates(int $courseid): int {
         return count(self::get_cleanup_candidates($courseid));
     }
 
+    /**
+     * Return the cleanup candidate.
+     *
+     * @param int $resourceid Resourceid.
+     * @param int $courseid Native course ID.
+     * @return \stdClass
+     */
     public static function get_cleanup_candidate(int $resourceid, int $courseid): \stdClass {
         $candidates = self::get_cleanup_candidates($courseid);
         if (!isset($candidates[$resourceid])) {
@@ -171,6 +265,14 @@ final class course_resource_manager {
         return $candidates[$resourceid];
     }
 
+    /**
+     * Synchronise the revision.
+     *
+     * @param int $revisionid Revision ID.
+     * @param int $pageid Page ID.
+     * @param string $documentjson Encoded page document.
+     * @return void
+     */
     public static function sync_revision(int $revisionid, int $pageid, string $documentjson): void {
         global $DB;
 
@@ -181,7 +283,10 @@ final class course_resource_manager {
         }
         $DB->delete_records('local_frontpage_cmref', ['revisionid' => $revisionid]);
         foreach ($segments as $segment) {
-            if (($segment['type'] ?? '') !== 'course_module' || empty($segment['id']) || empty($segment['props']['cmid'])) {
+            if (
+                ($segment['type'] ?? '') !== 'course_module' || empty($segment['id'])
+                || empty($segment['props']['cmid'])
+            ) {
                 continue;
             }
             $DB->insert_record('local_frontpage_cmref', (object) [
