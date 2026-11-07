@@ -3,10 +3,10 @@
 export const init = config => {
     const body = document.body;
     const drawer = document.querySelector('#theme_boost-drawers-blocks');
-    const region = drawer?.querySelector('[data-blockregion], .block-region');
+    const tools = drawer?.querySelector('[data-frontpage-page-tools]');
+    const region = tools?.closest('[data-blockregion], .block-region');
     const main = document.querySelector('#region-main');
-    if (body.classList.contains('local-frontpage-editor-sidebar-ready') || !drawer || !region || !main
-        || !region.querySelector('[data-frontpage-page-tools]')) return;
+    if (body.classList.contains('local-frontpage-editor-sidebar-ready') || !region || !main) return;
     let workspace = main.querySelector('[data-frontpage-editor-workspace]');
     if (!workspace) {
         workspace = document.createElement('div');
@@ -70,7 +70,10 @@ export const init = config => {
     title.textContent = config.title;
     const close = button(config.close, 'fa-times');
     header.append(title, close);
-    panel.append(header, region);
+    panel.append(header);
+    const addBlock = region.parentElement.querySelector(':scope > [data-region="add-block-button"]');
+    if (addBlock) panel.append(addBlock);
+    panel.append(region);
     body.append(rail, panel);
     const setOpen = (open, returnFocus = false) => {
         const inside = panel.contains(document.activeElement);
