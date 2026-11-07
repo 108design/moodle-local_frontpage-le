@@ -87,26 +87,18 @@ final class public_page_actions {
                 new pix_icon('i/settings', ''),
                 get_string('pages', 'local_frontpage')
             ));
-            $menu->add(new action_menu_link_secondary(
-                new moodle_url('/local/frontpage/page_settings.php', $params),
-                new pix_icon('i/settings', ''),
-                get_string('pageoptions', 'local_frontpage')
-            ));
-        } else {
-            $context = page_access::context($this->page);
-            $menu->add(new action_menu_link_secondary(
-                new moodle_url('/local/frontpage/page_settings.php', $params),
-                new pix_icon('i/settings', ''),
-                get_string('pagesettings', 'local_frontpage')
-            ));
-            if (has_capability('moodle/course:manageactivities', $context)) {
-                $menu->add(new action_menu_link_secondary(
-                    new moodle_url('/course/modedit.php', ['update' => $context->instanceid, 'return' => 1]),
-                    new pix_icon('i/settings', ''),
-                    get_string('activitysettings', 'local_frontpage')
-                ));
-            }
         }
+        $settingslabel = $this->page->ownercomponent === 'local_frontpage' ? 'pageoptions' : 'pagesettings';
+        $menu->add(new action_menu_link_secondary(
+            new moodle_url('/local/frontpage/page_settings.php', $params),
+            null,
+            authoring::icon(authoring::PAGE_SETTINGS_ICON) . s(get_string($settingslabel, 'local_frontpage'))
+        ));
+        $menu->add(new action_menu_link_secondary(
+            new moodle_url('/local/frontpage/page_files.php', $params),
+            null,
+            authoring::icon(authoring::PAGE_FILES_ICON) . s(get_string('pagefiles', 'local_frontpage'))
+        ));
         if (page_access::can_edit_css($this->page)) {
             $menu->add(new action_menu_link_secondary(
                 new moodle_url('/local/frontpage/page_css.php', $params),
@@ -115,14 +107,9 @@ final class public_page_actions {
             ));
         }
         $menu->add(new action_menu_link_secondary(
-            new moodle_url('/local/frontpage/page_files.php', $params),
-            new pix_icon('i/folder', ''),
-            get_string('pagefiles', 'local_frontpage')
-        ));
-        $menu->add(new action_menu_link_secondary(
             new moodle_url('/local/frontpage/revisions.php', $params),
-            new pix_icon('i/backup', ''),
-            get_string('revisions', 'local_frontpage')
+            null,
+            authoring::icon(authoring::VERSIONS_ICON) . s(get_string('revisions', 'local_frontpage'))
         ));
 
         $edit = authoring::link(page_url::get_edit_url($this->page), get_string('editcontent', 'local_frontpage'), 't/edit', true);

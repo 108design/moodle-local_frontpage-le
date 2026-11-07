@@ -89,7 +89,7 @@ $tools .= authoring::link(
 );
 $settings = new moodle_url('/local/frontpage/page_settings.php', ['id' => $id]);
 $tools .= authoring::link($settings, get_string($isactivity ? 'pagesettings' : 'pageoptions', 'local_frontpage'),
-    'local/page-settings');
+    authoring::PAGE_SETTINGS_ICON);
 if ($isactivity && has_capability('moodle/course:manageactivities', $context)) {
     $tools .= authoring::link(
         new moodle_url('/course/modedit.php', [ 'update' => $PAGE->cm->id, 'return' => 1 ]),
@@ -100,7 +100,7 @@ if ($isactivity && has_capability('moodle/course:manageactivities', $context)) {
 $tools .= authoring::link(
     new moodle_url('/local/frontpage/page_files.php', ['id' => $id]),
     get_string('pagefiles', 'local_frontpage'),
-    'fa/folder-open'
+    authoring::PAGE_FILES_ICON
 );
 if (page_access::can_edit_css($page)) {
     $tools .= authoring::link(
@@ -129,7 +129,7 @@ $draftstatus = html_writer::span(get_string('draftstatus', 'local_frontpage'), '
 $editoractions = $tools . $draftstatus . $primary . authoring::link(
     new moodle_url('/local/frontpage/revisions.php', ['id' => $id]),
     get_string('revisions', 'local_frontpage'),
-    'fa/history'
+    authoring::VERSIONS_ICON
 );
 $regions = $PAGE->blocks->get_regions();
 $region = in_array('side-pre', $regions, true) ? 'side-pre' : (in_array('side-post', $regions, true) ? 'side-post' : null);

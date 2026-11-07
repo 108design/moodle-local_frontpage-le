@@ -17,6 +17,13 @@ defined('MOODLE_INTERNAL') || die();
  * Native authoring presentation, shared by Site Home and the course activity.
  */
 final class authoring {
+    /** Icon for the page settings shared by the editor and public page actions. */
+    public const PAGE_SETTINGS_ICON = 'local/page-settings';
+    /** Icon for the page file manager. */
+    public const PAGE_FILES_ICON = 'fa/folder-open';
+    /** Icon for the page revision history. */
+    public const VERSIONS_ICON = 'fa/history';
+
     /**
      * Render a native Moodle icon.
      *
@@ -25,7 +32,7 @@ final class authoring {
      */
     public static function icon(string $name): string {
         global $OUTPUT;
-        if ($name === 'local/page-settings') {
+        if ($name === self::PAGE_SETTINGS_ICON) {
             static $pagesettingssvg = null;
             return $pagesettingssvg ??= file_get_contents(__DIR__ . '/../../pix/page-settings.svg');
         }
