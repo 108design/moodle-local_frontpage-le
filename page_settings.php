@@ -66,5 +66,11 @@ if ($data = $form->get_data()) {
 }
 $form->set_data((object)(['metadatahash' => $fingerprint($page)] + (array)$page));
 echo $OUTPUT->header();
+if ($page->ownercomponent === 'local_frontpage') {
+    echo \local_frontpage\local\screen::tabs('pages');
+}
+echo html_writer::div(\local_frontpage\output\authoring::link(
+    new moodle_url('/local/frontpage/edit.php', ['id' => $id]),
+    get_string('editcontent', 'local_frontpage'), 't/left'), 'mb-4');
 $form->display();
 echo $OUTPUT->footer();

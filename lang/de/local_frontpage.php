@@ -557,3 +557,33 @@ $string['pagehelp_activitynavigation_article'] = (
     );
 
 $string['activitynavigationbacktocourse'] = 'Zurück zum Kurs';
+
+// Shared independent signed update protection.
+$string['updateguard_heading'] = 'Update angehalten';
+$string['updateguard_component'] = 'Das Paket für {$a} wurde abgewiesen.';
+$string['updateguard_hint'] = 'Verwende ein freigegebenes Paket für die installierte Ausgabe. Du kannst den Vorgang erneut prüfen.';
+$string['updateguard_unchanged'] = 'Dieser Vorgang hat keine Plugin-Dateien ersetzt.';
+$string['updateguard_help'] = 'Das installierte Plugin prüft vor dem Ersetzen die Herausgebersignatur, den Paketinhalt, den erlaubten Updatekanal und die Kompatibilität. Eine gültige Signatur erlaubt keinen Wechsel auf eine andere Ausgabe. Wird ein Paket abgewiesen, stoppt die gesamte Sammelaktion.';
+$string['updateguard_signature'] = 'Die Herausgebersignatur oder der Paketinhalt konnte nicht bestätigt werden.';
+$string['updateguard_policy'] = 'Das Paket passt nicht zur installierten Ausgabe oder zum erlaubten Paketprofil.';
+$string['updateguard_channel'] = 'Updates über diesen Kanal sind für dieses Plugin nicht freigegeben.';
+$string['updateguard_metadata'] = 'Die Versions- oder Abhängigkeitsangaben sind nicht konsistent.';
+$string['updateguard_dependency'] = 'Eine benötigte Plugin-Version fehlt. Aktualisiere die Abhängigkeit gemeinsam mit diesem Plugin oder vorher.';
+$string['updateguard_approval'] = 'Die Pakete oder der installierte Stand haben sich seit der Vorschau geändert. Prüfe den Vorgang erneut.';
+$string['updateguard_busy'] = 'Eine andere Installation läuft. Versuche es nach deren Abschluss erneut.';
+$string['updateguard_installed'] = 'Der installierte Updateschutz ist unvollständig. Stelle die Dateien der zuletzt installierten freigegebenen Version wieder her.';
+$string['updateguard_operation'] = 'Diese Kombination von Installationsaktionen wird nicht unterstützt. Starte einen einzelnen Updatevorgang erneut.';
+$string['updateguard_failed'] = 'Das Update konnte nicht geprüft werden. Es wurde keine Installation gestartet.';
+$string['updateguard_back'] = 'Zur Pluginübersicht';
+// End shared independent signed update protection.
+
+$string['uipageactions'] = 'Seitenaktionen';
+$string['uiopentools'] = 'Seitenaktionen öffnen';
+$string['uiclosetools'] = 'Seitenaktionen schließen';
+$string['uisearchsegments'] = 'Segmenttypen suchen';
+$string['uinoresultsegments'] = 'Keine passenden Segmenttypen gefunden.';
+$string['uisampleheading'] = 'Deine Überschrift';
+$string['uisampletext'] = 'Füge eigene Inhalte hinzu und passe ihre Darstellung in den Segmenteinstellungen an.';
+$string['managerdateformat'] = '%d. %b %Y, %H:%M';
+$string['uipagesintro'] = 'Bereite bis zu fünf Startseiten vor. Wähle unter Einstellungen die Seiten für Gäste und angemeldete Nutzer aus, bevor Du sie veröffentlichst.';
+$string['title_help'] = 'Wähle einen Titel, unter dem Du die Seite in der Seitenliste und im Browser-Tab wiedererkennst.';

@@ -46,6 +46,9 @@ $form->set_data(
 );
 $PAGE->requires->js_call_amd('local_frontpage/source_editor', 'init', [['textareaId' => 'id_pagecss']]);
 echo $OUTPUT->header();
+if ($page->ownercomponent === 'local_frontpage') {
+    echo \local_frontpage\local\screen::tabs('pages');
+}
 echo html_writer::div(html_writer::tag('strong', format_string($page->title))
     . html_writer::div(
         \local_frontpage\output\authoring::link($back, get_string('editcontent', 'local_frontpage'), 't/left')

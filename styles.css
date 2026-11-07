@@ -1721,6 +1721,30 @@ vertical-align: middle;
 
 /* Native authoring controls: the same segment hierarchy as the rendered page. */
 .local-frontpage-editor-header {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
+body.local-frontpage-editor-sidebar-ready .local-frontpage-editor-header { display: none; }
+.local-frontpage-drawer-actions { display: flex; flex-direction: column; gap: .375rem; }
+.local-frontpage-drawer-actions > :is(a, form),
+.local-frontpage-drawer-actions > form > button { width: 100%; }
+.local-frontpage-drawer-actions > a { border: 0; display: flex; gap: .5rem; align-items: center; text-align: start; }
+.local-frontpage-drawer-actions > a > span { white-space: normal; overflow-wrap: anywhere; }
+.local-frontpage-drawer-actions > form { margin: 0; }
+.local-frontpage-picker-sample { border: 1px solid var(--bs-border-color, #dee2e6); border-radius: .5rem; min-height: 14rem; padding: 1.5rem; }
+.local-frontpage-picker-hero { background: #ece8f3; border-radius: .5rem; color: #332b48; padding: 2rem; }
+.local-frontpage-picker-media { align-items: center; background: #e6eef4; display: flex; justify-content: center; min-height: 11rem; }
+.local-frontpage-picker-media .icon { height: 3rem; width: 3rem; font-size: 3rem; }
+.local-frontpage-picker-spacer { background: #f1f3f5; border-block: 1px dashed #adb5bd; height: 5rem; }
+.local-frontpage-picker-grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+[data-frontpage-segment-picker] [hidden] { display: none !important; }
+[data-frontpage-segment-picker] .local-frontpage-segment-chooser-item[aria-pressed="true"] {
+    background: var(--bs-tertiary-bg, #f1f3f5); box-shadow: inset 3px 0 var(--bs-primary, #0f6cbf);
+}
+.local-frontpage-manager-table td { vertical-align: middle; }
+.local-frontpage-manager-table .local-frontpage-page-actionbar { display: grid; grid-template-columns: repeat(3, 2rem); gap: .25rem; }
+@media (max-width: 767.98px) {
+    [data-frontpage-segment-picker] .local-frontpage-segment-chooser-body { grid-template-columns: minmax(0, 1fr); }
+    [data-frontpage-segment-picker] .local-frontpage-segment-chooser-preview { position: static; }
+    .local-frontpage-picker-grid { grid-template-columns: minmax(0, 1fr); }
+}
 .local-frontpage-editor-primary,.local-frontpage-page-actionbar {display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;}
 .local-frontpage-editor-primary .icon {margin-inline-end:.5rem;}
 .local-frontpage-draft-notice {display:flex;gap:.65rem;align-items:start;border-inline-start:3px solid var(--bs-info,#0f6cbf);padding:.65rem 1rem;background:var(--bs-tertiary-bg,#f5f7fa);margin-bottom:2rem;color:var(--bs-body-color,#212529);}

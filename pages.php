@@ -22,7 +22,9 @@ if ($data = $form->get_data()) {
 }
 echo $OUTPUT->header();
 echo screen::tabs('pages');
+echo html_writer::tag('p', get_string('uipagesintro', 'local_frontpage'), ['class' => 'text-muted mb-4']);
 $table = new html_table();
+$table->attributes['class'] = 'generaltable table table-hover w-100 local-frontpage-manager-table';
 $table->head = [
         get_string('title', 'local_frontpage'),
          get_string('assignments', 'local_frontpage'),
@@ -96,7 +98,7 @@ foreach (factory::page_repository()->get_pages() as $p) {
             empty($p->publishedrevisionid) ? 'bg-warning text-dark' : 'bg-success text-white'
             )
         ),
-         userdate($p->timemodified),
+         userdate($p->timemodified, get_string('managerdateformat', 'local_frontpage')),
          html_writer::div(
              implode(' ', $links),
              'local-frontpage-manager-actions local-frontpage-page-actionbar'

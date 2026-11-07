@@ -1,0 +1,193 @@
+/* Frontpage owns editor geometry; native theme drawers remain unchanged outside the editor. */
+body.local-frontpage-editor-sidebar-enabled,
+body.local-frontpage-editor-sidebar-ready {
+    --local-frontpage-sidebar-gap: 21px;
+    --local-frontpage-sidebar-width: 56px;
+    --local-frontpage-sidebar-reserve: 98px;
+}
+body.local-frontpage-editor-sidebar-enabled #page-wrapper #page.drawers,
+body.local-frontpage-editor-sidebar-ready #page-wrapper #page.drawers {
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+    width: 100% !important;
+    overflow-y: visible !important;
+}
+body.local-frontpage-editor-sidebar-enabled #region-main .local-frontpage-editor-workspace,
+body.local-frontpage-editor-sidebar-ready #region-main .local-frontpage-editor-workspace {
+    box-sizing: border-box !important;
+    width: calc(100% - var(--local-frontpage-sidebar-reserve)) !important;
+    max-width: calc(100% - var(--local-frontpage-sidebar-reserve)) !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    margin-inline: 0 var(--local-frontpage-sidebar-reserve) !important;
+}
+body.local-frontpage-editor-sidebar-enabled #theme_boost-drawers-blocks,
+body.local-frontpage-editor-sidebar-enabled .drawer-toggles .drawer-right-toggle,
+body.local-frontpage-editor-sidebar-enabled .drawer-backdrop,
+body.local-frontpage-editor-sidebar-ready #theme_boost-drawers-blocks,
+body.local-frontpage-editor-sidebar-ready .drawer-toggles .drawer-right-toggle,
+body.local-frontpage-editor-sidebar-ready .drawer-backdrop {
+    display: none !important;
+}
+.local-frontpage-editor-rail,
+.local-frontpage-editor-panel {
+    box-sizing: border-box;
+    position: fixed;
+    top: var(--local-frontpage-sidebar-top, 94px);
+    max-height: calc(100dvh - var(--local-frontpage-sidebar-top, 94px) - 21px);
+    z-index: 1026;
+    border: 1px solid rgb(51 43 72 / 16%);
+    border-radius: 16px;
+    color: #332b48;
+    color-scheme: light;
+    background: #f6f3f8;
+    background: color-mix(in srgb, #f6f3f8 78%, transparent);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 28%), 0 6px 24px rgb(22 12 38 / 12%);
+    backdrop-filter: blur(22px) saturate(135%);
+    font: inherit;
+}
+.local-frontpage-editor-rail {
+    inset-inline-end: 21px;
+    width: 56px;
+    display: flex;
+    flex-direction: column;
+    padding: 7px;
+}
+.local-frontpage-editor-rail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}
+.local-frontpage-editor-rail-actions > form {
+    display: block;
+    margin: 0;
+}
+.local-frontpage-editor-rail .local-frontpage-sidebar-control,
+.local-frontpage-editor-panel-header .local-frontpage-sidebar-control {
+    all: unset;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    color: #332b48;
+    cursor: pointer;
+    font: inherit;
+}
+/* Compact rail rows halve the visible space between18px glyphs:42px pitch becomes30px. */
+.local-frontpage-editor-rail .local-frontpage-sidebar-control {
+    flex-basis: 30px;
+    height: 30px;
+}
+.local-frontpage-editor-rail .local-frontpage-sidebar-control > span,
+.local-frontpage-editor-rail .local-frontpage-sidebar-control .badge {
+    display: none;
+}
+.local-frontpage-editor-rail .local-frontpage-sidebar-control .icon,
+.local-frontpage-editor-panel-header .local-frontpage-sidebar-control .fa {
+    margin: 0;
+    font-size: 18px;
+}
+.local-frontpage-editor-rail .local-frontpage-sidebar-control:hover,
+.local-frontpage-editor-panel-header .local-frontpage-sidebar-control:hover {
+    background: rgb(51 43 72 / 9%);
+}
+.local-frontpage-editor-rail .local-frontpage-sidebar-control:focus-visible,
+.local-frontpage-editor-panel-header .local-frontpage-sidebar-control:focus-visible {
+    outline: 2px solid var(--bs-primary, #6343b5);
+    outline-offset: -2px;
+}
+.local-frontpage-editor-rail .local-frontpage-sidebar-expand {
+    margin-bottom: 6px;
+}
+.local-frontpage-editor-rail-footer {
+    flex: 0 0 auto;
+    border-top: 1px solid rgb(51 43 72 / 16%);
+    margin-top: 5px;
+    padding-top: 4px;
+}
+.local-frontpage-editor-panel {
+    inset-inline-end: 21px;
+    width: min(360px, calc(100% - 119px));
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 8px;
+}
+.local-frontpage-editor-panel[hidden] {
+    display: none !important;
+}
+.local-frontpage-editor-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 0 8px 8px;
+}
+.local-frontpage-editor-panel-header h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+.local-frontpage-editor-panel .block-region {
+    width: 100%;
+    min-width: 0;
+}
+@media (prefers-reduced-transparency: reduce) {
+    .local-frontpage-editor-rail,
+    .local-frontpage-editor-panel {
+        background: #f6f3f8;
+        backdrop-filter: none;
+    }
+}
+
+
+@supports not (backdrop-filter: blur(1px)) {
+    .local-frontpage-editor-rail, .local-frontpage-editor-panel { background: #f6f3f8; }
+}
+
+/* Narrow panels wrap the existing action labels instead of widening the overlay. */
+.local-frontpage-editor-panel .local-frontpage-drawer-action > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.local-frontpage-editor-panel .badge,
+.local-frontpage-editor-panel .local-frontpage-internal-block-insertion-action {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.local-frontpage-editor-panel .local-frontpage-internal-block-toolbar,
+.local-frontpage-editor-panel .local-frontpage-clipboard-entry {
+    flex-wrap: wrap;
+}
+@media (max-width: 480px) {
+    .local-frontpage-editor-panel .local-frontpage-clipboard-entry-name {
+        flex: 1 0 100%;
+        overflow-wrap: anywhere;
+    }
+}
+
+.local-frontpage-editor-panel { overflow-wrap: anywhere; }
+.local-frontpage-editor-panel-header h2 { min-width: 0; }
+@media (max-width: 600px) {
+    .local-frontpage-editor-panel {
+        inset-inline-end: 21px;
+        width: min(360px, calc(100% - 42px));
+    }
+}
+
+.local-frontpage-editor-rail[hidden] { display: none !important; }
+
+/* The icon rail needs a stronger glyph; normal panel actions retain native16px sizing. */
+.local-frontpage-editor-rail .local-frontpage-page-settings-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}

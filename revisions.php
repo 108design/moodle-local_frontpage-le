@@ -19,6 +19,9 @@ $draft = factory::page_repository()->get_revision($id, $page->draftrevisionid);
 $url = new moodle_url('/local/frontpage/revisions.php', ['id' => $id]);
 screen::start($url, get_string('revisions', 'local_frontpage'), 'revisionhistory', $page);
 echo $OUTPUT->header();
+if ($page->ownercomponent === 'local_frontpage') {
+    echo \local_frontpage\local\screen::tabs('pages');
+}
 use local_frontpage\output\authoring;
 echo html_writer::div(
     authoring::link(
@@ -91,7 +94,7 @@ foreach ($DB->get_records('local_frontpage_revision', ['pageid' => $id], 'revisi
              authoring::icon($stateicon) . get_string($state, 'local_frontpage'),
              'badge text-white local-frontpage-revision-state ' . $tone
          ),
-         userdate($r->timecreated),
+         userdate($r->timecreated, get_string('managerdateformat', 'local_frontpage')),
          html_writer::div($actions, 'local-frontpage-page-actionbar'),
     ];
 }

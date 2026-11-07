@@ -22,7 +22,8 @@ final class basic_form extends \moodleform {
         $f = $this->_form;
         $kind = $this->_customdata['kind'];
         if ($kind === 'title' || $kind === 'pageoptions') {
-            $f->addElement('text', 'title', get_string('title', 'local_frontpage'));
+            $f->addElement('text', 'title', get_string('title', 'local_frontpage'), ['size' => 50, 'maxlength' => 255]);
+            $f->addHelpButton('title', 'title', 'local_frontpage');
             $f->setType('title', PARAM_TEXT);
             $f->addRule('title', null, 'required', null, 'client');
             if ($kind === 'pageoptions') {

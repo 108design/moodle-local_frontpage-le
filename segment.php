@@ -31,7 +31,20 @@ foreach ($doc['segments'] as $s) {
 if (!$segment && $segmentid !== '' && !optional_param('newsegment', 0, PARAM_BOOL)) {
     throw new invalid_parameter_exception('Segment not found.');
 }
-$type = $segment['type'] ?? required_param('type', PARAM_ALPHANUMEXT);
+$type = $segment['type'] ?? optional_param('type', '', PARAM_ALPHANUMEXT);
+if ($type === '') {
+    $pickerurl = new moodle_url('/local/frontpage/segment.php', ['pageid' => $id]);
+    \local_frontpage\local\screen::start($pickerurl, get_string('addsegment', 'local_frontpage'), 'segmentsettings', $page);
+    $PAGE->requires->js_call_amd('local_frontpage/segment_picker', 'init');
+    echo $OUTPUT->header();
+    echo html_writer::div(\local_frontpage\output\authoring::link(
+        new moodle_url('/local/frontpage/edit.php', ['id' => $id]), get_string('editcontent', 'local_frontpage'), 't/left'), 'mb-4');
+    echo \local_frontpage\output\segment_picker::render([
+        'pageid' => $id, 'baserevisionid' => $revision->id, 'baseversion' => $revision->draftversion,
+    ]);
+    echo $OUTPUT->footer();
+    exit;
+}
 if ($type === 'course_navigation' || !in_array($type, \local_frontpage\local\document\validator::TYPES, true)) {
     throw new invalid_parameter_exception('Unsupported segment type.');
 }

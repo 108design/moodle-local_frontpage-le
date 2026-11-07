@@ -208,27 +208,9 @@ final class authoring {
      * @return string
      */
     public static function chooser(array $actions): string {
-        $items = '';
-        foreach (\local_frontpage\local\document\validator::TYPES as $type) {
-            if ($type === 'course_navigation') {
-                continue;
-            }
-            $label = get_string('segmenttype' . str_replace('_', '', $type), 'local_frontpage');
-            $items .= html_writer::link(
-                new moodle_url('/local/frontpage/segment.php', $actions + ['type' => $type]),
-                self::icon(self::type_icon($type)) . html_writer::div(html_writer::tag('strong', s($label))
-                    . html_writer::span(get_string('chooser_' . $type, 'local_frontpage'), 'small text-muted d-block')),
-                ['class' => 'local-frontpage-segment-choice']
-            );
-        }
-        return html_writer::div(
-            html_writer::tag(
-                'h3',
-                get_string('addsegment', 'local_frontpage'),
-                [ 'class' => 'h5 mb-3' ]
-            )
-            . html_writer::div($items, 'local-frontpage-segment-choices'),
-            'local-frontpage-segment-chooser'
-        );
+        return html_writer::div(self::link(
+            new moodle_url('/local/frontpage/segment.php', $actions),
+            get_string('addsegment', 'local_frontpage'), 't/add'),
+            'local-frontpage-segment-chooser');
     }
 }
