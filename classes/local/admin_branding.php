@@ -133,34 +133,6 @@ final class admin_branding {
             $css .= self::title_css('#adminsettings .settingsform > h2', $image);
         }
         if (
-            (int)$PAGE->context->contextlevel === CONTEXT_MODULE
-
-            && in_array(
-                $path,
-                array_map(
-                    $nativepath,
-                    [
-                    '/local/frontpage/edit.php',
-                    '/local/frontpage/segment.php',
-                    '/local/frontpage/page_css.php',
-
-                    '/local/frontpage/page_settings.php',
-                    '/local/frontpage/page_files.php',
-                    '/local/frontpage/revisions.php',
-                    ]
-                ),
-                true
-            )
-                && $PAGE->cm->modname === 'frontpage'
-                && has_capability('mod/frontpage:managecontent', $PAGE->context)
-        ) {
-            $activityimage = json_encode(
-                $renderer->image_url('adminbrand', 'mod_frontpage')->out(false),
-                JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
-            );
-            $css .= self::title_css('#page-header h1', $activityimage);
-        }
-        if (
             $path === $nativepath($admin . '/plugins.php')
                 && has_capability('moodle/site:config', $system)
         ) {
