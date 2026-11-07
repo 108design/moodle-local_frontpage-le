@@ -66,8 +66,8 @@ $string['editcontent'] = 'Edit Content';
 $string['frontpage:managepages'] = 'Manage Frontpage pages and drafts';
 $string['frontpage:publishpages'] = 'Publish Frontpage page versions';
 $string['frontpageresourcecreatehelp'] = (
-        'Select a normal Moodle activity type. Its standard settings form opens next, '
-    . 'and saving or cancelling returns to this Frontpage card.'
+        'Choose a Moodle activity type to open its settings. Frontpage creates it in a hidden course section. '
+    . 'By default, learners can open the activity from a link. Save it in Moodle, then confirm to add it to the draft.'
     );
 $string['frontpageresourcenotdeletable'] = (
         'This resource is referenced again, is still within its grace period, or is '

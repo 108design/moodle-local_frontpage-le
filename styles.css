@@ -1,3 +1,7 @@
+body.local-frontpage-close-course-index [data-region="fixed-drawer"][data-preference="drawer-open-index"] {
+    visibility: hidden !important;
+}
+
 :root {
 --local-108design-accent: oklch(29.944% 0.07773 294.90);
     --local-108design-accent-soft: oklch(84% 0.055 300);

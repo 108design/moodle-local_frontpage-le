@@ -21,6 +21,10 @@ $url = new moodle_url('/local/frontpage/edit.php', ['id' => $id]);
 screen::start($url, $page->title, 'editor', $page);
 $actions = ['pageid' => $id, 'baserevisionid' => $revision->id, 'baseversion' => $revision->draftversion];
 $PAGE->add_body_class('local-frontpage-editor-mode');
+if ($page->ownercomponent === 'mod_frontpage') {
+    $PAGE->add_body_class('local-frontpage-close-course-index');
+    $PAGE->requires->js_call_amd('local_frontpage/editor_course_index', 'init');
+}
 use local_frontpage\output\authoring;
 $primary = '';
 $assigned = $page->ownercomponent !== 'local_frontpage'

@@ -70,9 +70,9 @@ $string['editcontent'] = 'Inhalt bearbeiten';
 $string['frontpage:managepages'] = 'Frontpage-Seiten und Entwürfe verwalten';
 $string['frontpage:publishpages'] = 'Frontpage-Seitenversionen veröffentlichen';
 $string['frontpageresourcecreatehelp'] = (
-        'Wählen Sie einen normalen Moodle-Aktivitätstyp. Anschließend öffnet sich '
-    . 'dessen Standardformular; Speichern oder Abbrechen führt zu dieser '
-    . 'Frontpage-Karte zurück.'
+        'Wähle einen Moodle-Aktivitätstyp, um seine Einstellungen zu öffnen. Frontpage legt die Aktivität '
+    . 'in einem verborgenen Kursabschnitt ab. Lernende können sie standardmäßig per Link öffnen. '
+    . 'Speichere sie in Moodle und bestätige anschließend das Einfügen in den Entwurf.'
     );
 $string['frontpageresourcenotdeletable'] = ('Diese Ressource wird wieder referenziert, befindet sich noch in der '
     . 'Schonfrist oder gehört nicht Frontpage. Sie wurde nicht gelöscht.');

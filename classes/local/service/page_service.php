@@ -220,9 +220,10 @@ final class page_service {
      *
      * @param \stdClass $page Page record or native page context.
      * @param string $json Encoded JSON document.
+     * @param string $previousjson Last validated draft, for references that may since have become unavailable.
      * @return string
      */
-    private function validate(\stdClass $page, string $json): string {
+    private function validate(\stdClass $page, string $json, string $previousjson): string {
         $json = (new validator())->validate_and_normalise($json);
         $doc = json_decode($json, true);
         $navigation = array_values(array_filter($doc['segments'], fn($s)=>$s['type'] === 'course_navigation'));
@@ -233,11 +234,16 @@ final class page_service {
         } else if ($navigation) {
             throw new \invalid_parameter_exception('Course navigation requires an activity.');
         }
+        $previous = array_column(json_decode($previousjson, true, 512, JSON_THROW_ON_ERROR)['segments'], null, 'id');
         foreach ($doc['segments'] as $segment) {
-            if ($segment['type'] === 'course_module' && !empty($segment['props']['cmid'])) {
+            $cmid = $segment['props']['cmid'] ?? 0;
+            $existing = $previous[$segment['id']] ?? [];
+            // Preserve the exact stored reference if its native activity has since been removed.
+            if ($segment['type'] === 'course_module' && $cmid
+                    && (($existing['type'] ?? '') !== 'course_module' || (int)($existing['props']['cmid'] ?? 0) !== $cmid)) {
                 \local_frontpage\local\course_module_reference::get(
                     page_access::context($page),
-                    $segment['props']['cmid'],
+                    $cmid,
                     $page
                 );
             }
@@ -273,7 +279,7 @@ final class page_service {
                 $page = factory::page_repository()->get_page($pageid);
                 page_access::require_manage($page);
                 $old = $this->expected($page, $expectedrevision, $expectedversion);
-                $json = $this->validate($page, $json);
+                $json = $this->validate($page, $json, $old->documentjson);
                 $oldcss = json_decode($old->documentjson, true)['css'] ?? '';
                 $newcss = json_decode($json, true)['css'] ?? '';
                 if ($oldcss !== $newcss) {
@@ -344,7 +350,7 @@ final class page_service {
                     throw new \moodle_exception('publishassignmentrequired', 'local_frontpage');
                 }
                 $draft = $this->expected($page, $expectedrevision, $expectedversion);
-                $this->validate($page, $draft->documentjson);
+                $this->validate($page, $draft->documentjson, $draft->documentjson);
                 $this->validate_files($page, $draft);
                 $DB->update_record(
                     'local_frontpage_revision',

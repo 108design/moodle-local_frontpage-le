@@ -51,22 +51,56 @@ final class course_resource_manager {
             throw new \moodle_exception('locktimeout', 'local_frontpage');
         }
         try {
-            if ($section = self::get_section($courseid)) {
+            $section = self::get_section($courseid);
+            if ($section && !$section->visible) {
                 return $section;
             }
             require_once($CFG->dirroot . '/course/lib.php');
-            $section = course_create_section($courseid);
-            course_update_section($courseid, $section, [
-                'name' => get_string('frontpageresourcessection', 'local_frontpage'),
-                'summary' => get_string('frontpageresourcessectionsummary', 'local_frontpage'),
-                'summaryformat' => FORMAT_HTML,
-            ]);
+            $transaction = $DB->start_delegated_transaction();
+            $existing = $section ? self::owned_section_modules($courseid, (int)$section->id) : null;
+            $updates = ['visible' => 0];
+            if ($existing === null) {
+                // An older section may contain normal Moodle activities placed there independently.
+                $section = course_create_section($courseid);
+                $existing = [];
+                $updates += [
+                    'name' => get_string('frontpageresourcessection', 'local_frontpage'),
+                    'summary' => get_string('frontpageresourcessectionsummary', 'local_frontpage'),
+                    'summaryformat' => FORMAT_HTML,
+                ];
+            }
+            course_update_section($courseid, $section, $updates);
+            foreach ($existing as $module) {
+                // Core hides all children when hiding the section. Restore each native access setting.
+                set_coursemodule_visible((int)$module->id, (int)$module->visible, 0, false);
+            }
             self::remember_section($courseid, (int)$section->id);
+            $transaction->allow_commit();
             rebuild_course_cache($courseid, true);
             return get_fast_modinfo($courseid)->get_section_info_by_id((int)$section->id, MUST_EXIST);
         } finally {
             $lock->release();
         }
+    }
+
+    /**
+     * Return the modules of a section only if Frontpage owns all of them.
+     *
+     * @param int $courseid Native course ID.
+     * @param int $sectionid Native section ID.
+     * @return array|null Native modules, or null for a mixed section.
+     */
+    private static function owned_section_modules(int $courseid, int $sectionid): ?array {
+        global $DB;
+        $modules = $DB->get_records('course_modules', ['course' => $courseid, 'section' => $sectionid], '', 'id, visible');
+        foreach ($modules as $module) {
+            if (!$DB->record_exists('local_frontpage_resource', [
+                'cmid' => $module->id, 'courseid' => $courseid, 'origin' => self::ORIGIN_CREATED,
+            ])) {
+                return null;
+            }
+        }
+        return $modules;
     }
 
     /**

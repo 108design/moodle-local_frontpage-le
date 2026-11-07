@@ -108,6 +108,27 @@ function local_frontpage_coursemodule_standard_elements($wrapper, \MoodleQuickFo
     $PAGE->requires->js_call_amd('local_frontpage/activity_return', 'init', [
         \local_frontpage\local\activity_return::landing_url($pending)->out(false)]);
 }
+
+/**
+ * Default a new Frontpage resource to link access inside the hidden native section.
+ *
+ * @param \moodleform_mod $wrapper Native activity form.
+ * @param \MoodleQuickForm $form Native form receiving the controls.
+ */
+function local_frontpage_coursemodule_definition_after_data(\moodleform_mod $wrapper, \MoodleQuickForm $form): void {
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'GET' || !$form->elementExists('frontpagereturntoken')
+            || !$form->elementExists('visible') || $wrapper->get_coursemodule()) {
+        return;
+    }
+    $pending = \local_frontpage\local\activity_return::pending();
+    if (!$pending || $pending['mode'] !== 'create') {
+        return;
+    }
+    $section = get_fast_modinfo($wrapper->get_course())->get_section_info((int)$wrapper->get_section());
+    if ($section && (int)$section->id === (int)$pending['sectionid'] && !$section->visible) {
+        $form->setDefault('visible', 1);
+    }
+}
 /**
  * Let Core commit normally, then use its CM-specific redirect for an unambiguous return.
  *
