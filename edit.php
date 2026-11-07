@@ -59,8 +59,20 @@ $primary .= authoring::link(
     'i/preview'
 );
 $tools = authoring::link(
+    new moodle_url(
+        $page->ownercomponent === 'mod_frontpage' ? '/course/view.php' : '/local/frontpage/pages.php',
+        $page->ownercomponent === 'mod_frontpage' ? ['id' => $PAGE->course->id] : []
+    ),
+    get_string(
+        $page->ownercomponent === 'mod_frontpage' ? 'course' : 'pages',
+        $page->ownercomponent === 'mod_frontpage' ? 'moodle' : 'local_frontpage'
+    ),
+    'i/return'
+);
+$tools .= authoring::link(
     new moodle_url('/local/frontpage/segment.php', ['pageid' => $id]),
-    get_string('addsegment', 'local_frontpage'), 't/add'
+    get_string('addsegment', 'local_frontpage'),
+    't/add'
 );
 if ($page->ownercomponent === 'mod_frontpage') {
     $tools .= authoring::link(

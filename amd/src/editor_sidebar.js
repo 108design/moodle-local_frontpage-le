@@ -49,7 +49,16 @@ export const init = config => {
         control.classList.add('local-frontpage-icon-button', 'local-frontpage-sidebar-control');
         actions.append(copy);
     });
-    rail.append(toggle, actions);
+    const footer = document.createElement('div');
+    footer.className = 'local-frontpage-editor-rail-footer';
+    const helpSource = document.querySelector('[data-frontpage-help-open]');
+    if (helpSource) {
+        const help = button(helpSource.getAttribute('aria-label') || helpSource.title || config.title, 'fa-info-circle');
+        help.setAttribute('data-frontpage-help-open', helpSource.getAttribute('data-frontpage-help-open'));
+        help.setAttribute('aria-expanded', 'false');
+        footer.append(help);
+    }
+    rail.append(toggle, actions, footer);
     const panel = document.createElement('section');
     panel.id = 'local-frontpage-editor-panel';
     panel.className = 'local-frontpage-editor-panel';

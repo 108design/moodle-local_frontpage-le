@@ -208,9 +208,13 @@ final class authoring {
      * @return string
      */
     public static function chooser(array $actions): string {
-        return html_writer::div(self::link(
-            new moodle_url('/local/frontpage/segment.php', $actions),
-            get_string('addsegment', 'local_frontpage'), 't/add'),
-            'local-frontpage-segment-chooser');
+        return html_writer::div(
+            self::link(
+                new moodle_url('/local/frontpage/segment.php', $actions),
+                get_string('addsegment', 'local_frontpage'),
+                't/add'
+            ),
+            'local-frontpage-segment-chooser'
+        );
     }
 }

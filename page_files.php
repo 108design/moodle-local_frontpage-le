@@ -60,6 +60,8 @@ if ($page->ownercomponent === 'local_frontpage') {
 }
 echo html_writer::div(\local_frontpage\output\authoring::link(
     new moodle_url('/local/frontpage/edit.php', ['id' => $id]),
-    get_string('editcontent', 'local_frontpage'), 't/left'), 'mb-4');
+    get_string('editcontent', 'local_frontpage'),
+    't/left'
+), 'mb-4');
 $form->display();
 echo $OUTPUT->footer();
