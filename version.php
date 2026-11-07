@@ -9,7 +9,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'local_frontpage';
-$plugin->version = 2026010109;
+$plugin->version = 2026010110;
 $plugin->requires = 2024100700;
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.10.0-beta';
+$plugin->release = '0.11.0-beta';

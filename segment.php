@@ -210,6 +210,22 @@ if ($type === 'grid') {
 }
 $defaults += \local_frontpage\local\segment_colour_modes::defaults($props['layout'] ?? []);
 $form->set_data($defaults);
+$createactivity = '';
+if ($type === 'course_module' && !$segment && ($context->contextlevel === CONTEXT_MODULE || !empty($page->sitehomescope))) {
+    $courseid = \local_frontpage\local\page_scope::course_id($page, $context);
+    if (has_capability('moodle/course:manageactivities', context_course::instance($courseid))) {
+        $createactivity = \local_frontpage\output\authoring::link(
+            new moodle_url('/local/frontpage/activity_create.php', [
+                'pageid' => $id,
+                'segmentid' => $segmentid,
+                'baserevisionid' => $revision->id,
+                'baseversion' => $revision->draftversion,
+            ]),
+            get_string('createfrontpageresource', 'local_frontpage'),
+            'i/activities'
+        );
+    }
+}
 echo $OUTPUT->header();
 echo html_writer::div(
     \local_frontpage\output\authoring::link(
@@ -217,7 +233,8 @@ echo html_writer::div(
         get_string('editcontent', 'local_frontpage'),
         't/left'
     )
-    . \local_frontpage\output\authoring::type_badge($type),
+    . \local_frontpage\output\authoring::type_badge($type)
+    . $createactivity,
     'local-frontpage-editor-primary mb-4'
 );
 $form->display();

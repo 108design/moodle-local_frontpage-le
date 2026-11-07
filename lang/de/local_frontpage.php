@@ -261,15 +261,15 @@ $string['pagefiles'] = 'Seitendateien';
 $string['pagefiles_help'] = ('Lade Dateien für diese Seite hoch. Frühere Revisionen behalten ihre Kopien, '
     . 'wenn Du eine Datei aus dem Entwurf entfernst.');
 $string['pagehelp_activities'] = 'Moodle-Aktivitäten';
-$string['pagehelp_activities_article'] = ('<p>Wähle vorhandene Aktivitäten desselben Kurses oder öffne mit '
-    . 'Kursressource anlegen Moodles Aktivitätsauswahl und normales Formular. Die '
+$string['pagehelp_activities_article'] = ('<p>Wähle im Segment-Picker Kursaktivität oder Material. '
+    . 'Wähle eine vorhandene Aktivität aus oder öffne mit Aktivität oder Material erstellen die Moodle-Auswahl. Die '
     . 'Startseite verwendet ihren eigenen Kurs. Bestätige nach dem Speichern in '
     . 'Moodle die Rückkehr, um eine Referenz im Entwurf anzulegen. Falls sich der '
     . 'Entwurf inzwischen geändert hat, wähle die Ressource aus der Liste '
     . 'vorhandener Aktivitäten. Das Entfernen einer Referenz erhält die Aktivität '
     . 'und ihre Nutzerdaten.</p>');
-$string['pagehelp_activities_help'] = ('Wähle vorhandene Aktivitäten desselben Kurses oder öffne mit Kursressource '
-    . 'anlegen Moodles Aktivitätsauswahl und normales Formular.');
+$string['pagehelp_activities_help'] = ('Über Kursaktivität oder Material im Segment-Picker kannst Du eine Aktivität '
+    . 'aus diesem Kurs verlinken oder neu anlegen.');
 $string['pagehelp_activitysettings_title'] = 'Frontpage-Hilfe';
 $string['pagehelp_assignments'] = 'Startseitenzuweisung';
 $string['pagehelp_assignments_article'] = ('<p>Die native Moodle-Startseite muss aktiviert sein. Moodles gewählte '

@@ -62,39 +62,18 @@ $primary .= authoring::link(
     get_string('previewdraft', 'local_frontpage'),
     'i/preview'
 );
-$tools = authoring::link(
-    new moodle_url(
-        $page->ownercomponent === 'mod_frontpage' ? '/course/view.php' : '/local/frontpage/pages.php',
-        $page->ownercomponent === 'mod_frontpage' ? ['id' => $PAGE->course->id] : []
-    ),
-    get_string(
-        $page->ownercomponent === 'mod_frontpage' ? 'course' : 'pages',
-        $page->ownercomponent === 'mod_frontpage' ? 'moodle' : 'local_frontpage'
-    ),
-    'i/return'
-);
+$isactivity = $page->ownercomponent === 'mod_frontpage';
+$back = new moodle_url('/local/frontpage/pages.php');
+if ($isactivity) {
+    $back = new moodle_url('/course/view.php', ['id' => $PAGE->course->id], 'module-' . $PAGE->cm->id);
+}
+$tools = authoring::link($back, get_string($isactivity ? 'activitynavigationbacktocourse' : 'pages', 'local_frontpage'), 't/left');
 $tools .= authoring::link(
     new moodle_url('/local/frontpage/segment.php', ['pageid' => $id]),
     get_string('addsegment', 'local_frontpage'),
     't/add'
 );
-if ($page->ownercomponent === 'mod_frontpage') {
-    $tools .= authoring::link(
-        new moodle_url('/local/frontpage/activity_navigation.php', ['id' => $id]),
-        get_string('activitynavigation', 'local_frontpage'),
-        'i/settings',
-        false
-    );
-}
-if (page_access::can_edit_css($page)) {
-    $tools .= authoring::link(
-        new moodle_url('/local/frontpage/page_css.php', [ 'id' => $id ]),
-        get_string('pagecss', 'local_frontpage'),
-        'e/source_code',
-        false
-    );
-}
-if ($page->ownercomponent === 'local_frontpage') {
+if (!$isactivity) {
     $tools .= authoring::link(
         new moodle_url('/local/frontpage/page_settings.php', [ 'id' => $id ]),
         get_string('pageoptions', 'local_frontpage'),
@@ -105,53 +84,49 @@ if ($page->ownercomponent === 'local_frontpage') {
     $tools .= authoring::link(
         new moodle_url('/course/modedit.php', [ 'update' => $PAGE->cm->id, 'return' => 1 ]),
         get_string('activitysettings', 'local_frontpage'),
-        'i/settings',
-        false
+        'local/page-settings'
     );
 }
-foreach (
-        [
-        'revisions.php' => [ 'revisions', 'fa/history' ],
-         'page_files.php' => [ 'pagefiles', 'fa/folder-open' ],
-        ] as $route => $item
-) {
+$tools .= authoring::link(
+    new moodle_url('/local/frontpage/page_files.php', ['id' => $id]),
+    get_string('pagefiles', 'local_frontpage'),
+    'fa/folder-open'
+);
+if (page_access::can_edit_css($page)) {
     $tools .= authoring::link(
-        new moodle_url('/local/frontpage/' . $route, [ 'id' => $id ]),
-        get_string($item[0], 'local_frontpage'),
-        $item[1],
-        false
+        new moodle_url('/local/frontpage/page_css.php', ['id' => $id]),
+        get_string('pagecss', 'local_frontpage'),
+        'e/source_code'
+    );
+}
+if ($isactivity) {
+    $tools .= authoring::link(
+        new moodle_url('/local/frontpage/activity_navigation.php', ['id' => $id]),
+        get_string('activitynavigation', 'local_frontpage'),
+        'fa/compass'
     );
 }
 $resourcecourse = \local_frontpage\local\page_scope::course_id($page, page_access::context($page));
 if (has_capability('moodle/course:manageactivities', context_course::instance($resourcecourse))) {
     $tools .= authoring::link(
-        new moodle_url(
-            '/local/frontpage/resources.php',
-            [
-            'courseid' => \local_frontpage\local\page_scope::course_id($page, page_access::context($page)),
-            ]
-        ),
+        new moodle_url('/local/frontpage/resources.php', ['courseid' => $resourcecourse]),
         get_string('resources', 'local_frontpage'),
         'i/folder',
         false
     );
-    $tools .= authoring::link(
-        new moodle_url(
-            '/local/frontpage/activity_create.php',
-            $actions + [ 'segmentid' => 'segment_' . bin2hex(random_bytes(8)) ]
-        ),
-        get_string('createfrontpageresource', 'local_frontpage'),
-        't/add',
-        false
-    );
 }
+$editoractions = $tools . $primary . authoring::link(
+    new moodle_url('/local/frontpage/revisions.php', ['id' => $id]),
+    get_string('revisions', 'local_frontpage'),
+    'fa/history'
+);
 $regions = $PAGE->blocks->get_regions();
 $region = in_array('side-pre', $regions, true) ? 'side-pre' : (in_array('side-post', $regions, true) ? 'side-post' : null);
 if ($region !== null) {
     $block = new block_contents();
     $block->add_class('local-frontpage-page-actions-block');
     $block->title = '';
-    $block->content = html_writer::tag('nav', $tools . $primary, [
+    $block->content = html_writer::tag('nav', $editoractions, [
         'class' => 'local-frontpage-drawer-actions', 'data-frontpage-page-tools' => '1',
         'aria-label' => get_string('uipageactions', 'local_frontpage'),
     ]);
@@ -164,8 +139,7 @@ if ($region !== null) {
     ]]);
 }
 echo $OUTPUT->header();
-echo html_writer::div(html_writer::div($primary, 'local-frontpage-editor-primary')
-    . html_writer::div($tools, 'local-frontpage-page-actionbar'), 'local-frontpage-editor-header');
+echo html_writer::div(html_writer::div($editoractions, 'local-frontpage-page-actionbar'), 'local-frontpage-editor-header');
 echo html_writer::div(
     authoring::icon('i/info') . s(get_string('draftnotice', 'local_frontpage')),
     'local-frontpage-draft-notice'

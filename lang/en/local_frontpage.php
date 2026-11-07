@@ -254,14 +254,14 @@ $string['pagefiles'] = 'Page Files';
 $string['pagefiles_help'] = ('Upload files used by this page. Earlier revisions keep their copies when you '
     . 'remove a file from the draft.');
 $string['pagehelp_activities'] = 'Moodle Activities';
-$string['pagehelp_activities_article'] = ('<p>Select existing activities from the same course, or use Create Course '
-    . 'Resource to open Moodle’s activity chooser and standard form. Site Home '
+$string['pagehelp_activities_article'] = ('<p>In the segment picker, choose Course activity or resource. '
+    . 'Select an existing activity, or choose Create Activity or Resource to open Moodle’s activity chooser. Site Home '
     . 'uses its own course. After saving in Moodle, confirm the return to add a '
     . 'reference to the draft. If the draft changed in the meantime, select the '
     . 'resource from the existing-activity list. Removing a reference preserves the '
     . 'activity and user data.</p>');
-$string['pagehelp_activities_help'] = ('Select existing activities from the same course, or use Create Course '
-    . 'Resource to open Moodle’s activity chooser and standard form.');
+$string['pagehelp_activities_help'] = ('Choose Course activity or resource in the segment picker to link or create '
+    . 'an activity in this course.');
 $string['pagehelp_activitysettings_title'] = 'Frontpage Help';
 $string['pagehelp_assignments'] = 'Site Home Assignments';
 $string['pagehelp_assignments_article'] = (
