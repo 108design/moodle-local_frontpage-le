@@ -27,6 +27,11 @@ final class activity_metadata {
             'single' => get_string('activitymetadatacompletionsingle', 'local_frontpage', '{count}'),
             'multiple' => get_string('activitymetadatacompletionmultiple', 'local_frontpage', '{count}'),
             'note' => get_string('activitymetadatacompletionnote', 'local_frontpage'),
+            'collapsedIcon' => $hook->renderer->pix_icon(
+                right_to_left() ? 't/collapsedchevron_rtl' : 't/collapsedchevron',
+                '',
+            ),
+            'expandedIcon' => $hook->renderer->pix_icon('t/expandedchevron', ''),
         ]]);
     }
 }

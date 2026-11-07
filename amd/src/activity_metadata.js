@@ -48,22 +48,53 @@ export const init = config => {
         // On older Moodle versions individual learner states are part of the conditions themselves.
         details.open = !authoring && !status && Boolean(conditions.querySelector('[aria-label]'));
         const summary = document.createElement('summary');
-        summary.textContent = count ? (count === 1 ? config.single : config.multiple).replace('{count}', count) : config.label;
-        details.append(summary);
+        summary.className = 'btn btn-secondary';
+        const label = document.createElement('span');
+        label.textContent = count ? (count === 1 ? config.single : config.multiple).replace('{count}', count) : config.label;
+        const chevrons = document.createElement('span');
+        chevrons.className = 'local-frontpage-moodle-completion-chevrons';
+        chevrons.setAttribute('aria-hidden', 'true');
+        // The icon markup comes from the active Moodle renderer.
+        chevrons.innerHTML = config.collapsedIcon + config.expandedIcon;
+        summary.append(chevrons, label);
+
+        const panel = document.createElement('div');
+        panel.className = 'dropdown-menu local-frontpage-moodle-completion-panel';
+        panel.tabIndex = 0;
+        panel.setAttribute('role', 'group');
+        panel.setAttribute('aria-label', config.label);
         if (authoring) {
             const note = document.createElement('p');
             note.className = 'small text-muted mb-2';
             note.textContent = config.note;
-            details.append(note);
+            panel.append(note);
         }
-        conditions.before(details);
-        details.append(conditions);
+        const row = document.createElement('div');
+        row.className = 'local-frontpage-moodle-activity-row';
+        conditions.before(row);
         if (intro) {
-            const row = document.createElement('div');
-            row.className = 'local-frontpage-moodle-activity-row';
-            details.before(row);
-            row.append(intro, details);
+            row.append(intro);
         }
+        panel.append(conditions);
+        details.append(summary, panel);
+        row.append(details);
+        details.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && details.open) {
+                event.stopPropagation();
+                details.open = false;
+                summary.focus();
+            }
+        });
+        details.addEventListener('focusout', event => {
+            if (event.relatedTarget && !details.contains(event.relatedTarget)) {
+                details.open = false;
+            }
+        });
+        document.addEventListener('click', event => {
+            if (details.open && !details.contains(event.target)) {
+                details.open = false;
+            }
+        });
     }
 
     // Before 5.3 the description was a separate sibling after the activity information.

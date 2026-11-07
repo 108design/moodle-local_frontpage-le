@@ -1889,32 +1889,54 @@ body.local-frontpage-editor-sidebar-ready .local-frontpage-editor-header { displ
     margin-block: 0;
     padding-block: .35rem 0;
 }
-.local-frontpage-moodle-activity-row > .local-frontpage-moodle-completion {
-    margin-block: 0;
+.local-frontpage-moodle-activity:has(.local-frontpage-moodle-completion[open]) {
+    position: relative;
+    z-index: 2;
 }
 @container (min-width: 42rem) {
     .local-frontpage-moodle-activity-row {
         grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     }
     .local-frontpage-moodle-activity-row > .local-frontpage-moodle-completion {
+        grid-column: 2;
         justify-self: end;
     }
 }
 .local-frontpage-moodle-completion {
-    background: var(--bs-tertiary-bg, #f8f9fa);
-    border: 1px solid var(--bs-border-color, #dee2e6);
-    border-radius: .4rem;
-    margin-block: .25rem;
     max-width: 100%;
-    padding: .35rem .65rem;
+    position: relative;
     width: fit-content;
 }
 .local-frontpage-moodle-completion summary {
-    cursor: pointer;
-    font-weight: 600;
+    align-items: center;
+    display: flex;
+    gap: .5rem;
+    list-style: none;
+    text-align: start;
 }
-.local-frontpage-moodle-completion[open] summary {
-    margin-block-end: .35rem;
+.local-frontpage-moodle-completion summary::-webkit-details-marker {
+    display: none;
+}
+.local-frontpage-moodle-completion-chevrons {
+    flex: none;
+}
+.local-frontpage-moodle-completion-chevrons .icon {
+    margin: 0;
+}
+.local-frontpage-moodle-completion:not([open]) .local-frontpage-moodle-completion-chevrons > :last-child,
+.local-frontpage-moodle-completion[open] .local-frontpage-moodle-completion-chevrons > :first-child {
+    display: none;
+}
+.local-frontpage-moodle-completion[open] > .local-frontpage-moodle-completion-panel {
+    display: block;
+    inset-block-start: calc(100% + .25rem);
+    inset-inline: 0;
+    margin: 0;
+    max-block-size: min(16rem, 45vh);
+    min-width: 0;
+    overflow: auto;
+    padding: .65rem;
+    width: 100%;
 }
 .local-frontpage-moodle-completion .automatic-completion-title {
     display: none;
