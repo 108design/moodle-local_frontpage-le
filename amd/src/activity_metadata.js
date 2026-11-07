@@ -14,6 +14,19 @@
 export const init = config => {
     const header = document.querySelector('[data-for="page-activity-header"]');
     const pageHeading = document.getElementById('page-header');
+    const body = document.body;
+    const compact = body.classList.contains('local-frontpage-course-page');
+    const editor = body.classList.contains('local-frontpage-editor-mode');
+    if (!compact && pageHeading?.classList.contains('header-maxwidth')) {
+        const shell = pageHeading.parentElement;
+        // Use the theme's own header width for the native tabs and standard Moodle content column.
+        shell.querySelector(':scope > .secondary-navigation')
+            ?.classList.add('header-maxwidth', 'local-frontpage-aligned-tabs');
+        if (!editor) {
+            shell.querySelector(':scope > #page-content > #region-main-box')
+                ?.classList.add('header-maxwidth', 'local-frontpage-aligned-content');
+        }
+    }
     if (!header || header.classList.contains('local-frontpage-moodle-activity')) {
         return;
     }
@@ -26,7 +39,7 @@ export const init = config => {
         return;
     }
 
-    const authoring = config.authoring || document.body.classList.contains('local-frontpage-editor-mode');
+    const authoring = config.authoring || editor;
     const status = controls.some(control => control.matches('[data-region="completion-status"]'));
     if (conditions) {
         const count = conditions.querySelectorAll('.activity-completion-list > li, [role="listitem"]').length;
@@ -45,6 +58,12 @@ export const init = config => {
         }
         conditions.before(details);
         details.append(conditions);
+        if (intro) {
+            const row = document.createElement('div');
+            row.className = 'local-frontpage-moodle-activity-row';
+            details.before(row);
+            row.append(intro, details);
+        }
     }
 
     // Before 5.3 the description was a separate sibling after the activity information.
@@ -61,7 +80,7 @@ export const init = config => {
     header.classList.add('local-frontpage-moodle-activity');
     const breadcrumb = pageHeading?.querySelector('#page-navbar');
     if (breadcrumb?.textContent.trim() && breadcrumb.getClientRects().length) {
-        if (document.body.classList.contains('local-frontpage-course-page')) {
+        if (compact) {
             // The Full course canvas uses a compact breadcrumb-only native heading.
             pageHeading.after(header);
         } else {

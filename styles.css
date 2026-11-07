@@ -1858,8 +1858,16 @@ body.local-frontpage-editor-sidebar-ready .local-frontpage-editor-header { displ
 /* Keep hidden action labels inside their scrolling table cell. */
 .local-frontpage-icon-button {position:relative;}
 /* Moodle metadata stays visually separate from the Frontpage segment area. */
+.secondary-navigation.local-frontpage-aligned-tabs .navigation,
+#region-main-box.local-frontpage-aligned-content #region-main > [role="main"] {
+    padding-inline: 0;
+}
+.secondary-navigation.local-frontpage-aligned-tabs .navigation .nav-tabs {
+    margin-inline: 0;
+}
 .local-frontpage-moodle-activity {
     box-sizing: border-box;
+    container-type: inline-size;
     flex: 0 0 100%;
     margin-block: .25rem .65rem;
     min-width: 0;
@@ -1869,10 +1877,28 @@ body.local-frontpage-editor-sidebar-ready .local-frontpage-editor-header { displ
     margin-inline: 1rem;
     width: auto;
 }
-.local-frontpage-moodle-activity #intro.has-automatic-completion {
+.local-frontpage-moodle-activity-row {
+    align-items: start;
+    display: grid;
+    gap: .5rem 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
+    overflow-wrap: anywhere;
+}
+.local-frontpage-moodle-activity .local-frontpage-moodle-activity-row > #intro {
     border: 0;
-    margin-block-end: .5rem;
-    padding-block-end: 0;
+    margin-block: 0;
+    padding-block: .35rem 0;
+}
+.local-frontpage-moodle-activity-row > .local-frontpage-moodle-completion {
+    margin-block: 0;
+}
+@container (min-width: 42rem) {
+    .local-frontpage-moodle-activity-row {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+    .local-frontpage-moodle-activity-row > .local-frontpage-moodle-completion {
+        justify-self: end;
+    }
 }
 .local-frontpage-moodle-completion {
     background: var(--bs-tertiary-bg, #f8f9fa);
