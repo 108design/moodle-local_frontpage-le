@@ -92,11 +92,16 @@ final class course_resource_manager {
      */
     private static function owned_section_modules(int $courseid, int $sectionid): ?array {
         global $DB;
-        $modules = $DB->get_records('course_modules', ['course' => $courseid, 'section' => $sectionid], '', 'id, visible');
+        $modules = $DB->get_records_sql(
+            "SELECT cm.id, cm.visible, r.id AS resourceid
+               FROM {course_modules} cm
+          LEFT JOIN {local_frontpage_resource} r
+                 ON r.cmid = cm.id AND r.courseid = cm.course AND r.origin = :origin
+              WHERE cm.course = :courseid AND cm.section = :sectionid",
+            ['origin' => self::ORIGIN_CREATED, 'courseid' => $courseid, 'sectionid' => $sectionid]
+        );
         foreach ($modules as $module) {
-            if (!$DB->record_exists('local_frontpage_resource', [
-                'cmid' => $module->id, 'courseid' => $courseid, 'origin' => self::ORIGIN_CREATED,
-            ])) {
+            if (!$module->resourceid) {
                 return null;
             }
         }
@@ -138,6 +143,20 @@ final class course_resource_manager {
             return null;
         }
         return get_fast_modinfo($courseid)->get_section_info_by_id($sectionid);
+    }
+
+    /**
+     * Find the hidden resource section if every activity in it belongs to Frontpage.
+     *
+     * @param int $courseid Native course ID.
+     * @return \section_info|null
+     */
+    public static function get_hidden_resource_section(int $courseid): ?\section_info {
+        $section = self::get_section($courseid);
+        if (!$section || $section->visible || self::owned_section_modules($courseid, (int)$section->id) === null) {
+            return null;
+        }
+        return $section;
     }
 
     /**

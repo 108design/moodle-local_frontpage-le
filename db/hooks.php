@@ -10,6 +10,10 @@
 defined('MOODLE_INTERNAL') || die();
 $callbacks = [
     [
+        'hook' => \core\hook\output\before_standard_head_html_generation::class,
+        'callback' => [\local_frontpage\local\hook_callbacks::class, 'hide_resource_section'],
+    ],
+    [
         'hook' => \core\hook\output\before_http_headers::class,
         'callback' => [\local_frontpage\output\resource_section_warning::class, 'prepare'],
     ],

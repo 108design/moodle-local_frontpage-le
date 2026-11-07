@@ -416,7 +416,18 @@ final class page_renderer {
         $USER->editing = 0;
         try {
             $card = new $cmclass($format, $section, $cm);
-            $cardhtml = $this->output->render($card);
+            if ($card instanceof \core\output\named_templatable && $cm->uservisible && $cm->is_stealth()
+                    && \local_frontpage\local\course_resource_manager::is_managed((int)$cm->id)) {
+                // The resource is deliberately unlisted in the course. That is not a restriction on this card.
+                $data = $card->export_for_template($this->output);
+                $data->modstealth = false;
+                if (!empty($data->visibility->modstealth)) {
+                    $data->visibility = false;
+                }
+                $cardhtml = $this->output->render_from_template($card->get_template_name($this->output), $data);
+            } else {
+                $cardhtml = $this->output->render($card);
+            }
         } finally {
             if ($hasediting) {
                 $USER->editing = $editing;

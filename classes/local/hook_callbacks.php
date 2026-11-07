@@ -14,6 +14,30 @@ namespace local_frontpage\local;
  */
 final class hook_callbacks {
     /**
+     * Keep a wholly Frontpage-managed section out of the course view and index.
+     *
+     * @param \core\hook\output\before_standard_head_html_generation $hook Native Moodle output hook.
+     */
+    public static function hide_resource_section(\core\hook\output\before_standard_head_html_generation $hook): void {
+        global $PAGE, $SCRIPT;
+
+        $courseid = (int)$PAGE->course->id;
+        if ($courseid <= SITEID || during_initial_install()) {
+            return;
+        }
+        $section = course_resource_manager::get_hidden_resource_section($courseid);
+        if (!$section) {
+            return;
+        }
+        $id = (int)$section->id;
+        $selectors = ["#course-index-section-{$id}"];
+        if ($SCRIPT === '/course/view.php') {
+            $selectors[] = ".course-content [data-for=\"section\"][data-id=\"{$id}\"]";
+        }
+        $hook->add_html(\html_writer::tag('style', implode(', ', $selectors) . ' { display: none !important; }'));
+    }
+
+    /**
      * Prepare the component state before http headers.
      *
      * @param \core\hook\output\before_http_headers $hook Native Moodle output hook.
