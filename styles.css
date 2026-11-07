@@ -1857,3 +1857,45 @@ body.local-frontpage-editor-sidebar-ready .local-frontpage-editor-header { displ
 
 /* Keep hidden action labels inside their scrolling table cell. */
 .local-frontpage-icon-button {position:relative;}
+/* Moodle metadata stays visually separate from the Frontpage segment area. */
+.local-frontpage-moodle-activity {
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    margin-block: .25rem .65rem;
+    min-width: 0;
+    width: 100%;
+}
+.local-frontpage-course-page .local-frontpage-moodle-activity {
+    margin-inline: 1rem;
+    width: auto;
+}
+.local-frontpage-moodle-activity #intro.has-automatic-completion {
+    border: 0;
+    margin-block-end: .5rem;
+    padding-block-end: 0;
+}
+.local-frontpage-moodle-completion {
+    background: var(--bs-tertiary-bg, #f8f9fa);
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: .4rem;
+    margin-block: .25rem;
+    max-width: 100%;
+    padding: .35rem .65rem;
+    width: fit-content;
+}
+.local-frontpage-moodle-completion summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+.local-frontpage-moodle-completion[open] summary {
+    margin-block-end: .35rem;
+}
+.local-frontpage-moodle-completion .automatic-completion-title {
+    display: none;
+}
+.local-frontpage-moodle-completion .activity-completion-list {
+    margin-block-end: .25rem;
+}
+.local-frontpage-moodle-completion-status {
+    margin-block-end: .35rem;
+}

@@ -511,6 +511,14 @@ $string['draftcheckpoint'] = 'Entwurfsstand';
 
 $string['activitynavigationreturn'] = 'Zurück zu {$a}';
 $string['activitynavigation'] = 'Aktivitätsnavigation';
+$string['activitymetadatacompletion'] = 'Moodle-Abschluss';
+$string['activitymetadatacompletionsingle'] = 'Moodle-Abschluss · {$a} Voraussetzung';
+$string['activitymetadatacompletionmultiple'] = 'Moodle-Abschluss · {$a} Voraussetzungen';
+$string['activitymetadatacompletionnote'] = 'Moodle zeigt diese Voraussetzungen in den Aktivitätsinformationen an.';
+$string['pagesettings'] = 'Seiteneinstellungen';
+$string['draftstatus'] = 'Entwurf';
+$string['publishandview'] = 'Veröffentlichen und ansehen';
+$string['currentpublishedversion'] = 'Aktuelle Veröffentlichung ansehen';
 $string['activitynavigationinherit'] = 'Kurseinstellung übernehmen';
 $string['activitynavigationmode'] = 'Lineare Navigation anzeigen';
 $string['activitynavigationmode_help'] = ('Ergänzt Moodle-typische Aktionen für Zurück und Weiter in Aktivitäten, '

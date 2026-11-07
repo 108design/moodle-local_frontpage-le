@@ -87,17 +87,19 @@ final class authoring {
      * @param string $icon Native icon name.
      * @param array $params Validated parameters for the operation.
      * @param bool $primary Primary.
+     * @param bool $labelled Display the label for a secondary action.
      * @return string
      */
-    public static function post(string $label, string $icon, array $params, bool $primary = false): string {
+    public static function post(string $label, string $icon, array $params, bool $primary = false, bool $labelled = false): string {
         $url = new moodle_url('/local/frontpage/action.php');
         return html_writer::tag(
             'form',
             html_writer::input_hidden_params(
                 new moodle_url($url, $params + [ 'sesskey' => sesskey() ])
             )
-            . html_writer::tag('button', self::icon($icon) . html_writer::span(s($label), $primary ? '' : 'sr-only'), [
-                'type' => 'submit', 'class' => $primary ? 'btn btn-primary' : 'local-frontpage-icon-button',
+            . html_writer::tag('button', self::icon($icon) . html_writer::span(s($label), $primary || $labelled ? '' : 'sr-only'), [
+                'type' => 'submit', 'class' => $primary ? 'btn btn-primary'
+                    : ($labelled ? 'btn btn-outline-secondary' : 'local-frontpage-icon-button'),
                 'aria-label' => $label,
             'title' => $label]),
             [ 'method' => 'post', 'action' => $url->out(false), 'class' => 'd-inline-block' ]

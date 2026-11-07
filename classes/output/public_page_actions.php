@@ -94,6 +94,11 @@ final class public_page_actions {
             ));
         } else {
             $context = page_access::context($this->page);
+            $menu->add(new action_menu_link_secondary(
+                new moodle_url('/local/frontpage/page_settings.php', $params),
+                new pix_icon('i/settings', ''),
+                get_string('pagesettings', 'local_frontpage')
+            ));
             if (has_capability('moodle/course:manageactivities', $context)) {
                 $menu->add(new action_menu_link_secondary(
                     new moodle_url('/course/modedit.php', ['update' => $context->instanceid, 'return' => 1]),

@@ -25,8 +25,12 @@ $cm = get_coursemodule_from_id('frontpage', $context->instanceid, 0, false, MUST
 $course = get_course($cm->course);
 $revision = factory::page_repository()->get_revision($id, (int) $page->draftrevisionid);
 $document = json_decode($revision->documentjson, true, 512, JSON_THROW_ON_ERROR);
-$url = new moodle_url('/local/frontpage/activity_navigation.php', ['id' => $id]);
-screen::start($url, get_string('activitynavigation', 'local_frontpage'), 'activitynavigation', $page);
+$url = new moodle_url('/local/frontpage/page_settings.php', ['id' => $id]);
+if ($SCRIPT === '/local/frontpage/activity_navigation.php' && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {
+    $url->set_anchor('id_activitynavigationheader');
+    redirect($url);
+}
+screen::start($url, get_string('pagesettings', 'local_frontpage'), 'activitynavigation', $page);
 $back = \local_frontpage\local\url\page_url::get_edit_url($page);
 $form = new \local_frontpage\form\activity_navigation_form($url, ['course' => $course]);
 if ($form->is_cancelled()) {
@@ -53,6 +57,6 @@ $form->set_data([
     'activitynavigationboundary' => $settings['boundary'],
 ]);
 echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($page->title), 2);
+echo $OUTPUT->heading(get_string('pagesettings', 'local_frontpage'), 2);
 $form->display();
 echo $OUTPUT->footer();

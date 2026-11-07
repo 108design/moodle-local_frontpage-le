@@ -27,6 +27,11 @@ if ($page->ownercomponent === 'mod_frontpage') {
 }
 use local_frontpage\output\authoring;
 $primary = '';
+$isactivity = $page->ownercomponent === 'mod_frontpage';
+$context = page_access::context($page);
+$canviewpublication = $isactivity
+    ? $PAGE->cm->uservisible && has_capability('mod/frontpage:view', $context)
+    : (int)get_config('local_frontpage', 'loggedinfrontpageid') === $id;
 $assigned = $page->ownercomponent !== 'local_frontpage'
         || in_array(
             (int)$id,
@@ -39,8 +44,8 @@ $assigned = $page->ownercomponent !== 'local_frontpage'
 if (
         $assigned
         && has_capability(
-            $page->ownercomponent === 'mod_frontpage' ? 'mod/frontpage:publishcontent' : 'local/frontpage:publishpages',
-            page_access::context($page)
+            $isactivity ? 'mod/frontpage:publishcontent' : 'local/frontpage:publishpages',
+            $context
         )
 ) {
     $primary = authoring::post(
@@ -49,6 +54,14 @@ if (
         $actions + [ 'action' => 'publish' ],
         true
     );
+    if ($canviewpublication && $page->enabled) {
+        $primary .= authoring::post(
+            get_string('publishandview', 'local_frontpage'),
+            'fa/external-link-alt',
+            $actions + ['action' => 'publish', 'showpublication' => 1],
+            labelled: true
+        );
+    }
 }
 if (!$assigned) {
     $primary .= authoring::link(
@@ -57,12 +70,13 @@ if (!$assigned) {
         'i/settings'
     );
 }
-$primary .= authoring::link(
-    new moodle_url('/local/frontpage/view.php', [ 'id' => $id, 'preview' => 1 ]),
-    get_string('previewdraft', 'local_frontpage'),
-    'i/preview'
-);
-$isactivity = $page->ownercomponent === 'mod_frontpage';
+if ($canviewpublication && page_access::can_view_published($page)) {
+    $primary .= authoring::link(
+        \local_frontpage\local\url\page_url::get_public_url($page),
+        get_string('currentpublishedversion', 'local_frontpage'),
+        'fa/globe'
+    );
+}
 $back = new moodle_url('/local/frontpage/pages.php');
 if ($isactivity) {
     $back = new moodle_url('/course/view.php', ['id' => $PAGE->course->id], 'module-' . $PAGE->cm->id);
@@ -73,18 +87,14 @@ $tools .= authoring::link(
     get_string('addsegment', 'local_frontpage'),
     't/add'
 );
-if (!$isactivity) {
-    $tools .= authoring::link(
-        new moodle_url('/local/frontpage/page_settings.php', [ 'id' => $id ]),
-        get_string('pageoptions', 'local_frontpage'),
-        'local/page-settings',
-        false
-    );
-} else if (has_capability('moodle/course:manageactivities', page_access::context($page))) {
+$settings = new moodle_url('/local/frontpage/page_settings.php', ['id' => $id]);
+$tools .= authoring::link($settings, get_string($isactivity ? 'pagesettings' : 'pageoptions', 'local_frontpage'),
+    'local/page-settings');
+if ($isactivity && has_capability('moodle/course:manageactivities', $context)) {
     $tools .= authoring::link(
         new moodle_url('/course/modedit.php', [ 'update' => $PAGE->cm->id, 'return' => 1 ]),
         get_string('activitysettings', 'local_frontpage'),
-        'local/page-settings'
+        'i/settings'
     );
 }
 $tools .= authoring::link(
@@ -101,12 +111,12 @@ if (page_access::can_edit_css($page)) {
 }
 if ($isactivity) {
     $tools .= authoring::link(
-        new moodle_url('/local/frontpage/activity_navigation.php', ['id' => $id]),
+        new moodle_url($settings, [], 'id_activitynavigationheader'),
         get_string('activitynavigation', 'local_frontpage'),
         'fa/compass'
     );
 }
-$resourcecourse = \local_frontpage\local\page_scope::course_id($page, page_access::context($page));
+$resourcecourse = \local_frontpage\local\page_scope::course_id($page, $context);
 if (has_capability('moodle/course:manageactivities', context_course::instance($resourcecourse))) {
     $tools .= authoring::link(
         new moodle_url('/local/frontpage/resources.php', ['courseid' => $resourcecourse]),
@@ -115,7 +125,8 @@ if (has_capability('moodle/course:manageactivities', context_course::instance($r
         false
     );
 }
-$editoractions = $tools . $primary . authoring::link(
+$draftstatus = html_writer::span(get_string('draftstatus', 'local_frontpage'), 'small text-muted local-frontpage-draft-status');
+$editoractions = $tools . $draftstatus . $primary . authoring::link(
     new moodle_url('/local/frontpage/revisions.php', ['id' => $id]),
     get_string('revisions', 'local_frontpage'),
     'fa/history'
@@ -140,10 +151,6 @@ if ($region !== null) {
 }
 echo $OUTPUT->header();
 echo html_writer::div(html_writer::div($editoractions, 'local-frontpage-page-actionbar'), 'local-frontpage-editor-header');
-echo html_writer::div(
-    authoring::icon('i/info') . s(get_string('draftnotice', 'local_frontpage')),
-    'local-frontpage-draft-notice'
-);
 echo (
         new \local_frontpage\output\page_renderer(
             $OUTPUT,

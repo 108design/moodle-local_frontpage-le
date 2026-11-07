@@ -487,6 +487,14 @@ $string['draftcheckpoint'] = 'Draft checkpoint';
 
 $string['activitynavigationreturn'] = 'Back to {$a}';
 $string['activitynavigation'] = 'Activity navigation';
+$string['activitymetadatacompletion'] = 'Moodle completion';
+$string['activitymetadatacompletionsingle'] = 'Moodle completion · {$a} requirement';
+$string['activitymetadatacompletionmultiple'] = 'Moodle completion · {$a} requirements';
+$string['activitymetadatacompletionnote'] = 'Moodle shows these conditions as activity information.';
+$string['pagesettings'] = 'Page settings';
+$string['draftstatus'] = 'Draft';
+$string['publishandview'] = 'Publish and view';
+$string['currentpublishedversion'] = 'View current publication';
 $string['activitynavigationinherit'] = 'Inherit course setting';
 $string['activitynavigationmode'] = 'Show linear navigation';
 $string['activitynavigationmode_help'] = ('Adds Moodle-style Previous and Next actions to activities opened from this '

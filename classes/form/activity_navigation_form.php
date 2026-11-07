@@ -26,6 +26,7 @@ final class activity_navigation_form extends \moodleform {
             $form->addElement('hidden', $key);
             $form->setType($key, PARAM_INT);
         }
+        $form->addElement('header', 'activitynavigationheader', get_string('activitynavigation', 'local_frontpage'));
         $modes = [];
         if (\local_frontpage\local\activity_navigation_settings::supports_inheritance($this->_customdata['course'])) {
             $modes['inherit'] = get_string('activitynavigationinherit', 'local_frontpage');

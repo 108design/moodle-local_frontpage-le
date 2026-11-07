@@ -1,6 +1,6 @@
 <?php
 /**
- * Edit the supported site-home page settings.
+ * Edit the supported Frontpage settings in their page context.
  *
  * @package local_frontpage
  * @copyright 2026 Andreas Giesen <andreas@108design.com>
@@ -16,7 +16,8 @@ $id = required_param('id', PARAM_INT);
 $page = factory::page_repository()->get_page($id);
 \local_frontpage\local\page_access::require_manage($page);
 if ($page->ownercomponent !== 'local_frontpage') {
-    throw new invalid_parameter_exception('Use native activity settings.');
+    require(__DIR__ . '/activity_navigation.php');
+    exit;
 }
 $fingerprint = fn(
         $p

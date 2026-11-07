@@ -21,6 +21,7 @@ $id = required_param('pageid', PARAM_INT);
 $base = required_param('baserevisionid', PARAM_INT);
 $version = required_param('baseversion', PARAM_INT);
 $action = required_param('action', PARAM_ALPHA);
+$showpublication = optional_param('showpublication', 0, PARAM_BOOL);
 $segmentid = optional_param('segmentid', '', PARAM_ALPHANUMEXT);
 $page = factory::page_repository()->get_page($id);
 page_access::require_manage($page);
@@ -36,6 +37,7 @@ $url = new moodle_url(
          'action' => $action,
          'segmentid' => $segmentid,
          'revisionid' => optional_param('revisionid', 0, PARAM_INT),
+         'showpublication' => $showpublication,
         ]
 );
 if (in_array($action, ['publish', 'remove', 'prune'], true) && !optional_param('confirm', 0, PARAM_BOOL)) {
@@ -55,7 +57,10 @@ if (in_array($action, ['publish', 'remove', 'prune'], true) && !optional_param('
     exit;
 }
 if ($action === 'publish') {
-    factory::page_service()->publish($id, $USER->id, $base, $version);
+    $published = factory::page_service()->publish($id, $USER->id, $base, $version);
+    if ($showpublication && page_access::can_view_published($published)) {
+        redirect(\local_frontpage\local\url\page_url::get_public_url($published));
+    }
 } else if ($action === 'prune') {
     factory::page_service()->prune($id, required_param('revisionid', PARAM_INT), $base, $version);
 } else if ($action === 'restore') {

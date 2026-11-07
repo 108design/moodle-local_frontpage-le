@@ -9,6 +9,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 $callbacks = [
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => [\local_frontpage\output\activity_metadata::class, 'prepare'],
+    ],
     ['hook' => \core\hook\output\before_http_headers::class,
         'callback' => [\local_frontpage\local\activity_navigation::class, 'prepare']],
     ['hook' => \core\hook\output\before_footer_html_generation::class,
