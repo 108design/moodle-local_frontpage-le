@@ -295,7 +295,9 @@ $string['pagehelp_completion_article'] = (
     );
 $string['pagehelp_completion_help'] = 'The optional All Referenced Activities rule uses enabled references in the current publication.';
 $string['pagehelp_editing'] = 'Editing Segments';
-$string['pagehelp_editing_article'] = ('<p>Choose a segment type in the editor. Edit content in Moodle forms, then '
+$string['pagehelp_editing_article'] = ('<p>On a published page, use the pencil in Page Actions to open the editor. '
+    . 'The pencil on a segment opens its settings in the current draft.</p>'
+    . '<p>Choose a segment type in the editor. Edit content in Moodle forms, then '
     . 'use Save Draft. Move, duplicate, hide or remove a segment through its row '
     . 'actions. Grid columns refer to other segments on the same page; deleting a '
     . 'Grid returns its children to the page flow. Stale forms cannot replace a '
@@ -549,6 +551,7 @@ $string['updateguard_back'] = 'Return to plugin overview';
 // End shared independent signed update protection.
 
 $string['uipageactions'] = 'Page Actions';
+$string['quickeditsegment'] = 'Edit segment: {$a}';
 $string['uiopentools'] = 'Open Page Actions';
 $string['uiclosetools'] = 'Close Page Actions';
 $string['uisearchsegments'] = 'Search Segment Types';

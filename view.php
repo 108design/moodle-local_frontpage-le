@@ -45,11 +45,17 @@ if ($context->contextlevel === CONTEXT_MODULE) {
     $PAGE->set_cm($cm, get_course($cm->course));
     $PAGE->set_pagelayout('incourse');
 }
+$publicactions = null;
 if ($preview || $revisionid) {
     \local_frontpage\output\context_help::prepare('editor');
+} else {
+    $publicactions = \local_frontpage\output\public_page_actions::prepare($page);
 }
 \local_frontpage\local\page_css::prepare($page, $revision);
 echo $OUTPUT->header();
+if ($publicactions) {
+    echo $publicactions->render($OUTPUT);
+}
 if ($preview || $revisionid) {
     echo $OUTPUT->notification(get_string('previewnotice', 'local_frontpage'), 'info');
     echo html_writer::div(
@@ -66,7 +72,8 @@ echo (
             $OUTPUT,
             $page,
             (int)$revision->id,
-            (bool)($preview || $revisionid)
+            (bool)($preview || $revisionid),
+            quickediturls: $publicactions?->segment_urls() ?? [],
         )
     )->render(
         $revision->documentjson

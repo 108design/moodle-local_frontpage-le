@@ -307,7 +307,9 @@ $string['pagehelp_completion_article'] = ('<p>Die optionale Regel Alle referenzi
 $string['pagehelp_completion_help'] = ('Die optionale Regel Alle referenzierten Aktivitäten verwendet aktive '
     . 'Referenzen der aktuellen Veröffentlichung.');
 $string['pagehelp_editing'] = 'Segmente bearbeiten';
-$string['pagehelp_editing_article'] = ('<p>Wähle im Editor einen Segmenttyp. Bearbeite Inhalte in Moodle-Formularen '
+$string['pagehelp_editing_article'] = ('<p>Auf einer veröffentlichten Seite öffnet der Stift bei den Seitenaktionen '
+    . 'den Editor. Der Stift am Segment führt zu dessen Einstellungen im aktuellen Entwurf.</p>'
+    . '<p>Wähle im Editor einen Segmenttyp. Bearbeite Inhalte in Moodle-Formularen '
     . 'und wähle Entwurf speichern. Über die Zeilenaktionen kannst Du Segmente '
     . 'verschieben, duplizieren, ausblenden oder entfernen. Rasterspalten '
     . 'referenzieren andere Segmente derselben Seite; beim Entfernen eines Rasters '
@@ -578,6 +580,7 @@ $string['updateguard_back'] = 'Zur Pluginübersicht';
 // End shared independent signed update protection.
 
 $string['uipageactions'] = 'Seitenaktionen';
+$string['quickeditsegment'] = 'Segment bearbeiten: {$a}';
 $string['uiopentools'] = 'Seitenaktionen öffnen';
 $string['uiclosetools'] = 'Seitenaktionen schließen';
 $string['uisearchsegments'] = 'Segmenttypen suchen';

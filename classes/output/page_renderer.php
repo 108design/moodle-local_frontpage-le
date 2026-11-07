@@ -33,13 +33,15 @@ final class page_renderer {
      * @param int $revisionid Revision ID.
      * @param bool $showdisabled Showdisabled.
      * @param array $editactions Editactions.
+     * @param array $quickediturls Current draft edit URLs keyed by segment ID.
      */
     public function __construct(
         /** @var \core_renderer output. */ private readonly \core_renderer $output,
         /** @var \stdClass frontpage. */ private readonly \stdClass $frontpage,
         /** @var int revisionid. */ private readonly int $revisionid,
         /** @var bool showdisabled. */ private readonly bool $showdisabled = false,
-        /** @var array editactions. */ private readonly array $editactions = []
+        /** @var array editactions. */ private readonly array $editactions = [],
+        /** @var array Current draft edit URLs. */ private readonly array $quickediturls = [],
     ) {
         $this->context = \local_frontpage\local\page_access::context($frontpage);
     }
@@ -257,10 +259,19 @@ final class page_renderer {
         if ($bordercolour !== '') {
             $layoutstyles[] = '--local-frontpage-segment-border-color: ' . $bordercolour;
         }
+        $quickediturl = $this->quickediturls[$segment['id']] ?? null;
+        $quickeditlabel = '';
+        if ($quickediturl) {
+            $typelabel = get_string('segmenttype' . str_replace('_', '', $segment['type']), 'local_frontpage');
+            $quickeditlabel = get_string('quickeditsegment', 'local_frontpage', $typelabel);
+        }
         $content = $this->output->render_from_template('local_frontpage/segment_layout', [
             'content' => $content,
             'segmentid' => $segment['id'],
             'segmenttype' => $segment['type'],
+            'quickediturl' => $quickediturl?->out(false),
+            'quickeditlabel' => $quickeditlabel,
+            'quickediticon' => $quickediturl ? authoring::icon('t/edit') : '',
             'typekey' => str_replace('_', '-', $segment['type']),
             'width' => $width,
             'customwidth' => $customwidth,
