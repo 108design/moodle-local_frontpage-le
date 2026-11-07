@@ -74,6 +74,8 @@ $string['frontpageresourcenotdeletable'] = (
     . 'not owned by Frontpage. It was not deleted.'
     );
 $string['frontpageresourcessection'] = 'Frontpage resources';
+$string['resourcesectiondeletionwarning'] = 'Deleting this section also deletes its activities and their participant data. '
+    . 'Links on Frontpage pages may stop working. Remove unused activities through Frontpage Resources.';
 $string['frontpageresourcessectionsummary'] = (
         '<p>This protected section contains activities and resources created for '
     . 'course Frontpage cards. Manage their placement from the Frontpage editor.</p>'

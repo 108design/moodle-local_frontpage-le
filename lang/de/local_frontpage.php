@@ -77,6 +77,9 @@ $string['frontpageresourcecreatehelp'] = (
 $string['frontpageresourcenotdeletable'] = ('Diese Ressource wird wieder referenziert, befindet sich noch in der '
     . 'Schonfrist oder gehört nicht Frontpage. Sie wurde nicht gelöscht.');
 $string['frontpageresourcessection'] = 'Frontpage-Ressourcen';
+$string['resourcesectiondeletionwarning'] = 'Wenn Du diesen Abschnitt löschst, löscht Moodle auch die enthaltenen '
+    . 'Aktivitäten und ihre Teilnehmerdaten. Verweise auf Frontpage-Seiten können dadurch ins Leere führen. '
+    . 'Entferne ungenutzte Aktivitäten über die Frontpage-Ressourcenverwaltung.';
 $string['frontpageresourcessectionsummary'] = (
         '<p>Diese geschützte Sektion enthält Aktivitäten und Materialien für '
     . 'Karten auf Kurs-Frontpages. Die Zuordnung wird im Frontpage-Editor '
