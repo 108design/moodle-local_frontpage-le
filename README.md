@@ -1,10 +1,23 @@
-# Frontpage
+<p align="center">
+  <img src="docs/branding/logo.svg" alt="Frontpage logo" width="125" height="125">
+</p>
+
+# Frontpage LE
 
 Create a Moodle Site Home page with headings, rich text, images, a static Hero and responsive grids. Add Moodle course lists and references to activities in the Site Home course.
 
+<!--
+## Screenshots
+
+<details>
+<summary>View screenshots</summary>
+
+</details>
+-->
+
 ## Installation
 
-Install this plugin in `local/frontpage` and complete Moodle’s upgrade process. Moodle 4.5 or later is required.
+Supports Moodle 4.5 through 5.3. Download the [signed beta ZIP](https://github.com/108design/moodle-local_frontpage-le/releases) and install it as `local/frontpage`.
 
 Open **Site administration > Plugins > Local plugins > Frontpage**. Create up to five pages and save their content as drafts. Preview them while you experiment. Under **Settings**, assign pages separately to guests and signed-in users, then publish the assigned pages and enable **Replace Site Home**. Only those two assignments can be published or viewed publicly. Changing an assignment returns the previous page to a private draft while keeping its content and revisions. Both audiences can use the same page. Switching the replacement off returns to Moodle’s native Site Home. Native Site Home must be enabled; Moodle’s default home page and forced-login settings still apply.
 
@@ -12,7 +25,7 @@ Managers with **Manage Frontpage pages** can edit content. **Publish Frontpage p
 
 ## Course activities
 
-The optional **Frontpage Course Activity** plugin uses this document engine for pages in a course. Install it separately in `mod/frontpage`. Teachers edit in the activity’s own context; native course access, availability and completion remain in effect.
+Add [Frontpage Course Activity](https://github.com/108design/moodle-mod_frontpage-le) to build pages inside courses. Teachers edit in the activity’s own context. Moodle controls course access, availability and completion.
 
 Open **Activity navigation** in the course activity editor to choose whether linked activities show Previous and Next, and whether the sequence ends at the Frontpage overview or continues in the course. Save the draft and publish it to apply the settings. The sequence follows accessible references in the published page and its Grids; repeated references count once. A separate return link opens the original card.
 
