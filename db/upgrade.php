@@ -9,21 +9,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 /**
- * Apply supported schema upgrades for Frontpage.
+ * Check that this package can update the installed plugin.
  *
  * @param int $oldversion Previously installed numeric plugin build.
  * @return bool
  */
 function xmldb_local_frontpage_upgrade(int $oldversion): bool {
-    if (
-        $oldversion < 2026010100 || $oldversion > 2026093099
-            || get_config('local_frontpage', 'distributionorigin') !== 'marketplace'
-    ) {
-        throw new upgrade_exception(
-            'local_frontpage',
-            $oldversion,
-            'Unsupported installation origin or build. Restore the matching installed source before retrying.'
-        );
+    $supportedbuild = $oldversion >= 2026010100 && $oldversion <= 2026093099;
+    $supportedsource = get_config('local_frontpage', 'distributionorigin') === 'marketplace';
+    if (!$supportedbuild || !$supportedsource) {
+        throw new moodle_exception('unsupportedupgrade', 'local_frontpage');
     }
     return true;
 }

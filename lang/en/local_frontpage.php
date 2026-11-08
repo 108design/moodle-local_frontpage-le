@@ -544,6 +544,7 @@ $string['activitynavigationbacktocourse'] = 'Back to course';
 // Shared independent signed update protection.
 $string['updateguard_heading'] = 'Update stopped';
 $string['updateguard_component'] = 'The package for {$a} was rejected.';
+$string['unsupportedupgrade'] = 'This package cannot update the installed version. Restore the previous plugin files.';
 $string['updateguard_hint'] = 'Use an approved package for the installed edition. You can review the operation again.';
 $string['updateguard_unchanged'] = 'This request did not replace plugin files.';
 $string['updateguard_help'] = 'The installed plugin checks the publisher signature, package contents, permitted update channel and compatibility before replacement. A valid signature does not authorise a different edition. If one package is rejected, the whole batch stops.';
