@@ -25,6 +25,8 @@
 "/amd/build/activity_return.min.js.map" -export-ignore -export-subst
 "/amd/build/context_help.min.js" -export-ignore -export-subst
 "/amd/build/context_help.min.js.map" -export-ignore -export-subst
+"/amd/build/context_help_53.min.js" -export-ignore -export-subst
+"/amd/build/context_help_53.min.js.map" -export-ignore -export-subst
 "/amd/build/context_help_form.min.js" -export-ignore -export-subst
 "/amd/build/context_help_form.min.js.map" -export-ignore -export-subst
 "/amd/build/context_help_legacy.min.js" -export-ignore -export-subst
@@ -48,6 +50,7 @@
 "/amd/src/activity_navigation.js" -export-ignore -export-subst
 "/amd/src/activity_return.js" -export-ignore -export-subst
 "/amd/src/context_help.js" -export-ignore -export-subst
+"/amd/src/context_help_53.js" -export-ignore -export-subst
 "/amd/src/context_help_form.js" -export-ignore -export-subst
 "/amd/src/context_help_legacy.js" -export-ignore -export-subst
 "/amd/src/editor_course_index.js" -export-ignore -export-subst

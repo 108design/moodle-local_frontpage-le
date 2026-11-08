@@ -1,3 +1,4 @@
+// Copyright (C) 2026 Andreas Giesen. See LICENSE.md.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';

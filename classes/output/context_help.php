@@ -109,7 +109,11 @@ final class context_help {
         $PAGE->requires->css(new \moodle_url('/local/frontpage/styles/context_help.css', [
             'rev' => get_config('local_frontpage', 'version'),
         ]));
-        $module = (int)$CFG->version < 2025041400 ? 'context_help_legacy' : 'context_help';
+        $module = match (true) {
+            (int)$CFG->version < 2025041400 => 'context_help_legacy',
+            (int)$CFG->version < 2026100500 => 'context_help',
+            default => 'context_help_53',
+        };
         $PAGE->requires->js_call_amd('local_frontpage/context_help_form', 'init');
         $PAGE->requires->js_call_amd('local_frontpage/' . $module, 'init', [[
             'topic' => optional_param('frontpagehelp', '', PARAM_ALPHA),

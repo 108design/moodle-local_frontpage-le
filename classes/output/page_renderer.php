@@ -460,8 +460,15 @@ final class page_renderer {
         // phpcs:ignore moodle.PHP.ForbiddenGlobalUse.BadGlobal
         global $CFG, $PAGE;
         require_once($CFG->dirroot . '/course/lib.php');
-        // phpcs:ignore moodle.PHP.ForbiddenGlobalUse.BadGlobal
-        $r = $PAGE->get_renderer('core', 'course');
+        // Let the theme render a Site Home course list without changing the page's ownership or access checks.
+        $originalcontext = $PAGE->context;
+        $sitehomelist = $this->frontpage->ownercomponent === 'local_frontpage'
+            && $originalcontext->contextlevel === CONTEXT_SYSTEM;
+        if ($sitehomelist) {
+            $PAGE->set_context(\context_course::instance(SITEID));
+        }
+        try {
+            $r = $PAGE->get_renderer('core', 'course');
             return match ($props['mode']) {
                 'configured'=>$r->frontpage(), 'available'=>$r->frontpage_available_courses(),
                 'enrolled'=>$r->frontpage_my_courses(), 'categories'=>$r->frontpage_categories_list(),
@@ -479,5 +486,10 @@ final class page_renderer {
                         $cat->get_courses_count(['recursive' => true]), 0, $limit);
                 })(), default=>'',
             };
+        } finally {
+            if ($sitehomelist) {
+                $PAGE->set_context($originalcontext);
+            }
+        }
     }
 }
