@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Manage revision-owned editor images and their segment mappings.
  *

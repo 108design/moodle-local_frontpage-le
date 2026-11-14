@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Resolve page ownership and enforce viewing, editing and publication rights.
  *

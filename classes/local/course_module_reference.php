@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Resolves Moodle-owned activities and resources referenced by a course page.
  *

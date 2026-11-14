@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Revision-owned page stylesheet; separate CSS responses never enter HTML markup.
  *

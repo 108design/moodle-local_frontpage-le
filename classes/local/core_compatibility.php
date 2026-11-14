@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Narrow compatibility boundary for Moodle APIs that changed after 4.5.
  *

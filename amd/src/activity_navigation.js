@@ -1,3 +1,6 @@
+// This file is part of Moodle - https://moodle.org/
+// @copyright 2026 Andreas Giesen <andreas@108design.com>
+// @license 108design source-available software license; see LICENSE.md
 // Copyright 2026 Andreas Giesen. Use under the Software License in LICENSE.md.
 
 /** Carry the verified FP origin through native activity links/forms and adapt Flexible Sections' back link. */

@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Serve authorised revision-owned CSS with private cache headers.
  *

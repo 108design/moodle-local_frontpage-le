@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 
 /**
  * Validate and normalise the supported page document schema.

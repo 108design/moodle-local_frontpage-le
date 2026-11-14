@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Edit revision-owned page CSS with a separate capability check.
  *

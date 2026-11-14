@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Revision-owned settings for a standalone Frontpage activity's child navigation.
  *

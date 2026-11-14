@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Validates the deliberately limited CSS max-width values supported by Frontpage.
  *

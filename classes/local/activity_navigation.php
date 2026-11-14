@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Viewer-specific navigation within a published standalone Frontpage activity.
  *

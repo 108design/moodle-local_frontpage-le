@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Native authoring presentation, shared by Site Home and the course activity.
  *

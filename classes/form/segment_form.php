@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 
 /**
  * Build and validate fields for the supported Frontpage segment types.

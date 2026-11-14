@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Conservatively validates a single CSS colour value for an inline custom property.
  *

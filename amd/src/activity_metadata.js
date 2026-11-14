@@ -1,3 +1,4 @@
+// This file is part of Moodle - https://moodle.org/
 /**
  * Place the native Moodle activity information alongside the activity heading.
  *

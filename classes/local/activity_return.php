@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Keep native activity-creation return requests separate for each open form.
  *

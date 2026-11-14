@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Optional, revision-owned colour overrides; absence preserves the existing design.
  *
