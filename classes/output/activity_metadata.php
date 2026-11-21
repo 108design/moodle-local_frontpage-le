@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Prepare the presentation of native Moodle activity metadata.
  *

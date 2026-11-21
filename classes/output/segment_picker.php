@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Discover the existing supported segment types using the full product's picker layout.
  *

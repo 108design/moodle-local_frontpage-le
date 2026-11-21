@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Owns the protected course section, its modules, and the revision reference index.
  *

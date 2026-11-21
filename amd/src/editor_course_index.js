@@ -1,3 +1,4 @@
+// This file is part of Moodle - https://moodle.org/
 /**
  * Close the native course index when entering the Frontpage activity editor.
  *

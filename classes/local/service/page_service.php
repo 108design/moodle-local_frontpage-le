@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Manage page revisions, publication and deletion under the shared write locks.
  *

@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Native hook registrations for Frontpage.
  *
@@ -43,9 +44,15 @@ $callbacks[] = ['hook' => \core\hook\output\before_standard_head_html_generation
 $callbacks[] = ['hook' => \core\hook\output\before_http_headers::class,
     'callback' => [\local_frontpage\local\admin_branding::class, 'prepare']];
 
-// Independent signed update-package guard.
+// Native installation and updates are handled by Moodle Core.
+
+// Optional package information; Core owns preview, confirmation and installation.
 $callbacks[] = [
     'hook' => \core\hook\after_config::class,
-    'callback' => [\local_frontpage\local\update_guard::class, 'after_config'],
-    'priority' => 1002,
+    'callback' => [\local_frontpage\local\update_notice::class, 'after_config'],
+    'priority' => 1003,
+];
+$callbacks[] = [
+    'hook' => \core\hook\output\before_standard_top_of_body_html_generation::class,
+    'callback' => [\local_frontpage\local\update_notice::class, 'before_body'],
 ];

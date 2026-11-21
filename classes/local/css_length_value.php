@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Validates a deliberately bounded custom CSS length used by typed Frontpage controls.
  *

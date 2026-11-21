@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Adapt the FP sequence to native 5.3 navigation output, with an older-version fallback.
  *

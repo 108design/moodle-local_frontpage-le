@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Version and dependency metadata for Frontpage.
  *
@@ -9,7 +10,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'local_frontpage';
-$plugin->version = 2026010118;
+$plugin->version = 2026010122;
 $plugin->requires = 2024100700;
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.19.0-beta';
+$plugin->release = '0.19.4-beta';

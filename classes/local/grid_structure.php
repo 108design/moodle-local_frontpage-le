@@ -1,4 +1,5 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
 /**
  * Shared structural rules for the reusable, reference-based Grid segment.
  *
