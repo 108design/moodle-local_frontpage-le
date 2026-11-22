@@ -2,7 +2,7 @@
   <img src="docs/branding/logo.svg" alt="Frontpage logo" width="125" height="125">
 </p>
 
-# Frontpage LE
+# Frontpage LE - Limited Beta Preview
 
 Create a Moodle Site Home page with headings, rich text, images, a static Hero and responsive grids. Add Moodle course lists and references to activities in the Site Home course.
 
