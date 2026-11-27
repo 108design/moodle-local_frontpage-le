@@ -70,6 +70,7 @@ export const init = config => {
     const title = document.createElement('h2');
     title.textContent = config.title;
     const close = button(config.close, 'fa-times');
+    close.innerHTML = '<svg class="design108-panel-close-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" style="display:block;flex:none;margin:auto" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>';
     header.append(title, close);
     panel.append(header);
     const addBlock = region.parentElement.querySelector(':scope > [data-region="add-block-button"]');
